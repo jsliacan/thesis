@@ -71,7 +71,7 @@ From this viewpoint, our result states that by appending arbitrary but finite nu
 \label{sec:iterjuxt_intro}
 
 To begin, we juxtapose a context-free permutation class $\C$ with a finite row of monotone classes $\M_1|\ldots|\M_k$ on the right. Additionally, we assume for the moment that each
-$\M_i$ are monotone increasing permutation classes. We will later argue that for decreasing classes, a symmetry of our argument applies. As mentioned above, the work in this chapter extends the work in Chapter~\ref{chap:catalanjuxt} in two directions. One, the condition that $\C$ is a Catalan permutation class is replaced by requiring $\C$ to only be context-free. Two, juxtaposition from the right is iterated a finite number of times instead of just once. Before we proceed with the statement of the result, let us set the scene. The following definition is taken from Flajolet and Sedgewick~\cite{analcomb}, Section I.5.4, Definition I.13.
+$\M_i$ is monotone and increasing. We later argue that for decreasing classes, a symmetry of our argument applies and renders the case essentially identical to increasing $\M$. Similarly, Proposition~\ref{prop:leftappend} says that whether we append $\M$ on the left-hand side or the right-hand side does not have any bearing on our arguments. So for now, we append from the right only. As mentioned above, the work in this chapter extends the work in Chapter~\ref{chap:catalanjuxt} in two directions. One, the condition that $\C$ is a Catalan permutation class is replaced by requiring $\C$ to only be context-free. Two, juxtaposition from the right is iterated a finite number of times instead of just once. Before we proceed with the statement of the result, let us set the scene. The following definition is taken from Flajolet and Sedgewick~\cite{analcomb}, Section I.5.4, Definition I.13.
 \begin{definition}[Context-free specification]
   A class $\C$ is said to be \emph{context-free} if it coincides with the first component $\S_1$ of a system of equations
   \begin{align}
@@ -85,22 +85,35 @@ $\M_i$ are monotone increasing permutation classes. We will later argue that for
   \end{align}
   where each $f_i$ is a constructor that only involves operations of combinatorial sum ($+$) and cartesian product ($\times$), as well as the neutral/empty class $\EE = \{\emptyset\}$.
 \end{definition}
-
-\begin{definition}[Tracking the rightmost point]
-  We say that a context-free class specification of $\C$ \emph{tracks the rightmost point by its vertical position} if it is combinatorialy isomorphic to the context-free class with the specification $\rS$ below and all cartesian products in $\rS$ are left-to-right as they occur bottom-to-top in $\C$. The asterisk (${}^*$) in $\rS$ marks the rightmost point or the block which contains the rightmost point inside $\C_i^*$.
-  \begin{align*}
+We say that two classes are the same if there exists a nice bijection between them. The following definition implies this.
+\begin{definition}
+  Two combinatorial classes are \emph{combinatorially isomorphic} if and only if their counting sequences are identical. This is equivalent to existence of a size-preserving bijection between the two classes.
+\end{definition}
+We are going to need a modification of the definition of a context-free class that will allow us to decorate context-free permutation classes. 
+\begin{definition}[Tracking the left-most and the right-most points]
+  We say that a context-free class specification of $\C$ \emph{tracks the right-most and the left-most point by its vertical position} if it is combinatorialy isomorphic to the context-free class with the specification $\rS$ below and all Cartesian products in $\rS$ are recorded left-to-right as they occur bottom-to-top in $\C$. The asterisk (${}^*$) [circle (${}^\circ$)] in $\rS$ mark the right-most [left-most] point, or the block which contains the right-most [left-most] point inside $\C_i^*$ [$\C_i^\circ$]. Notice that a class can contain both the left-most and the right-most point, $\C^{\circ*}$.
+  \begin{align}
 \rS &=  \begin{rcases}\begin{dcases}
-  \C_0^* &= f_0^*(\Z,\Z^*,\C_0,\ldots,\C_r,\C_0^*,\ldots,\C_r^*)\\
+  \C_0^* &= f_0^*(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
        &\vdots\\
-  \C_r^* &= f_r^*(\Z,\Z^*,\C_0,\ldots,\C_r,\C_0^*,\ldots,\C_r^*)\\
+  \C_r^* &= f_r^*(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+  \C_0^\circ &= f_0^\circ(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+       &\vdots\\
+  \C_r^\circ &= f_r^\circ(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+  \C_0^{\circ*} &= f_0^{\circ*}(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+       &\vdots\\
+  \C_r^{\circ*} &= f_r^{\circ*}(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
   \C_0 &= f_0(\Z,\C_0,\ldots,\C_r)\\
        &\vdots\\
-       \C_r &= f_r(\Z,\C_0,\ldots,\C_r)
+  \C_r &= f_r(\Z,\C_0,\ldots,\C_r)
        \end{dcases}
      \end{rcases}
-   \end{align*}
-\end{definition}
-If a class $\C^*$ tracks the rightmost point as outlined above, we refer to $\C^*$ as a \emph{starred class}. Similarly, $\Z^*$ is a \emph{starred point}, or simply the rightmost point. On the other hand, every other class or point is \emph{starless class} or \emph{starless point}. For example, $\C$ and $\Z$. Given the above definition, we assume from now on that every permutation class $\C$ is context-free and admits a specification that tracks the rightmost point. 
+         \label{eq:combspecS}
+  \end{align}
+  where $0 \leq i \leq r$. 
+ \end{definition}
+
+If a class $\C^*$ tracks the right-most point as outlined above, we refer to $\C^*$ as a \emph{starred class}. Similarly, $\Z^*$ is a \emph{starred point}, or simply the right-most point. Analogously, we have a \emph{circled class} $\C^\circ$ and a \emph{circled point} $\Z^\circ$. On the other hand, we will also use the terms \emph{starless class} or \emph{starless point} to refer to a class without a star/asterisk. For example, $\C, \C^\circ$ and $\Z, \Z^\circ$. Given the above definition, we assume from now on that every permutation in class $\C$ is context-free and admits a specification that tracks the right-most point. When we need to track the left-most point we declare it explicitly.
 \begin{example}
   The following is a context-free specification for the class of separable permutations (non-empty):
   \begin{align*}
@@ -108,7 +121,7 @@ If a class $\C^*$ tracks the rightmost point as outlined above, we refer to $\C^
     \S_{\ominus} &= \Z + \S_\oplus\S\\
     \S_\oplus &= \Z + \S_\ominus\S,
   \end{align*}
-  where $\S_\ominus$ and $\S_\oplus$ stand for skew-indecomposable and sum-indecomposable permutation classes. Now, among all context-free specifications of $\S$, we insist on picking the following one:
+  where we recall that $\S_\ominus$ and $\S_\oplus$ stand for skew-indecomposable and sum-indecomposable permutation classes. Now, among all context-free specifications of $\S$, we insist on picking the following one:
   \begin{align}
     \begin{aligned}
     \S^* &= \Z^* + \S_{\oplus}\S^* + \S^*\S_{\ominus}\\
@@ -118,20 +131,20 @@ If a class $\C^*$ tracks the rightmost point as outlined above, we refer to $\C^
     \label{eq:sepstarcs}
   \end{aligned}
   \end{align}
-  In~\eqref{eq:sepstarcs}, the class of separable permutations is represented according to the decomposition in~\eqref{eq:sepstar}, encoding vertical order as left-to-right. See below the representation that we chose.
+  In~\eqref{eq:sepstarcs}, the class of separable permutations is represented according to the decomposition in~\eqref{eq:sepstar}, encoding vertical order as left-to-right. Notice, in particular, that there are multiple combinatorial specifications of $\S$ that track the right-most points. One of them below.
   \begin{align}
     \begin{aligned}
       \S^* &= \Z + \cplusc{\S_\oplus}{\S^*} + \cminusc{\S^*}{\S_\ominus}\\
       \S &= \Z + \cplusc{\S_\oplus}{\S} + \cminusc{\S}{\S_\ominus}\\
       \S_\ominus &= \Z + \cplusc{\S_\oplus}{\S}\\
       \S_\oplus &= \Z + \cminusc{\S}{\S_\ominus}
-    \label{eq:sepstar}
-  \end{aligned}
+    \end{aligned}
+                  \label{eq:sepstar}
   \end{align}
 \end{example}
-Notice that the cartesian product is naturally non-commutative (keeping track of vertical positions) and therefore, requiring that the combinatorial specification keeps track of the rightmost point by its value amounts to merely picking a specific combinatorial specification out of all context-free specifications for a given class $\C$. It is important in our approach that we deal with context-free classes as we decorate the combinatorial specifications with monotone sequences on the right-hand side and argue that the resulting class of such objects is still context-free.
+The Cartesian product is naturally non-commutative which conveniently keeps track of vertical positions. Therefore, requiring that the combinatorial specification keeps track of the rightmost point by its value amounts to merely picking a specific combinatorial specification according to how it happens to encode the right-most point in $\C$. 
 
-Let us consider one more example of how vertical order translates into left-to-right order in the Cartesian product. For instance, $\Z\C\C\DD$ refers to a term which has a single point at the bottom, then somewhere above it (and to the left or to the right of it) there is an element from $\C$, then another element of $\C$ is further above the previous one, and above all of this there is an element from $\DD$. Schematically, it could look something like the class in Figure~\ref{fig:order}.
+Let us consider an example of how vertical order translates into left-to-right order in the Cartesian product. For instance, $\Z\C\C\DD$ refers to a term which has a single point at the bottom, then somewhere above it (and to the left or to the right of it) there is an element from $\C$, then another element of $\C$ is further above the previous one, and above all of this there is an element from $\DD$. Schematically, it could look something like the class in Figure~\ref{fig:order}.
 
 \begin{figure}[ht]
   \centering
@@ -146,14 +159,9 @@ Let us consider one more example of how vertical order translates into left-to-r
   \label{fig:order}
 \end{figure}
 
-Let $\V = \{\Z,\Z^*,\C_0,\ldots,\C_r,\C^*_0,\ldots,\C_r^*\}$ refer to the collection of all variables in polynomials $f_i/f_i^*$. When we do not care to distinguish between $f_i$ and $f_j$ or $f_i$ and $f_i^*$, we simply write $f$ for a polynomial in variables from $\V$. Similarly, when we do not distinguish between two variables in $\V$, we simply write $X \in \V$. As we just mentioned, each $f$ is a polynomial. We refer to its terms by $\T_\ell$ as in $f = \sum_{\ell=0}^N\T_\ell$. Each term $\T_\ell$ is a product of the variables in $\V$ and for a function $f^*$, each $\T_\ell$ contains exactly one starred variable (there is exactly one rightmost point in each term). 
+Let $\V = \{\Z,\Z^*,\C_0,\ldots,\C_r,\C^*_0,\ldots,\C_r^*, \C^\circ_0,\ldots,\C_r^\circ, \C^{\circ*}_0,\ldots,\C_r^{\circ*}\}$ refer to the collection of all variables occurring in the polynomials $f_i/f_i^*/f^\circ/f^{\circ*}$. When we do not care to distinguish between $f_i$ and $f_j$ or $f_i, f_i^*, f^\circ$, and $f^{\circ*}$, we simply write $f$ for a polynomial in variables from $\V$. Similarly, when we do not distinguish between two variables in $\V$, we simply write $X \in \V$. As we just mentioned, each $f$ is a polynomial. We refer to its terms by $\T_h$ as in $f = \sum_{\ell=0}^N\T_h$. Each term $\T_h$ is a product of the variables in $\V$ and for a function $f^*$, each $\T_h$ contains exactly one starred variable (there is exactly one rightmost point in each term). Same holds for $f^\circ$. 
 
-We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline}.\\
-
-\noindent\textbf{Convention:} \emph{Every gridline is as far left as possible. I.e. if it was any further left, the object on the RHS would not belong to the designated class.}\\
-
-\noindent Because we can encode ``gridline as left as possible'', we can refer to griddable permutations by their gridded representatives.
-
+One of the problems of enumberating permutation grid classes is that there often are multiple legal ways to grid a permutation in a given grid class. Therefore, one of the key issues is to choose a particular gridding. We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline} for an illustration. \\
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=0.2]
@@ -197,7 +205,11 @@ We represent every griddable permutation from a juxtaposition by a unique gridde
 \label{fig:leftmostgridline}
 \end{figure}
 
-Further remarks about the way we represent permutations in a juxtaposition. Let $x,y$ be two vertically consecutive points on the left-hand side of the juxtaposition $\C|\DD$. An object on the RHS (e.g. a sequence of points) is said to be \emph{associated with} $x$ if it is in the horizontal section of the RHS that falls below $x$ and above $y$ on the LHS. If $x$ is the bottom most point on the LHS, then everything below it on the RHS is associated with $x$. See Figure~\ref{fig:xregion} for an example.
+\noindent\textbf{Convention:} \emph{Let $P$ be a permutation from $\C_1|\C_2$. The gridline in $P$ is chosen to be the left-most possible. I.e. if it was any further left, the sub-permutation to the right of it would not belong to the designated class $\C_2$.} \ \\
+
+Although this will be stated later when needed for Proposition~\ref{prop:leftappend}, dealing with juxtapositions from both sides is quite natural. Given a permutation $P$ from $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$, we first grid $\ell$ monotone classes from the right according to the Convention. Then flip the picture around a vertical axis and grid the $k$ monotone classes from the right (they used to be on the left), again according to the Convention. Of course, after the flip, we need to treat increasing $\M_i$ as a decreasing class, and vice versa. At the end, the leftover middle part is in $\C$. 
+
+Further remarks about the way we represent permutations in a juxtaposition. Let $x,y$ be two vertically consecutive points on the left-hand side of the juxtaposition $\C_1|\C_2$. An object on the RHS (e.g. a sequence of points if $\C_2 = \M$) is said to be \emph{associated with} $x$ if it is in the horizontal section of the RHS that falls below $x$ and above $y$ on the LHS. If $x$ is the bottom most point on the LHS, then everything below it on the RHS is associated with $x$. See Figure~\ref{fig:xregion} for an example.
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}
@@ -216,51 +228,50 @@ Further remarks about the way we represent permutations in a juxtaposition. Let 
     \draw[thin] (1.2,2)--(6.5,2);
     \draw[thin] (3.2,1)--(6.5,1);
   \end{tikzpicture}
-  \caption{The shaded regions on the RHS each correspond to a gap between two vertically consecutive points on the LHS. The part of RHS associated with $x$ is the second least opaque region.}
+  \caption{The shaded regions on the RHS each correspond to a gap between two vertically consecutive points on the LHS. The part of the right-hand side associated with $x$ is the second least opaque region.}
   \label{fig:xregion}
 \end{figure}
 
 % Furthermore, to be able to refer to the boxes inside inflations/substitutions by their altitude, we adopt the superscript numbering $\C^j = \C_{\sigma^{-1}(j)}$, meaning that $\C^j$ is inflating the $j$th point of $\sigma$ when counting from bottom to top, i.e. the point $(j,\sigma(j))$ in $\sigma$. Sometimes, we arrange all classes that inflate $\sigma$ in the bottom-to-top order rather than left-to-right. This will be denoted by double square bracket instead of the original single square brackets, i.e. $\sigma\vert{\C^1,\ldots,\C^n}$ means that the order of classes inside bracket is vertical, reading bottom to top. For future use, notice that in left-to-right order, $\C_{|\sigma|}$ refers to the class that inflates the rightmost point of $\sigma$. In vertical order, this class is labelled as $\C^{\sigma(|\sigma|)}$.
 
-We are going to need the following operators: $\Omega_0, \Omega_1, \Omega_{10}, \Omega_{01}, \Omega_{11}, \Omega_\infty$. They act on permutation classes, such as $\C$, and represent various forms/stages of juxtaposing a monotone class next to $\C$, in other words, $\Omega_i: \C \mapsto \DD$, where both $\C$ and $\DD$ are context-free permutation classes. It is desirable that $\Omega_i$ respects the rightmost point according to the following rules.
+Juxtapositions will be expressed via application of operators to context-free classes. Unless stated otherwise, we assume that the class on the right of $\C$ is monotone increasing, denoted by $\M$. We are going to need the following operators: $\Omega_0, \Omega_1, \Omega_{10}, \Omega_{01}, \Omega_{11}, \Omega_\infty$. They represent various forms/stages of juxtaposing a monotone class next to $\C$, in other words, $\Omega_i: \C \mapsto \C'$, where both $\C$ and $\C'$ are context-free permutation classes. It is important that the property of being context-free is invariant under these operators. Furthermore, it is desirable that all $\Omega$ operators respect the rightmost point according to the following rules.
 \begin{enumerate}
-\item If the operator's code begins with $1$, namely $\Omega_1,\Omega_{10},\Omega_{11}$, then the operator can only be applied to a class with a starred class, or alternatively, to a starless class occuring below the starred class.
+\item If the operator's code begins with $1$, namely $\Omega_1,\Omega_{10}$, and $\Omega_{11}$, then the operator can only be applied to a starred class, or alternatively, to a starless class occuring before (in left-to-right order) the starred class in the Cartesian product.
 \item If the operator's code ends with $0$ or $\infty$, namely $\Omega_0, \Omega_{10}, \Omega_\infty$, then its output is starless. If the operator's code ends with $1$, namely $\Omega_1, \Omega_{01}, \Omega_{11}$, then every term of the output contains exactly one rightmost point (a starred class or point).
 \end{enumerate}
-Rules 1 and 2 capture the observations that: 1. if we juxtapose a monotone (increasing) class next to any class $\C$, $\C|\M$, then the leftmost/lowest point on the RHS must be below the rightmost point on the LHS. And 2., juxtaposing a class on the right sometimes takes over the rightmost point from the class on the left.
+Rules 1 and 2 capture the observations that:
+\begin{enumerate}
+\item If we juxtapose a monotone (increasing) class next to any class $\C$ to obtain $\C|\M$, then the leftmost/lowest point on the RHS must be below the rightmost point on the LHS.
+\item Juxtaposing a class on the right sometimes takes over the rightmost point from the class on the left.
+\end{enumerate}
 
-Let $\C = \C_0^*$ admit a specification combinatorially isomorphic to $\rS$. Then $\Omega_0(\C_0^*)$ is an operator which juxtaposes a class (starred or not) with an empty space/sequence on the right. Notice, in particular, that $\Omega_0$ distributes over both $+$ and $\times$, and that it erases ${}^*$. 
+Recall that $X_i$ are variables from $\V$. We view every $f$ as a finite sum of terms $\T_h$, each of which is a product of $X_i$s, i.e. $\T_h = X_1X_2\cdots X_m$ for some $m = m(h)$, with all $X_i \in \V$. Without loss of generality, we let $k \in [m]$ be the index of a starred class, i.e. $X_k^*$. In the forthcoming definitions of $\Omega$ operators, let $\C$ be a permutation class that admits a combinatorial specification (combinatorially) isomorphic to $\rS$ in~\eqref{eq:combspecS}.\\
 
+
+\noindent\textbf{Operator $\Omega_0$}\\
+This operator juxtaposes a class (starred or not) with a sequence (possibly empty) on the right. Notice, in particular, that $\Omega_0$ distributes over both $+$ and $\times$, and that it erases ${}^*$. 
 \begin{align*}
-  \Omega_0(\C_0^*) &= f_0^*(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_{i_0}^*),\Omega_0(\C_{i_0+1}),\ldots,\Omega_0(\C_r))\\
-       &\vdots\\
-  \Omega_0(\C_r^*) &= f_r^*(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_{i_r}^*),\Omega_0(\C_{i_r+1}),\ldots,\Omega_0(\C_r))\\
-  \Omega_0(\C_0) &= f(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_r))\\
-       &\vdots\\
-  \Omega_0(\C_r) &= f_r(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_r))\\
   \Omega_0(\Z) &= \Z\\
-  \Omega_0(\Z^*) &= \Z
+  \Omega_0(\Z^*) &= \Z\\
+  \Omega_0(\Z^\circ) &= \Z^\circ\\
+  \Omega_0(\Z^{\circ*}) &= \Z^{\circ*}\\
+  \Omega_0(\T_h) &= \Omega_0(X_1)\Omega_0(X_2\cdots X_m)
 \end{align*}
 
-Similarly, $\Omega_\infty$ is distributive over both operations $+$ and $\times$. It is the operator which juxtaposes a class, whether starred or not, with $\M$ on the right. As $\Omega_0$, it also erases the ${}^*$. We get the following definition of $\Omega_\infty$.
-
+\noindent\textbf{Operator $\Omega_\infty$}\\
+This operator \emph{recursively} juxtaposes a class (starred or not) with a monotone increasing class -- possibly empty. Again, $\Omega_\infty$ is distributive over operations $+$ and $\times$. As $\Omega_0$, it also erases the ${}^*$. We get the following definition of $\Omega_\infty$. Consult Figure~\ref{fig:omega_infty} with this definition.
 \begin{align*}
-  \Omega_\infty(\C_0^*) &= f_0^*(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_{i_0}^*),\Omega_\infty(\C_{i_0+1}),\ldots,\Omega_\infty(\C_r))\\
-       &\vdots\\
-  \Omega_\infty(\C_r^*) &= f_r^*(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_{i_r}^*),\Omega_\infty(\C_{i_r+1}),\ldots,\Omega_\infty(\C_r))\\
-  \Omega_\infty(\C_0) &= f(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_r))\\
-       &\vdots\\
-  \Omega_\infty(\C_r) &= f_r(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_r))\\
-  \Omega_\infty(\Z) &= \M\Z\\
-  \Omega_\infty(\Z^*) &= \M\Z\\
-  \M &= \EE + \M\Z\\
-%  \M^* &= \M\Z^*
+  \M &= \Z + \M\Z\\
+  \Omega_\infty(\Z) &= \M\\
+  \Omega_\infty(\Z^*) &= \M\\
+  \Omega_\infty(\Z^\circ) &= (\M+\EE)\Z^\circ\\
+  \Omega_\infty(\Z^{\circ*}) &= (\M+\EE)\Z^\circ\\
+  \Omega_\infty(\T_h) &= \Omega_\infty(X_1)\Omega_\infty(X_2\cdots X_m)
 \end{align*}
-
-It was necessary to define an extra class $\M$ in order for the combinatorial specification of $\Omega_\infty(\C^*)$ to remain closed (hence also context-free). Usually, $\M$ would be considered to be within the $\C_0,\ldots,\C_r$, but we kept it separate for clarity. The starred version of $\M$ is not needed yet. Consult Figure~\ref{fig:omega_infty} to visualise the juxtapositions $\Omega_\infty(\Z)$ and $\Omega_\infty(\Z^*)$.
+We only included $\M$ to keep the definition self-contained.
 
 \begin{figure}[ht]
-    \centering
+  \centering\noindent
     \begin{tikzpicture}
       \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
       \draw[|->] (-4,1)--(-1,1);
@@ -268,23 +279,37 @@ It was necessary to define an extra class $\M$ in order for the combinatorial sp
       \filldraw[black] (0,2) circle (2pt);
       \draw (-0.3,2.2) node {$\Z$};
       \draw[-, very thick] (0.2,2.5) -- (0.2,0);
-      \draw[dashed] (0.2,2) -- (2,2);
-      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
     \end{tikzpicture}
-    \caption{Juxtaposing an increasing sequence to the right of a point $\Z^*$ or $\Z$ (rightmost or not) means that this point will not be rightmost anymore.}
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z^\circ/\Z^{\circ*}$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_\infty$};
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z^\circ\quad$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
+    \end{tikzpicture}
+    \caption{Since $\Omega_\infty$ erases stars, $\Z$ and $\Zstar$ are mapped to the same object. However, $\Z^\circ$ is preserved under all $\Omega$ operators. We denote $\M+\EE$ by $\M^\EE$.}
     \label{fig:omega_infty}
 \end{figure}
 
-As before, $X_i$ are variables from $\V$. The next operator, $\Omega_1$, represents juxtaposition of a single point on the right of a class $\C^*$. To define $\Omega_1$, we need to view every $f$ as a finite sum of terms $\T_\ell$. 
-\begin{align*}
-\Omega_1\left(\sum_{\ell=1}^N \T_\ell\right) &= \sum_{\ell=1}^N \Omega_1(\T_\ell).
-\end{align*}
-By definition, $\T_\ell = X_1X_2\cdots X_m$ for some $m$, with all $X_i \in \V$. Without loss of generality, we let $k$ be the index of a starred class, i.e. $X_k^*$. Then
+
+\noindent\textbf{Operator $\Omega_1$}\\
+This operator juxtaposes a class (starred or not) with a single point. It turns out that $\Omega_1$ is linear (over $+$), but does not distribute over $\times$. It either introduces or relocates the right-most point ${}^*$. 
 \begin{align}
 \begin{aligned}
     \Omega_1(\Z) &= \Z^*\Z\\
-  \Omega_1(\Z^*) &= \Z^*\Z\\
-  \Omega_1(\T_\ell) &=
+    \Omega_1(\Z^*) &= \Z^*\Z\\
+    \Omega_1(\Z^\circ) &= \Z^*\Z^\circ\\
+    \Omega_1(\Z^{\circ*}) &= \Z^*\Z^\circ\\
+  \Omega_1(\T_h) &=
                       \begin{cases}
                         \Omega_1(X_1^*)\Omega_0(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
                         \Omega_1(X_1)\Omega_0(X_2\cdots X_m) + \Omega_0(X_1)\Omega_1(X_2\cdots X_m),\quad &\text{if $k>1$.}
@@ -292,10 +317,24 @@ By definition, $\T_\ell = X_1X_2\cdots X_m$ for some $m$, with all $X_i \in \V$.
 \end{aligned}
 \label{eq:omega1Cstar}
 \end{align}
-The base cases ($\Z$ and $\Z^*$) are drawn in Figure~\ref{fig:omega_1}. The recursive step $\T_\ell$ consists of two cases. Either the bottom-most class/point $X_1$ in $\T_\ell$ is starred (i.e. $X_1 = X_1^*$) or not. If $X_1^*$, then $\Omega_1$ must be applied to it (as it must be applied to a starred class/point or a class/point below it) and $\Omega_0$ is applied to the rest of the classes, $\Omega_0(X_2\cdots X_m)$. If the first class (or point) $X_1$ is not starred, then there are two options. Either apply $\Omega_1$ to $X_1$ and $\Omega_0$ to $X_2\cdots X_m$, or apply $\Omega_0$ to $X_1$ and recursively apply $\Omega_1$ to $X_2\cdots X_m$. Defining operators recursively will be useful when we apply them to permutation classes iteratively.
+The base cases ($\Z, \Z^*$ and $\Z^\circ$) are drawn in Figure~\ref{fig:omega_1}. The recursive step $\T_h$ consists of two cases. Either the bottom-most class/point $X_1$ in $\T_h$ is starred (i.e. $X_1 = X_1^*$ or $X_1 = X_1^{\circ*}$) or not. If $X_1^*/X_1^{\circ*}$, then $\Omega_1$ must be applied to it (as it must be applied to a starred class/point or a class/point below it) and $\Omega_0$ is applied to the rest of the classes, $\Omega_0(X_2\cdots X_m)$. If the first class (or point) $X_1$ is not starred, then there are two options. Either apply $\Omega_1$ to $X_1$ and $\Omega_0$ to $X_2\cdots X_m$, or apply $\Omega_0$ to $X_1$ and recursively apply $\Omega_1$ to $X_2\cdots X_m$. Defining operators recursively will be useful when we apply them to permutation classes iteratively.
 \begin{figure}[ht]
  \centering
     \begin{tikzpicture}
+      \filldraw[black] (-5,1.5) circle (2pt) node[above]{$\Z^\circ/\Z^{\circ*}$};
+      \draw[|->] (-4,1.5)--(-1,1.5);
+      \draw (-2.5,1.8) node{$\Omega_1$};
+%      \filldraw[black] (0,2) circle (2pt);
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z^\circ$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,1);
+      \draw[dashed] (0.2,2) -- (2,2);
+      \filldraw[black] (1.2,1.6) circle (2pt);
+      \draw (1.6,1.6) node {$\Z^*$};
+%      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
+    \end{tikzpicture}
+        \begin{tikzpicture}
       \filldraw[black] (-5,1.5) circle (2pt) node[above]{$\Z/\Z^*$};
       \draw[|->] (-4,1.5)--(-1,1.5);
       \draw (-2.5,1.8) node{$\Omega_1$};
@@ -309,15 +348,15 @@ The base cases ($\Z$ and $\Z^*$) are drawn in Figure~\ref{fig:omega_1}. The recu
       \draw (1.6,1.6) node {$\Z^*$};
 %      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
     \end{tikzpicture}
-    \caption{Juxtaposing a single point to the right of a point $\Z$ or $\Z^*$ means that the original point is not the rightmost anymore. Also, the new point is the rightmost point.}
+    \caption{Juxtaposing a single point to the right of any point means that the original point is not the right-most anymore and the new one becomes right-most. The left-most point is unafected.}
     \label{fig:omega_1}
 \end{figure}
 
-Having notation in place, we define $\Omega_{10}$ and $\Omega_{11}$ as those are fundamentally different from $\Omega_{01}$. As before, both $\Omega_{10}$ and $\Omega_{11}$ are distributive over $+$. It is therefore sufficient to define each of them on $\T_\ell = X_1\cdots X_m$ for some $m$, and the $k$th element starred. Operator $\Omega_{10}$ represents juxtaposing $\C^*$ on the right with $\Z\M$ --- a monotone increasing class that tracks its bottom-most (also left-most) point. As usual, $\Omega_{10}$ erases the star.
+Having notation in place, we define $\Omega_{10}$ and $\Omega_{11}$ as those are fundamentally different from $\Omega_{01}$. As before, both $\Omega_{10}$ and $\Omega_{11}$ are distributive over $+$. It is therefore sufficient to define each of them on $\T_h = X_1\cdots X_m$ for some $m$, and the $k$th element starred. Operator $\Omega_{10}$ represents juxtaposing $\C^*$ on the right with $\Z\M$ --- a monotone increasing class that tracks its bottom-most (also left-most) point. As usual, $\Omega_{10}$ erases the star.
 \begin{align*}
   \Omega_{10}(\Z) &= \Z\M\Z\\
   \Omega_{10}(\Z^*) &= \Z\M\Z\\
-  \Omega_{10}(\T_\ell) &=
+  \Omega_{10}(\T_h) &=
                       \begin{cases}
                         \Omega_{10}(X_1^*)\Omega_\infty(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
                         \Omega_{10}(X_1)\Omega_\infty(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{10}(X_2\cdots X_m),\quad &\text{if $k>1$.}
@@ -350,7 +389,7 @@ Next, we define $\Omega_{11}$. The operator that juxtaposes the LHS class with $
   \begin{aligned}
   \Omega_{11}(\Z) &= \Z\M\Z^*\Z\\
   \Omega_{11}(\Z^*) &= \Z\M\Z^*\Z\\
-  \Omega_{11}(\T_\ell) &=
+  \Omega_{11}(\T_h) &=
                       \begin{cases}
                         \Omega_{11}(X_1^*)\Omega_0(X_2\cdots X_m)+\Omega_{10}(X_1^*)\Omega_{01}(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
                         \Omega_{11}(X_1)\Omega_0(X_2\cdots X_m) + \Omega_{10}(X_1)\Omega_{01}(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{11}(X_2\cdots X_m),\quad &\text{if $k>1$.}
@@ -386,7 +425,7 @@ The remaining operator $\Omega_{01}$ is simpler because it does not begin with a
 \begin{align*}
   \Omega_{01}(\Z) &= \M\Z^*\Z\\
   \Omega_{01}(\Z^*) &= \M\Z^*\Z\\
-  \Omega_{01}(\T_\ell) &= \Omega_{01}(X_1)\Omega_0(X_2\cdots X_m)+\Omega_\infty(X_1)\Omega_{01}(X_2\cdots X_m)
+  \Omega_{01}(\T_h) &= \Omega_{01}(X_1)\Omega_0(X_2\cdots X_m)+\Omega_\infty(X_1)\Omega_{01}(X_2\cdots X_m)
 \end{align*}
 Regardless of the input (starred or not), $\Omega_{01}$ returns an object that tracks the rightmost point.
 
@@ -828,13 +867,13 @@ It turns out that we also need to define $\Omega_1(\C)$ along the way.
 
 \section{Example: $\M|\M|\M$}
 \label{sec:example_mmm}
-This example is probably the simplest not-entirely-degenerate case of iterated juxtaposition of length greater than two. Since a monotone increasing class $\M$ is context-free, we can begin with $\M$ on the left. While it would be possible to enumerate this class by following the ``recipe'' in Section~\ref{sec:iterjuxt}, we exploit the degeneracy of the example to shorten the write-up.
+Since a monotone increasing class $\M$ is context-free and clearly admits a combinatorial specification that tracks the right-most point, we choose $\C = \M$ and enumerate $\C|\M|\M$. This example is very simple yet not entirely degenerate case of iterated juxtapositions of with at least two iterations. While it is entirely possible to enumerate this class by following the algorithmic definitions in Section~\ref{sec:iterjuxt_main}, we exploit the degeneracy of the example to shorten the write-up.
 
-First of all, because we choose the gridding that places gridlines as far left as possible, it can happen that leftmost cell is empty or middle and leftmost cells are both empty, or all three cells are empty. If all three cells are empty, this case is represented by the class $\EE$. If the leftmost two cells are empty, this is essentially class $\M$. For the remaining cases, observe that the rightmost juxtaposition does not need to track the rightmost point as nothing will be juxtaposed on its right. Therefore, we are only interested in expressions of the form $\Omega_{10}(\M|\M)$ or $\Omega_{10}(\M)$ (when zero or one cell is empty, respectively). If we are dealing with a juxtaposition of only two monotone increasing classes (the leftmost cell is empty), then we represent it as $\Omega_{10}(\Mstar)(\M+\EE)$ --- there is either a single point in the left cell or a sequence of length at least two. The term $(\M+\EE)$ makes sure that we allow the right cell to place points above everything on the left. This is necessary as we do not use the phantom point and we do not track the rightmost (topmost) point in the rightmost cell.  On the other hand, if all three cells are nonempty, then we need to use the phantom point and track the rightmost point in the middle cell. So, middle cell can have a single point or a sequence of length at least two. Therefore, the first two cells are either $\Omega_1(\barMstar)$ or $\Omega_{11}(\barMstar)$. We then apply $\Omega_{10}$ to them and multiply them by $\M+\EE$ as justified in the previous case. Therefore, the final object that we aim to enumerate is $\F$ below.
+First of all, we rewrite $\M|\M|\M$ in terms of operators from Section~\ref{sec:iterjuxt_intro}. Because we choose the gridding that places gridlines as far left as possible, it can happen that leftmost cell is empty or middle and leftmost cells are both empty, or all three cells are empty. If all three cells are empty, this case is represented by the class $\EE$. If the leftmost two cells are empty, this is essentially class $\M$. For the remaining cases, observe that the rightmost juxtaposition does not need to track the rightmost point as nothing will be juxtaposed on its right. Therefore, we are only interested in expressions of the form $\Omega_{10}(\M|\M)$ or $\Omega_{10}(\M)$ (when zero or one cell is empty, respectively) and not in any $\Omega_{11}$ terms. If we are dealing with a juxtaposition of only two monotone increasing classes (the case when the leftmost cell is empty), then we represent it as $\Omega_{10}(\Mstar)(\M+\EE)$ --- there is either a single point in the left cell or a sequence of length at least two. The term $(\M+\EE)$ makes sure that we allow the right cell to place points above everything on the left. This is necessary as we do not use the phantom point and we do not track the rightmost (topmost) point in the rightmost cell.  On the other hand, if all three cells are nonempty, then we need to use the phantom point and track the rightmost point in the middle cell. So, middle cell can have a single point or a sequence of length at least two. Therefore, the first two cells are either $\Omega_1(\barMstar)$ or $\Omega_{11}(\barMstar)$. We then apply $\Omega_{10}$ to them and multiply them by $\M+\EE$ as justified in the previous case. Therefore, the final object that we aim to enumerate is $\F$ below.
 
 
 \begin{align}
-\F &= \EE + \M + (\M+\EE)\Omega_{10}(\Mstar) + \frac{1}{\Z}(\Omega_{10}(\Omega_1(\barMstar)) + \Omega_{10}(\Omega_{11}(\barMstar)))
+  \F &= \EE + \M + (\M+\EE)\Omega_{10}(\Mstar) +\frac{1}{\Z}(\Omega_{10}(\Omega_1(\barMstar)) + \Omega_{10}(\Omega_{11}(\barMstar)))
 \label{eq:mmm_final}
 \end{align}
 
@@ -959,17 +998,24 @@ All items on the RHS are known, so $\B$ is a singleton now. $$\B = \{\Omega_{10}
   \end{aligned}
       \label{eq:mmm_omega1011M}
 \end{align}
-Since everything in~\eqref{eq:mmm_omega1011M} is defined, we are done. With the information in~\eqref{eq:mmm_m}--\eqref{eq:mmm_omega1011M}, we transform $\F$ as follows.
+Now everything in~\eqref{eq:mmm_omega1011M} is defined. Before we write down the final version of $\F$, notice that combinatorial specification does not allow ``division''. However, this is easily corrected by rewriting the expression without the division. Therefore, we correct for overcounting (due to the phantom point) through division in the combinatorial specification. While this is illegal, it better captures the origin of the expression and can be readily rewritten into a legal expression. Hence, with the information in~\eqref{eq:mmm_m}--\eqref{eq:mmm_omega1011M}, we transform $\F$ as follows.
 \begin{align*}
   \F &= \EE + \M + (\M + \EE)\Omega_{10}(\M) +\frac{1}{\Z}\bigg(\Omega_{10}(\Omega_1(\M))\M +\\
      &+\Omega_{10}(\Omega_{11}(\M))\M +\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M + \Omega_{10}(\M)\Omega_{10}(\M)\M\bigg)
 \end{align*}
 
-In the combinatorial specification of $\F$, we need to include the specifications of $\M$~\eqref{eq:mmm_m}, $\Omega_\infty(\M)$~\eqref{eq:mmm_omegainfty}, $\Omega_{10}(\M)$~\eqref{eq:mmm_omega10M}, $\Omega_{10}(\Omega_1(\M))$~\eqref{eq:mmm_omega101M}, $\Omega_{10}(\Omega_{10}(\M))$~\eqref{eq:mmm_omega1010M}, and $\Omega_{10}(\Omega_{11}(\M))$~\eqref{eq:mmm_omega1011M}. The relevant Mathematica Notebook \texttt{exampleMMM.nb} can be found in the accompanying thesis repository $$\text{\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis}}}.$$
-The sequence that we obtain for the number of permutations in $\M|\M|\M$ of each length is $$1,1,2,6,23,93,360,1312,4541,15111,\ldots$$
+In the combinatorial specification of $\F$, we need to include the specifications of $\M$~\eqref{eq:mmm_m}, $\Omega_\infty(\M)$~\eqref{eq:mmm_omegainfty}, $\Omega_{10}(\M)$~\eqref{eq:mmm_omega10M}, $\Omega_{10}(\Omega_1(\M))$~\eqref{eq:mmm_omega101M}, $\Omega_{10}(\Omega_{10}(\M))$~\eqref{eq:mmm_omega1010M}, and $\Omega_{10}(\Omega_{11}(\M))$~\eqref{eq:mmm_omega1011M}. The relevant Mathematica script \texttt{exampleMMM.nb} can be found in the \texttt{scripts} folder of the accompanying thesis repository at
+
+\begin{center}\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis}}.\end{center}
+
+The generating function of $\M|\M|\M$ is
+\begin{align}
+  F(z) &= \frac{22x^5-52x^4+56x^3-32x^2+9x-1}{(x-1)^3(2x-1)^2(3x-1)}.
+\end{align}
+The counting sequence that we obtain for the number of permutations in $\M|\M|\M$ of length $k=0,\ldots,12$ is $$1,1,2,6,23,93,360,1312,4541,15111,48854, 154674,482355\ldots$$
 This agrees with Bevan's enumeration of $\M|\M|\M$ in his thesis~\cite{bevan2015thesis}, Part I, Table 3.1.
 
-\section{Example: Separable permutations}
+\section{Example: Separable next to monotone}
 \label{sec:example_sepav21}
 The class of separable permutations has finitely many simple permutations and is relatively simple. We still think this example is useful in that it demonstrates that our method can be used to enumerate various juxtapositions exactly. To the best of our knowledge, the juxtaposition class $\S|\M$, where $\M$ is an increasing monotone class, has not been enumerated yet. We juxtapose $\M$ on the right of the class of separable permutations $\S$ and choose to work with the following combinatorial specification of $\S$.
 \begin{align}
@@ -1113,9 +1159,11 @@ This defines the row five of Table~\ref{tab:sep_todefine}. It now remains to def
   \end{aligned}
 \end{align}
 
-The combinatorial specification describing $\S|\M$ involves all terms from Table~\ref{tab:sep_todefine} together with $\M, \Mstar, \S$ and $\Sstar$. One can check that there is no undefined term on the RHS of any of the items in Table~\ref{tab:sep_todefine} --- meaning that every term used on the RHS of any one of the equations is defined elsewhere in the combinatorial specification. Let $F(z)$ be the generating function of $\F$ (thus of $\S|\M$). Since $F(z)$ is not sufficiently compact to be given here in full, we resort to only listing the firt twelve terms of the counting sequence of $\S|\M$. They are below.
+The combinatorial specification describing $\S|\M$ involves all terms from Table~\ref{tab:sep_todefine} together with $\M, \Mstar, \S$ and $\Sstar$. One can check that there is no undefined term on the RHS of any of the items in Table~\ref{tab:sep_todefine} --- meaning that every term used on the RHS of any one of the equations is defined elsewhere in the combinatorial specification. Let $F(z)$ be the generating function of $\F$ (thus of $\S|\M$). Since $F(z)$ is not sufficiently compact to be given here in full, we resort to only listing the first twelve terms of the counting sequence of $\S|\M$. They are below.
 $$1,1,2,6,24,115,609,3409, 19728, 116692, 701062, 4261581, 26146111.$$
-The sequence is not on the OEIS~\cite{oeis}.
+The sequence is not on the OEIS~\cite{oeis}. The accompanying Mathematica~\cite{mathematica} file can be found in the \texttt{scripts} folder as \texttt{exampleSeparable.nb} at:
+
+\begin{center}\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis/}}.\end{center}
 
 \part{Packing}
 \label{part:packing}
