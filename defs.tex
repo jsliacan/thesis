@@ -1,0 +1,847 @@
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{note}{Note}
+\newtheorem{remark}{Remark}
+
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{0,0,113}
+\definecolor{myred}{RGB}{160,0,0}
+\definecolor{green}{RGB}{0,150,0}
+
+
+%% For typesetting code listings                                                
+\lstdefinelanguage{Sage}[]{Python}
+{morekeywords={False,sage,True},sensitive=true}
+\newcommand{\lstsetsage}{\lstset{
+  frame=single,
+  showtabs=False,
+  showspaces=False,
+  showstringspaces=False,
+  commentstyle={\ttfamily\color{dgraycolor}},
+  keywordstyle={\ttfamily\color{dbluecolor}\bfseries},
+  stringstyle={\ttfamily\color{dgreencolor}\bfseries},
+  language=Sage,
+  basicstyle={\fontsize{9pt}{9pt}\ttfamily},
+  aboveskip=0.3em,
+  belowskip=0.1em,
+  numbers=left,
+  numberstyle=\tiny
+}}
+
+\newcommand{\lstsetbash}{\lstset{
+    language=bash,
+    basicstyle={\fontsize{9pt}{9pt}\ttfamily},
+    deletekeywords={local, for, help},
+    keywordstyle=\color{keywords},
+    commentstyle=\color{comments},
+    stringstyle=\color{black},
+    numbers=none,
+    stepnumber=1,
+    frame=single,
+    showstringspaces=false,
+}}
+
+\definecolor{dblackcolor}{rgb}{0.0,0.0,0.0}
+\definecolor{dbluecolor}{rgb}{0.01,0.02,0.7}
+\definecolor{dgreencolor}{rgb}{0.2,0.4,0.0}
+\definecolor{dgraycolor}{rgb}{0.30,0.3,0.30}
+\newcommand{\dblue}{\color{dbluecolor}\bf}
+\newcommand{\dred}{\color{dredcolor}\bf}
+\newcommand{\dblack}{\color{dblackcolor}\bf}
+
+
+\newcommand{\shellcmd}[1]{\texttt{\footnotesize\$ #1}}
+\renewcommand{\vert}[1]{\ensuremath{\llbracket #1 \rrbracket}} % Razborov's averaging operator
+\newcommand{\Av}{\ensuremath{\mathrm{Av}}}
+\newcommand{\Si}{\ensuremath{\mathrm{Si}}}
+\newcommand{\seq}[1]{\text{\textsc{Seq}}[#1]}
+\newcommand{\D}[1]{\ensuremath{\mathrm{\textbf{D}}}}
+\renewcommand{\P}{\ensuremath{\mathcal{P}}}
+\newcommand{\T}{\ensuremath{\mathcal{T}}}
+\newcommand{\V}{\ensuremath{\mathcal{V}}}
+\newcommand{\B}{\ensuremath{\mathcal{B}}}
+\newcommand{\Z}{\ensuremath{\mathcal{Z}}}
+\newcommand{\Zstar}{\ensuremath{\mathcal{Z}^*}}
+\newcommand{\M}{\ensuremath{\mathcal{M}}}
+\newcommand{\Mstar}{\ensuremath{\mathcal{M}^*}}
+\newcommand{\barMstar}{\ensuremath{\overline{\mathcal{M}}^*}}
+\newcommand{\EE}{\ensuremath{\mathcal{E}}}
+\newcommand{\C}{\ensuremath{\mathcal{C}}}
+\newcommand{\Cstar}{\ensuremath{\mathcal{C}^*}}
+\newcommand{\HH}{\ensuremath{\mathcal{H}}}
+\newcommand{\HHstar}{\ensuremath{\mathcal{H}^*}}
+\newcommand{\hatC}{\ensuremath{\widehat{\mathcal{C}}}}
+\newcommand{\hatCstar}{\ensuremath{\widehat{\mathcal{C}}^*}}
+\newcommand{\barC}{\ensuremath{\overline{\mathcal{C}}}}
+\newcommand{\barCstar}{\ensuremath{\overline{\mathcal{C}}^*}}
+\newcommand{\Q}{\ensuremath{\mathcal{Q}}}
+\newcommand{\F}{\ensuremath{\mathcal{F}}}
+\renewcommand{\S}{\ensuremath{\mathcal{S}}}
+\newcommand{\Sstar}{\ensuremath{\mathcal{S}^*}}
+\renewcommand{\SS}{\ensuremath{\mathbb{S}}}
+\newcommand{\rS}{\ensuremath{\mathscr{S}}}
+\newcommand{\DD}{\ensuremath{\mathcal{D}}}
+\newcommand{\DDstar}{\ensuremath{\mathcal{D}^*}}
+\newcommand{\RR}{\ensuremath{\mathbb{R}}}
+
+% Serif font
+\newcommand{\fL}{\ensuremath{\mathsf{L}}}
+\newcommand{\fR}{\ensuremath{\mathsf{R}}}
+\newcommand{\fD}{\ensuremath{\mathsf{D}}}
+\newcommand{\fU}{\ensuremath{\mathsf{U}}}
+\newcommand{\fC}{\ensuremath{\mathsf{C}}}
+\newcommand{\fB}{\ensuremath{\mathsf{B}}}
+\newcommand{\fS}{\ensuremath{\mathsf{S}}}
+\newcommand{\fM}{\ensuremath{\mathsf{M}}}
+\newcommand{\fE}{\ensuremath{\mathsf{E}}}
+\newcommand{\fX}{\ensuremath{\mathsf{X}}}
+
+% bold Serif font
+\newcommand{\bD}{\ensuremath{\textbf{\textsf{D}}}}
+\newcommand{\bU}{\ensuremath{\textbf{\textsf{U}}}}
+\newcommand{\bC}{\ensuremath{\textbf{\textsf{C}}}}
+\newcommand{\bE}{\ensuremath{\textbf{\textsf{E}}}}
+\newcommand{\bbU}{\ensuremath{\mathbb{U}}}
+\newcommand{\bM}{\ensuremath{\textbf{\textsf{M}}}}
+\renewcommand{\bm}{\ensuremath{\mathbf{m}}}
+\newcommand{\bc}{\ensuremath{\mathbf{c}}}
+\newcommand{\be}{\ensuremath{\mathbf{e}}}
+
+\newcommand{\distav}[2]{\ensuremath{\mathbb{A}_{#1}(#2)}}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\rhs}{\ensuremath{\mathrm{RHS}}}
+\newcommand{\lhs}{\ensuremath{\mathrm{LHS}}}
+\newcommand{\argmax}[1]{\ensuremath{\mathrm{argmax}(#1)}}
+\newcommand{\argmin}[1]{\ensuremath{\mathrm{argmin}(#1)}}
+\newcommand{\Prob}[1]{\ensuremath{\mathbf{Pr}\left(#1\right)}}
+\newcommand{\E}[1]{\ensuremath{\mathbf{E}\left(#1\right)}}
+\newcommand{\Exp}[2]{\ensuremath{\mathbf{E}_{#1}\left(#2\right)}}
+\newcommand{\1}[1]{\ensuremath{\mathbbm{1}_{#1}}}
+\newcommand{\2}[2]{\ensuremath{\mathbbm{1}_{#1}\left(#2\right)}}
+\newcommand{\Space}{\ensuremath{\mathcal{S}}}
+\newcommand{\powerset}[1]{\ensuremath{\mathcal{P}\left(#1\right)}}
+\newcommand{\mg}[1]{\ensuremath{\mathrm{mg}\left(#1\right)}}
+\newcommand{\gr}[1]{\ensuremath{\mathrm{gr}\left(#1\right)}}
+\newcommand{\ugr}[1]{\ensuremath{\overline{\mathrm{gr}}\left(#1\right)}}
+\newcommand{\ex}{\ensuremath{\mathrm{ex}}}
+\newcommand{\im}{\ensuremath{\mathrm{im}}}
+\newcommand{\bigominus}{\ensuremath{\mathlarger{\mathlarger{\mathlarger{\ominus}}}}}
+\newcommand{\x}{\ensuremath{\mathbf{x}}}
+\newcommand{\Grid}{\ensuremath{\mathrm{Grid}}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DYCK PATHS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% drawing Dyck paths:
+\newcommand\dyck[4]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \fill[white]  (#1) rectangle +(#2,#2);
+  \draw[help lines] (#1) grid +(#2,#2);
+  %\draw[dashed] (#1) -- +(#2,#2);
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#4}{
+    \ifnum\dir=0
+    \coordinate (dep) at (1,0);
+    \else
+    \coordinate (dep) at (0,1);
+    \fi
+    \draw[line width=2pt, color=#3, cap=round] (prev) -- ++(dep) coordinate (prev);
+  };
+}
+
+
+% drawing Dyck paths without grid
+\newcommand\pdyck[3]{
+  % start point, size, Dyck word (size x 2 booleans)
+  \coordinate (prev) at (#1);
+  \foreach \dir in {#3}{
+    \ifnum\dir=0
+    \coordinate (dep) at (1,0);
+    \else
+    \coordinate (dep) at (0,1);
+    \fi
+    \draw[line width=2pt, color=#2, cap=round, style=dotted] (prev) -- ++(dep) coordinate (prev);
+  };
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CONSTRUCTIONS OF PERMUTONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\acbmax}{
+  \begin{tikzpicture}[scale=0.5]
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+  \end{tikzpicture}}
+
+
+\newcommand{\acdbmax}{
+  \begin{tikzpicture}[scale=0.4]
+
+    %\node at (-8,0) {$\Gamma\ = $};
+    \draw (3,6)--(5,8);
+    \draw (5,4.7)--(6.3,6);
+    \draw (6.3,4)--(7,4.7);
+    \draw (7,3.7)--(7.3,4);
+    \draw (7.3,3.5)--(7.5,3.7);
+    \draw (7.5,3.4)--(7.6,3.5);
+    \draw (7.65,3.3)--(7.7,3.35);
+
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+
+    \draw (-1.7,-0.7)--(-1,0);
+    \draw (-1,-1)--(-0.7,-0.7);
+    \draw (-0.7,-1.2)--(-0.5,-1);
+    \draw (-0.5,-1.3)--(-0.4,-1.2);
+    \draw (-0.35,-1.4)--(-0.3,-1.35);
+
+    \draw (-2.7,-2.3)--(-2.4,-2);
+    \draw (-2.4,-2.5)--(-2.2,-2.3);
+    \draw (-2.2,-2.6)--(-2.1,-2.5);
+    \draw (-2.05,-2.7)--(-2,-2.65);
+
+    \draw[thick] (-3.05,-3.05)--(-3,-3);
+    \draw[thick] (-3.25,-3.25)--(-3.2,-3.2);
+    \draw[thick] (-3.45,-3.45)--(-3.4,-3.4);
+
+
+    \draw (14,2)--(16,2);
+    \draw (14,1.5)--(16,1.5);
+
+    \draw (25,6)--(27,8)--(29.7,3.35)--(25,6);
+    \draw (20,-2.35)--(25,-2.35)--(25,3.35)--(20,3.35)--(20,-2.35);
+
+  \end{tikzpicture}}
+
+
+
+
+
+
+\newcommand{\Amax}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+
+    \draw (3,5)--(5,3);
+  \end{tikzpicture}}
+
+\newcommand{\AAmax}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+
+    \draw (2.5,5)--(5,2.5);
+  \end{tikzpicture}}
+
+
+
+
+\newcommand{\Bmax}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+    \draw (3,3)--(5,5);
+    \draw (5,1)--(7,3);
+
+    \draw (1,0)--(2,1);
+    \draw (2,-1)--(3,0);
+    
+    \draw (0,-1.5)--(0.5,-1);
+    \draw (0.5,-2)--(1,-1.5);
+
+    \draw (-0.4,-2.2)--(-0.2,-2);
+    \draw (-0.2,-2.4)--(0,-2.2);
+
+  \end{tikzpicture}}
+
+
+
+\newcommand{\Cmax}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+
+    \draw (3,5)--(5,3);
+    \draw (2,3)--(3,2);
+    \draw (1,2)--(2,1);
+    \draw (-1,1)--(1,-1);
+  \end{tikzpicture}}
+
+
+
+
+\newcommand{\Dmax}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+
+    \draw (3,4.7)--(4.3,6);
+    \draw (4.3,4)--(5,4.7);
+    \draw (5,3.7)--(5.3,4);
+    \draw (5.3,3.5)--(5.5,3.7);
+    \draw (5.5,3.4)--(5.6,3.5);
+    \draw (5.65,3.3)--(5.7,3.35);
+  \end{tikzpicture}}
+
+\newcommand{\Dmaxr}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+
+    \draw (4.5,3)--(5.8,4.3);
+    \draw (3.8,4.3)--(4.5,5);
+    \draw (3.5,5)--(3.8,5.3);
+    \draw (3.3,5.3)--(3.5,5.5);
+    \draw (3.2, 5.5)--(3.3, 5.6);
+    \draw (3.15, 5.6)--(3.2, 5.65);
+  \end{tikzpicture}}
+
+
+\newcommand{\Emax}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.15]
+
+    \draw (0,2)--(2,0);
+    \draw (2,4)--(4,6);
+    \draw (4,2)--(6,4);
+  \end{tikzpicture}}
+
+
+
+% 1342 7term
+\newcommand{\acdbmaxapprox}{
+  \begin{tikzpicture}[baseline=1ex, scale=0.5]
+    \draw (0,1.7)--(1.3,3);
+    \draw (1.3,1)--(2,1.7);
+    \draw (2,0.7)--(2.3,1);
+    \draw (2.3,0.5)--(2.5,0.7);
+    \draw (2.5,0.4)--(2.6,0.5);
+    \draw (2.65,0.3)--(2.7,0.35);
+  \end{tikzpicture}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SMALL PERMUTATION PICTOGRAMS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\dicycle}{
+  \begin{tikzpicture}[baseline=-0.3ex,scale=0.2]
+    \tikzstyle{vertex}=[circle,fill=black, minimum size=1pt,inner sep=1pt]
+    \node[vertex] (v1) at (0,0){};
+    \node[vertex] (v2) at (2,0){};
+    \node[vertex] (v3) at (1,1.4){};
+    \draw[->](v1)--(v2);
+    \draw[->](v2)--(v3);
+    \draw[->](v3)--(v1);
+  \end{tikzpicture}
+}
+
+\newcommand{\twochain}{
+  \begin{tikzpicture}[baseline=-0.3ex,scale=0.2]
+    \tikzstyle{vertex}=[circle,fill=black, minimum size=1pt,inner sep=1pt]
+    \node[vertex] (v1) at (0,0){};
+    \node[vertex] (v2) at (2,0){};
+    \node[vertex] (v3) at (1,1.4){};
+    \draw[->](v1)--(v2);
+    \draw[->](v2)--(v3);
+  \end{tikzpicture}
+}
+
+\newcommand{\orcocherry}{
+  \begin{tikzpicture}[baseline=-0.3ex,scale=0.2]
+    \tikzstyle{vertex}=[circle,fill=black, minimum size=1pt,inner sep=1pt]
+    \node[vertex] (v1) at (0,0){};
+    \node[vertex] (v2) at (2,0){};
+    \node[vertex] (v3) at (1,1.4){};
+    \draw[->](v1)--(v2);
+  \end{tikzpicture}
+}
+
+\newcommand{\outstar}{
+  \begin{tikzpicture}[baseline=-0.3ex,scale=0.2]
+    \tikzstyle{vertex}=[circle,fill=black, minimum size=1pt,inner sep=1pt]
+    \node[vertex] (v1) at (0,0){};
+    \node[vertex] (v2) at (2,0){};
+    \node[vertex] (v3) at (1,1.4){};
+    \draw[->](v3)--(v1);
+    \draw[->](v3)--(v2);
+  \end{tikzpicture}
+}
+
+
+\newcommand{\digraphacbd}{
+  \begin{tikzpicture}[baseline=-0.3ex,scale=0.2]
+    \tikzstyle{vertex}=[circle,fill=black, minimum size=1pt,inner sep=1pt]
+    \node[vertex] (v1) at (0,0){};
+    \node[vertex] (v2) at (2,0){};
+    \node[vertex] (v3) at (1,1.4){};
+    \node[vertex] (v4) at (3, 1.4){};
+    \draw[->](v1)--(v2);
+    \draw[->](v1)--(v3);
+    \draw[->](v1)--(v4);
+    \draw[->](v2)--(v4);
+    \draw[->](v3)--(v4);
+  \end{tikzpicture}
+}
+
+%\input struct.tex
+\newcommand{\gridbadc}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+
+  \draw[gray, very thin] (0,0) grid (9,9);
+  \fill[gray] (1,0) rectangle (2,9);
+  \fill[gray] (3,0) rectangle (4,9);
+  \fill[gray] (5,0) rectangle (6,9);
+  \fill[gray] (7,0) rectangle (8,9);
+
+  \fill[gray] (0,1) rectangle (9,2);
+  \fill[gray] (0,3) rectangle (9,4);
+  \fill[gray] (0,5) rectangle (9,6);
+  \fill[gray] (0,7) rectangle (9,8);
+  
+  \node[vertex] (v1) at (1.5, 3.5){};
+  \node[vertex] (v2) at (3.5,1.5){};
+  \node[vertex] (v3) at (5.5,7.5){};
+  \node[vertex] (v4) at (7.5,5.5){};
+  \draw (v1) (v2) (v3) (v4);
+  \end{tikzpicture}}
+
+
+
+\newcommand{\gridabdc}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+
+  \draw[gray, very thin] (0,0) grid (9,9);
+  \fill[gray] (1,0) rectangle (2,9);
+  \fill[gray] (3,0) rectangle (4,9);
+  \fill[gray] (5,0) rectangle (6,9);
+  \fill[gray] (7,0) rectangle (8,9);
+
+  \fill[gray] (0,1) rectangle (9,2);
+  \fill[gray] (0,3) rectangle (9,4);
+  \fill[gray] (0,5) rectangle (9,6);
+  \fill[gray] (0,7) rectangle (9,8);
+  
+  \node[vertex] (v1) at (1.5, 1.5){};
+  \node[vertex] (v2) at (3.5,3.5){};
+  \node[vertex] (v3) at (5.5,7.5){};
+  \node[vertex] (v4) at (7.5,5.5){};
+  \draw (v1) (v2) (v3) (v4);
+  \end{tikzpicture}}
+
+
+
+\newcommand{\gridbacd}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+
+  \draw[gray, very thin] (0,0) grid (9,9);
+  \fill[gray] (1,0) rectangle (2,9);
+  \fill[gray] (3,0) rectangle (4,9);
+  \fill[gray] (5,0) rectangle (6,9);
+  \fill[gray] (7,0) rectangle (8,9);
+
+  \fill[gray] (0,1) rectangle (9,2);
+  \fill[gray] (0,3) rectangle (9,4);
+  \fill[gray] (0,5) rectangle (9,6);
+  \fill[gray] (0,7) rectangle (9,8);
+  
+  \node[vertex] (v1) at (1.5, 3.5){};
+  \node[vertex] (v2) at (3.5,1.5){};
+  \node[vertex] (v3) at (5.5,5.5){};
+  \node[vertex] (v4) at (7.5,7.5){};
+  \draw (v1) (v2) (v3) (v4);
+  \end{tikzpicture}}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1-POINT PERMTUATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\newcommand{\atau}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black,fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \draw (v1);
+  \end{tikzpicture}}
+
+\renewcommand{\a}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \draw (v1);
+  \end{tikzpicture}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 2-POINT PERMTUATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abtau}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \tikzstyle{vertex}=[circle,draw=black, fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5,1.5){};
+  %\draw[gray, very thin] (0,0) grid (2,2);
+  \draw (v1) (v2);
+  \end{tikzpicture}}
+
+\newcommand{\tauab}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black, fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \tikzstyle{vertex}=[circle,draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5,1.5){};
+  %\draw[gray, very thin] (0,0) grid (2,2);
+  \draw (v1) (v2);
+  \end{tikzpicture}}
+
+\newcommand{\tauba}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle, draw=black, fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \tikzstyle{vertex}=[circle, draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5, 0.5){};
+  %\draw[gray, very thin] (0,0) grid (2,2);
+  \draw (v1) (v2);
+  \end{tikzpicture}}
+
+\newcommand{\batau}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle, draw=black, fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \tikzstyle{vertex}=[circle, draw=black, fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5, 0.5){};
+  %\draw[gray, very thin] (0,0) grid (2,2);
+  \draw (v1) (v2);
+  \end{tikzpicture}}
+
+
+%================ PLAIN ================
+
+\newcommand{\ab}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5,1.5){};
+  %\draw[gray, very thin] (0,0) grid (2,2);
+  \draw (v1) (v2);
+  \end{tikzpicture}}
+
+\newcommand{\ba}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle, fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (1.5, 1.5){};
+  \tikzstyle{vertex}=[circle, fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (0.5, 0.5){};
+  %\draw[gray, very thin] (0,0) grid (2,2);
+  \draw (v1) (v2);
+  \end{tikzpicture}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3-POINT PERMTUATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\tauabc}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black,fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5,1.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+\newcommand{\ataubc}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black,fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (1.5, 1.5){};
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (0.5,0.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+\newcommand{\acbtau}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,draw=black,fill=white, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (1.5,2.5){};
+  \node[vertex] (v3) at (2.5, 1.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+
+\newcommand{\abc}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \node[vertex] (v2) at (1.5,1.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+
+\newcommand{\acb}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \node[vertex] (v2) at (1.5,2.5){};
+  \node[vertex] (v3) at (2.5, 1.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+
+\newcommand{\bac}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v2) at (0.5,1.5){};
+  \node[vertex] (v1) at (1.5, 0.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+\newcommand{\bca}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5,2.5){};
+  \node[vertex] (v3) at (2.5, 0.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+
+\newcommand{\cba}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v3) at (0.5, 2.5){};
+  \node[vertex] (v2) at (1.5,1.5){};
+  \node[vertex] (v1) at (2.5, 0.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+\newcommand{\cab}{
+  \begin{tikzpicture}[baseline=0.5ex,scale=0.15]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 2.5){};
+  \node[vertex] (v2) at (1.5,0.5){};
+  \node[vertex] (v3) at (2.5, 1.5){};
+  \draw (v1) (v2) (v3);
+  \end{tikzpicture}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 4-POINT PERMTUATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abcd}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \node[vertex] (v2) at (1.5, 1.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \node[vertex] (v4) at (3.5, 3.5){};
+  \draw (v1) (v2) (v3) (v4);
+  \end{tikzpicture}}
+
+\newcommand{\bdca}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 3.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \node[vertex] (v4) at (3.5, 0.5){};
+  \draw (v1) (v2) (v3) (v4);
+  \end{tikzpicture}}
+
+\newcommand{\acdb}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \node[vertex] (v2) at (1.5, 2.5){};
+  \node[vertex] (v3) at (2.5, 3.5){};
+  \node[vertex] (v4) at (3.5, 1.5){};
+  \draw (v1) (v2) (v3) (v4);
+  \end{tikzpicture}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 5-POINT PERMTUATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bcaoba}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 2.5){};
+  \node[vertex] (v3) at (2.5, 0.5){};
+  \node[vertex] (v4) at (3.5, 4.5){};
+  \node[vertex] (v5) at (4.5, 3.5){};
+  \draw[gray, very thin] (0,0) grid (5,5);
+  \draw (v1) (v2) (v3) (v4) (v5);
+  \end{tikzpicture}}
+
+
+\newcommand{\baoaoba}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 0.5){};
+  \node[vertex] (v3) at (2.5, 2.5){};
+  \node[vertex] (v4) at (3.5, 4.5){};
+  \node[vertex] (v5) at (4.5, 3.5){};
+  \draw[gray, very thin] (0,0) grid (5,5);
+  \draw (v1) (v2) (v3) (v4) (v5);
+  \end{tikzpicture}}
+
+
+\newcommand{\aobamba}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 0.5){};
+  \node[vertex] (v2) at (1.5, 3.5){};
+  \node[vertex] (v3) at (2.5, 4.5){};
+  \node[vertex] (v4) at (3.5, 1.5){};
+  \node[vertex] (v5) at (4.5, 2.5){};
+  \draw[gray, very thin] (0,0) grid (5,5);
+  \draw (v1) (v2) (v3) (v4) (v5);
+  \end{tikzpicture}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 6-POINT PERMTUATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\bcaocba}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 2.5){};
+  \node[vertex] (v3) at (2.5, 0.5){};
+  \node[vertex] (v4) at (3.5, 5.5){};
+  \node[vertex] (v5) at (4.5, 4.5){};
+  \node[vertex] (v6) at (5.5, 3.5){};
+  \draw[gray, very thin] (0,0) grid (6,6);
+  \draw (v1) (v2) (v3) (v4) (v5) (v6);
+  \end{tikzpicture}}
+
+
+\newcommand{\bcaobca}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 2.5){};
+  \node[vertex] (v3) at (2.5, 0.5){};
+  \node[vertex] (v4) at (3.5, 4.5){};
+  \node[vertex] (v5) at (4.5, 5.5){};
+  \node[vertex] (v6) at (5.5, 3.5){};
+  \draw[gray, very thin] (0,0) grid (6,6);
+  \draw (v1) (v2) (v3) (v4) (v5) (v6);
+  \end{tikzpicture}}
+
+\newcommand{\bcaocab}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 2.5){};
+  \node[vertex] (v3) at (2.5, 0.5){};
+  \node[vertex] (v4) at (3.5, 5.5){};
+  \node[vertex] (v5) at (4.5, 3.5){};
+  \node[vertex] (v6) at (5.5, 4.5){};
+  \draw[gray, very thin] (0,0) grid (6,6);
+  \draw (v1) (v2) (v3) (v4) (v5) (v6);
+  \end{tikzpicture}}
+
+
+\newcommand{\baoabmab}{
+  \begin{tikzpicture}[baseline=0.6ex,scale=0.1]
+  \tikzstyle{vertex}=[circle,fill=black, minimum size=2pt,inner sep=1pt]
+  \node[vertex] (v1) at (0.5, 1.5){};
+  \node[vertex] (v2) at (1.5, 0.5){};
+  \node[vertex] (v3) at (2.5, 4.5){};
+  \node[vertex] (v4) at (3.5, 5.5){};
+  \node[vertex] (v5) at (4.5, 2.5){};
+  \node[vertex] (v6) at (5.5, 3.5){};
+  \draw[gray, very thin] (0,0) grid (6,6);
+  \draw (v1) (v2) (v3) (v4) (v5) (v6);
+  \end{tikzpicture}}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% GRID CLASSES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\cplusc}[2]{
+  \begin{tikzpicture}[baseline=4ex, scale=0.8]
+     % \filldraw[black] (0,2) circle (2pt);
+      %\draw (-0.3,2.2) node {$\Z$};
+      % \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      % \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z$};
+      \draw (0,0) rectangle (1,1) node[pos=0.5]{\ensuremath{#1}};
+      %\filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1,1) rectangle (2,2) node[pos=0.5]{\ensuremath{#2}};
+      % \filldraw[black] (0.8,0.3) circle (2pt);
+      %\draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}}
+
+
+ \newcommand{\cminusc}[2]{
+  \begin{tikzpicture}[baseline=4ex, scale=0.8]
+    %\filldraw[black] (0,2) circle (2pt);
+      %\draw (-0.3,2.2) node {$\Z$};
+      % \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      % \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z$};
+      \draw (1,0) rectangle (2,1) node[pos=0.5]{\ensuremath{#1}};
+      %\filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (0,1) rectangle (1,2) node[pos=0.5]{\ensuremath{#2}};
+      % \filldraw[black] (0.8,0.3) circle (2pt);
+      %\draw (1.2,0.2) node {$\Z$};
+  \end{tikzpicture}}
+
+

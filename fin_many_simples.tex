@@ -1,0 +1,266 @@
+Below we define an operator $\Omega_\infty$ to act on $\C$ to give the juxtaposition of $\C$ with a possibly empty increasing sequence of points on the RHS. In words, applying $\Omega_\infty$ to $\C$ yields a gridded juxtaposition $\C|\M$ where $\M$ is a monotone increasing class -- each point on the LHS of the juxtaposition is associated with a (possibly empty) increasing sequence of points on the RHS. Notice that $\Omega_\infty$ is linear over both $+$ and $\times$.
+\textcolor{red}{TODO: draw a figure with $\Omega_\infty$.} 
+\begin{align*}
+  \Omega_\infty(\C)   &= \Z \seq{\Z} + 21[\Omega_\infty(\C_\ominus), \Omega_\infty(\C)] + 12[\Omega_\infty(\C_\oplus), \Omega_\infty(\C)] \\
+                     &+ \sum_{\sigma \in \Si(\C)}\sigma[\Omega_\infty(\C),\ldots,\Omega_\infty(\C)]\\
+  \Omega_\infty(\C_\ominus) &= \Z \seq{\Z} + 12[\Omega_\infty(\C_\oplus),\Omega_\infty(\C)] + \sum_{\sigma \in \Si(\C)}\sigma[\Omega_\infty(\C),\ldots,\Omega_\infty(\C)]\\
+  \Omega_\infty(\C_\oplus) &= \Z \seq{\Z} + 21[\Omega_\infty(\C_\ominus),\Omega_\infty(\C)] + \sum_{\sigma \in \Si(\C)}\sigma[\Omega_\infty(\C),\ldots,\Omega_\infty(\C)]
+\end{align*}
+
+Next, we define $\Omega_1$ to act on $\C$ to give the juxtaposition of $\C$ with $\Z$ (single point), respecting the convention. Indeed, it is important for the operators representing decorations with distinguished points \texttt{+} or \texttt{o} to respect the convention (\texttt{o} in $\C$ must come above \texttt{+} in the decoration). Notice that $\Omega_1$ is linear over $+$. Its effect on products is mainly dictated by the Convention. Full behaviour is given below -- we write how to apply $\Omega_1$ in full detail to make the steps obvious.
+\textcolor{red}{TODO: draw a figure with $\Omega_1$.} 
+\begin{align*}
+  \Omega_1(\C)   &= \Omega_1(\Z) + \Omega_1(21[\C_\ominus,\C]) + \Omega_1(12[\C_\oplus, \C]) + \Omega_1\left(\sum_{\sigma \in \Si(\C)}\sigma[\C,\ldots,\C]\right)\\
+                 &= \Z^2 + 21[\C_\ominus, \Omega_1(\C)] + 12[\C_\oplus, \Omega_1(\C)] + \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)}\sigma\vert{\C^1,\ldots,\Omega_1(\C^j),\ldots,\C^{|\sigma|}}\\
+  \Omega_1(\C_\ominus) &= \Z^2 + 12[\C_\oplus,\Omega_1(\C)] + \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)}\sigma\vert{\C^1,\ldots,\Omega_1(\C^j),\ldots,\C^{|\sigma|}}\\
+  \Omega_1(\C_\oplus) &= \Z^2 + 21[\C_\ominus,\Omega_1(\C)] + \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)}\sigma\vert{\C^1,\ldots,\Omega_1(\C^j),\ldots,\C^{|\sigma|}}\\
+\end{align*}
+
+Operator $\Omega'_{10}$ represents a juxtaposition of a permutation class $\C$ with an increasing monotone sequence whose leftmost point \texttt{+} we keep track of. In case of $\Omega'_{10}$, we assume tha the convention has already been satisfied and the \texttt{+} on the RHS can start anywhere (vertically above or below) with respect to the rightmost point on the LHS in $\C$.
+\textcolor{red}{TODO: draw a figure with $\Omega'_{10}$.} 
+\begin{align*}
+  \Omega'_{10}(\C)   &= \Omega'_{10}(\Z) + \Omega'_{10}(21[\C_\ominus,\C]) + \Omega'_{10}(12[\C_\oplus, \C]) + \Omega'_{10}\left(\sum_{\sigma \in \Si(\C)}\sigma[\C,\ldots,\C]\right)\\
+                     &= \Z^2\seq{\Z}\\
+                     &+ 21[\Omega_\infty(\C_\ominus), \Omega'_{10}(\C)] + 21[\Omega'_{10}(\C_\ominus),\C] + 12[\Omega_\infty(\C_\oplus), \Omega'_{10}(\C)] + 12[\C_\oplus, \Omega'_{10}(\C)]\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=j+1}^{|\sigma|}\sum_{\sigma \in \Si(\C)}\sigma\vert{\C^{1},\ldots,\Omega'_{10}(\C^j),\Omega'_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{|\sigma|})}\\
+  \Omega'_{10}(\C_\ominus) &= \Z^2\seq{\Z} + 12[\Omega_\infty(\C_\oplus), \Omega'_{10}(\C)] + 12[\C_\oplus, \Omega'_{10}(\C)]\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\Omega'_{10}(\C^j),\Omega'_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{|\sigma|})}\\
+  \Omega'_{10}(\C_\oplus) &= \Z^2\seq{\Z} + 21[\Omega_\infty(\C_\ominus), \Omega'_{10}(\C)] + 21[\Omega'_{10}(\C_\ominus),\C]\\
+                     &+  \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\Omega'_{10}(\C^j),\Omega'_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{|\sigma|})}\\
+\end{align*}
+
+A more restricted version of $\Omega'_{10}$ operator is $\Omega_{10}$. Like $\Omega'_{10}$, it keeps track of the leftmost point \texttt{+} of the monotone increasing sequence of points on the RHS, except it does not assume that the convention has already been satisfied. Therefore, $\Omega_{10}$ makes sure that \texttt{+} on the RHS is below the \texttt{o} on the LHS. The following is the description of how $\Omega_{10}$ transforms a class $\C$.
+\textcolor{red}{TODO: draw a figure with $\Omega_{10}$.} 
+\begin{align*}
+  \Omega_{10}(\C)   &= \Omega_{10}(\Z) + \Omega_{10}(21[\C_\ominus,\C]) + \Omega_{10}(12[\C_\oplus, \C]) + \Omega_{10}\left(\sum_{\sigma \in \Si(\C)}\sigma[\C,\ldots,\C]\right)\\
+                    &= \Z^2\seq{\Z}\\
+                    &+ 21[\Omega_\infty(\C_\ominus), \Omega_{10}(\C)] + 12[\Omega_\infty(\C_\oplus), \Omega'_{10}(\C)] + 12[\C_\oplus, \Omega_{10}(\C)]\\
+                    &+ \sigma[\C^{1},\ldots,\Omega_{10}(\C^{\sigma(|\sigma|)}),\Omega_\infty(\C^{\sigma(|\sigma|)+1}),\ldots,\Omega_\infty(\C^{|\sigma|})]\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{|\sigma|})}\\
+  \Omega_{10}(\C_\ominus) &= \Z^2\seq{\Z} + 12[\Omega_\infty(\C_\oplus), \Omega'_{10}(\C)] + 12[\C_\oplus, \Omega_{10}(\C)]\\
+                    &+ \sigma[\C^{1},\ldots,\Omega_{10}(\C^{\sigma(|\sigma|)}),\Omega_\infty(\C^{\sigma(|\sigma|)+1}),\ldots,\Omega_\infty(\C^{|\sigma|})]\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{|\sigma|})}\\
+  \Omega_{10}(\C_\oplus) &= \Z^2\seq{\Z} + 21[\Omega_\infty(\C_\ominus), \Omega_{10}(\C)]\\
+                    &+ \sigma[\C^{1},\ldots,\Omega_{10}(\C^{\sigma(|\sigma|)}),\Omega_\infty(\C^{\sigma(|\sigma|)+1}),\ldots,\Omega_\infty(\C^{|\sigma|})]\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{|\sigma|})}\\
+\end{align*}
+
+The next operator that we need is $\Omega_{01}$. It keeps track of the rightmost point \texttt{o} of the monotone increasing sequence of points on the RHS (to be useful when the next juxtaposition happens). There is no restriction coming from the LHS for this operator. Its definition is below.
+\textcolor{red}{TODO: draw a figure with $\Omega_{01}$.} 
+\begin{align*}
+  \Omega_{01}(\C)   &= \Omega_{01}(\Z) + \Omega_{01}(21[\C_\ominus,\C]) + \Omega_{01}(12[\C_\oplus, \C]) + \Omega_{01}\left(\sum_{\sigma \in \Si(\C)}\sigma[\C,\ldots,\C]\right)\\
+                    &= \Z^2\seq{Z}\\
+                    &+ 21[\Omega_{01}(\C_\ominus),\Omega_\infty(\C)] + 21[\C_\ominus,\Omega_{01}(\C)] + 12[\Omega_\infty(\C_\oplus),\Omega_{01}(\C)] + 12[\Omega_{01}(\C_\oplus),\C]\\
+                    &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=1}^{j-1}\sigma\vert{\Omega_\infty(\C^{1}),\ldots,\Omega_\infty(\C^{j-1}\Omega_{10}(\C^j),\C^{j+1},\ldots,\C^{|\sigma|}}\\
+  \Omega_{01}(\C_\ominus) &= \Z^2\seq{Z} + 12[\Omega_\infty(\C_\oplus),\Omega_{01}(\C)] + 12[\Omega_{01}(\C_\oplus),\C]\\
+                    &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=1}^{j-1}\sigma\vert{\Omega_\infty(\C^{1}),\ldots,\Omega_\infty(\C^{j-1}\Omega_{10}(\C^j),\C^{j+1},\ldots,\C^{|\sigma|}}\\
+  \Omega_{01}(\C_\oplus) &= \Z^2\seq{Z} + 21[\Omega_{01}(\C_\ominus),\Omega_\infty(C)] + 21[\C_\ominus,\Omega_{01}(\C)]\\
+                    &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=1}^{j-1}\sigma\vert{\Omega_\infty(\C^{1}),\ldots,\Omega_\infty(\C^{j-1}\Omega_{10}(\C^j),\C^{j+1},\ldots,\C^{|\sigma|}}\\
+\end{align*}
+
+
+The next operator that we will need is $\Omega'_{11}$. It keeps track of both the leftmost point \texttt{+} and the right most point \texttt{o} of the monotone increasing sequence of points on the RHS. This operator assumes that the convention has been satisfied already and the leftmost point \texttt{+} on the RHS can be placed anywhere with respect to the rightmost point on the LHS.
+\textcolor{red}{TODO: draw a figure with $\Omega'_{11}$.} 
+
+\begin{align*}
+  \Omega'_{11}(\C)   &= \Omega'_{11}(\Z) + \Omega'_{11}(21[\C_\ominus,\C]) + \Omega'_{11}(12[\C_\oplus, \C]) + \Omega'_{11}\left(\sum_{\sigma \in \Si(\C)}\sigma[\C,\ldots,\C]\right)\\
+                    &= \Z^3\seq{Z}+\\
+                     &+ 21[\C_\ominus,\Omega'_{11}(\C)] + 21[\Omega_{01}(\C_\ominus),\Omega'_{10}(\C)] + 21[\Omega'_{11}(\C_\ominus),\C] +\\
+                     &+ 12[\Omega'_{11}(\C_\oplus),\C] + 12[\Omega'_{10}(\C_\oplus),\Omega_{01}(\C)] + 12[\C_\oplus, \Omega'_{11}(\C)] +\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}} +\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{10}(\C^{j}),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}), \Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\\
+  \Omega'_{11}(\C_\ominus) &= 12[\Omega'_{11}(\C_\oplus),\C] + 12[\Omega'_{10}(\C_\oplus),\Omega_{01}(\C)] + 12[\C_\oplus, \Omega'_{11}(\C)] +\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}} +\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{10}(\C^{j}),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}), \Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\\
+  \Omega'_{11}(\C_\oplus) &= 21[\C_\ominus,\Omega'_{11}(\C)] + 21[\Omega_{01}(\C_\ominus),\Omega'_{10}(\C)] + 21[\Omega'_{11}(\C_\ominus),\C] +\\
+                       &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}} +\\
+                     &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{|\sigma|}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{10}(\C^{j}),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}), \Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}
+\end{align*}
+
+Finally, $\Omega_{11}$ keeps track of both the leftmost point \texttt{+} and the rightmost point \texttt{o} of the monotone increasing sequence of points on the RHS. It needs to satisfy the convention of the leftmost gridding. The definition requires more care and is in full detail below.
+\textcolor{red}{TODO: draw a figure with $\Omega_{11}$.} 
+\begin{align}
+  \Omega_{11}(\C)   &= \Omega_{11}(\Z) + \Omega_{11}(21[\C_\ominus,\C]) + \Omega_{11}(12[\C_\oplus, \C]) + \Omega_{11}\left(\sum_{\sigma \in \Si(\C)}\sigma[\C,\ldots,\C]\right)\notag\\
+                    &= \Z^3\seq{Z}+\label{point11}\\
+                     &+ 21[\C_\ominus,\Omega_{11}(\C)] + 21[\Omega_{01}(\C_\ominus),\Omega_{10}(\C)]\label{21juxt}\\
+                     &+ 12[\Omega'_{11}(\C_\oplus),\C] + 12[\Omega'_{10}(\C_\oplus),\Omega_{01}(\C)] + 12[\C_\oplus, \Omega_{11}(\C)] +\label{12juxt}\\
+                    &+ \sigma\vert{\C^{1},\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{11}(\C^{\sigma(|\sigma|)}),\C^{\sigma(|\sigma|)+1},\ldots,\C^{|\sigma|}} +\label{rightmostjuxt}\\
+                    &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}} +\label{belowrightmostjuxt}\\
+                    &+\sum_{\sigma \in \Si(\C)}\sum_{i=\sigma(|\sigma|)+1}^{|\sigma|}\sigma\vert{C^1,\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{10}(\C^{\sigma(|\sigma|)}), \Omega_\infty(\C^{\sigma(|\sigma|)+1},\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\label{firstlongline}\\
+                    &+\sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^1,\ldots,\C^{j-1},\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\label{secondlongline}\\
+  \Omega_{11}(\C_\ominus) &= 12[\Omega'_{11}(\C_\oplus),\C] + 12[\Omega'_{10}(\C_\oplus),\Omega_{01}(\C)] + 12[\C_\oplus, \Omega_{11}(\C)] +\notag\\
+                      &+ \sigma\vert{\C^{1},\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{11}(\C^{\sigma(|\sigma|)}),\C^{\sigma(|\sigma|)+1},\ldots,\C^{|\sigma|}} +\notag\\
+                    &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}} +\notag\\
+                    &+\sum_{\sigma \in \Si(\C)}\sum_{i=\sigma(|\sigma|)+1}^{|\sigma|}\sigma\vert{C^1,\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{10}(\C^{\sigma(|\sigma|)}), \Omega_\infty(\C^{\sigma(|\sigma|)+1},\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\notag\\
+                    &+\sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^1,\ldots,\C^{j-1},\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\notag\\
+  \Omega_{11}(\C_\oplus) &= 21[\C_\ominus,\Omega_{11}(\C)] + 21[\Omega_{01}(\C_\ominus),\Omega_{10}(\C)]\notag\\
+  &+ \sigma\vert{\C^{1},\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{11}(\C^{\sigma(|\sigma|)}),\C^{\sigma(|\sigma|)+1},\ldots,\C^{|\sigma|}} +\notag\\
+                    &+ \sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}} +\notag\\
+                    &+\sum_{\sigma \in \Si(\C)}\sum_{i=\sigma(|\sigma|)+1}^{|\sigma|}\sigma\vert{C^1,\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{10}(\C^{\sigma(|\sigma|)}), \Omega_\infty(\C^{\sigma(|\sigma|)+1},\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\notag\\
+                    &+\sum_{\sigma \in \Si(\C)}\sum_{j=1}^{\sigma(|\sigma|)-1}\sum_{i=j+1}^{|\sigma|}\sigma\vert{\C^1,\ldots,\C^{j-1},\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}\notag\\
+\end{align}
+
+
+\subsection{Example: graphical description of $\Omega_{11}$ operator}
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \filldraw[black, fill=black] (1,1) circle (3pt);
+    \draw (3.25,0.25) node {$\bigxdtso$};
+    \draw[-, very thick] (2.5,-0.5) -- (2.5,2.5);
+    \draw[dashed] (2.5,1) -- (6,1);
+  \end{tikzpicture}
+  \caption{$\Omega_{11}(\Z)$. Line~\eqref{point11} above.}
+\end{figure}
+
+
+
+\begin{figure}[ht]
+  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{tikzpicture}
+    \draw (0,1) rectangle (1,2) node[pos=0.5]{$\C_\ominus$};
+    \draw (1,0) rectangle (2,1) node[pos=0.5]{$\C$};
+    \draw (3.25,0.25) node {$\bigxdtso$};
+    \draw[-, very thick] (2.5,-0.5) -- (2.5,2.5);
+    \draw[dashed] (2.5,1) -- (6,1);
+  \end{tikzpicture}
+  \caption{$21[\C_\ominus,\Omega_{11}(\C)]$}
+\end{subfigure}
+\begin{subfigure}[b]{0.45\textwidth}
+  \begin{tikzpicture}
+    \draw (0,1) rectangle (1,2) node[pos=0.5]{$\C_\ominus$};
+    \draw (1,0) rectangle (2,1) node[pos=0.5]{$\C$};
+    \draw (4.25,1.25) node {$\bigdtso$};
+    \draw (3.25,0.25) node {$\bigxdts$};
+    \draw[-, very thick] (2.5,-0.5) -- (2.5,2.5);
+    \draw[dashed] (2.5,1) -- (6,1);
+  \end{tikzpicture}
+  \caption{$21[\Omega_{01}(\C_\ominus), \Omega_{10}(\C)]$}
+\end{subfigure}
+\caption{Operator $\Omega_{11}$ applied to the term $21[\C_\ominus, \C]$. Line~\eqref{21juxt} above.}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \begin{subfigure}[b]{0.4\textwidth}
+  \begin{tikzpicture}
+    \draw (0,0) rectangle (1,1) node[pos=0.5]{$\C_\oplus$};
+    \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C$};
+    \draw (3.25,0.25) node {$\bigxdtso$};
+    \draw[-, very thick] (2.5,-0.5) -- (2.5,2.5);
+    \draw[dashed] (2.5,1) -- (6,1);
+  \end{tikzpicture}
+  \caption{$12[\Omega'_{11}(\C_\oplus),\C]$}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+  \begin{tikzpicture}
+    \draw (0,0) rectangle (1,1) node[pos=0.5]{$\C_\oplus$};
+    \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C$};
+    \draw (4.25,1.25) node {$\bigdtso$};
+    \draw (3.25,0.25) node {$\bigxdts$};
+    \draw[-, very thick] (2.5,-0.5) -- (2.5,2.5);
+    \draw[dashed] (2.5,1) -- (6,1);
+  \end{tikzpicture}
+  \caption{$12[\Omega'_{10}(\C_\oplus), \Omega_{01}(\C)]$}
+\end{subfigure}
+\begin{subfigure}[b]{0.4\textwidth}
+  \begin{tikzpicture}
+    \draw (0,0) rectangle (1,1) node[pos=0.5]{$\C_\oplus$};
+    \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C$};
+    \draw (4.25,1.25) node {$\bigxdtso$};
+    \draw[-, very thick] (2.5,-0.5) -- (2.5,2.5);
+    \draw[dashed] (2.5,1) -- (6,1);
+  \end{tikzpicture}
+  \caption{$12[\C_\oplus, \Omega_{11}(\C)]$}
+\end{subfigure}
+\caption{Operator $\Omega_{11}$ applied to the term $12[\C_\oplus, \C]$. Line~\eqref{12juxt} above.}
+\end{figure}
+
+
+\begin{figure}[ht]
+  \centering
+    \begin{tikzpicture}
+      \draw[dashed] (-1,2) rectangle (1,3);
+      \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C_{|\sigma|}$};
+      \draw[dashed] (-1,0) rectangle (1,1);
+    \draw (3.25,1.25) node {$\bigxdtso$};
+    \draw[-, very thick] (2.1,-0.5) -- (2.1,3.5);
+    \draw[dashed] (2.1,1) -- (5.5,1);
+    \draw[dashed] (2.1,2) -- (5.5,2);
+  \end{tikzpicture}
+  \caption{Illustrating line~\eqref{rightmostjuxt}.}
+  \label{fig:omega11b}
+\end{figure}
+Figure~\ref{fig:omega11b} helps decode the line~\eqref{rightmostjuxt} in the description of $\Omega_{11}$. Only the class that inflates the last point of $\sigma$ is subjected to the operator $\Omega_{11}$. The rest of the classes that inflate $\sigma$ remain without juxtaposition on the RHS. The result is: $\sigma\vert{\C^1,\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{11}(\C^{\sigma(|\sigma|)}),\C^{\sigma(|\sigma|)-1},\ldots,\C^{|\sigma|}}$. Recall that in our vertical indexing, $\C^{\sigma(|\sigma|)}$ is the class inflating the rightmost point of $\sigma$, i.e. the class $\C_{|\sigma|}$.
+
+\begin{figure}[ht]
+  \centering
+    \begin{tikzpicture}
+      \draw[dashed] (-4,2) rectangle (1,3);
+      \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C_{|\sigma|}$};
+      \draw (-2,-1.5) rectangle (-1,-0.5) node[pos=0.5]{$\C^j$};
+      \draw[dashed] (-4,-3) rectangle (1,1);
+      \draw (-0,0) node {$\iddots$};
+      \draw (-3,0) node {$\ddots$};
+      \draw[->] (3.5,-0.3)--(3.5,0.8);
+      \draw (3.25,-1.2) node {$\bigxdtso$};
+      \draw[->] (3.5,-1.7)--(3.5,-2.8);
+      \draw (-3,-2) node {$\iddots$};
+      \draw (-0,-2) node {$\ddots$};
+      \draw[-, very thick] (2.1,-3.5) -- (2.1,3.5);
+      \draw[dashed] (2.1,1) -- (5.5,1);
+      \draw[dashed] (2.1,2) -- (5.5,2);
+      \draw[dashed] (2.1,-1.5) -- (5.5,-1.5);
+      \draw[dashed] (2.1,-0.5) -- (5.5,-0.5);
+      \draw[dashed] (2.1,-3) -- (5.5,-3);
+  \end{tikzpicture}
+  \caption{Illustration of line~\eqref{belowrightmostjuxt}.}
+  \label{fig:omega11a}
+\end{figure}
+Figure~\ref{fig:omega11a} illustrates the line~\eqref{belowrightmostjuxt}. For each $\sigma \in \Si(\C)$ and each $1\leq j <\sigma(|\sigma|)$ in line~\eqref{belowrightmostjuxt}, there is a figure like the one above. Notice that the juxtaposition of $\C^j$ with the sequence on the RHS does not require the \texttt{+} to be below the rightmost point of $\C^j$ because $\C^{\sigma(|\sigma|)}$ above $\C^j$ ensures the convention is met already. Therefore, the juxtaposition with $\C^j$ is captured by the operator $\Omega'_{11}$. The resulting expression is $\sigma\vert{\C^{1},\ldots,\C^{j-1},\Omega'_{11}(\C^{j}),\C^{j+1},\ldots,\C^{|\sigma|}}$.
+
+
+\begin{figure}[ht]
+  \centering
+    \begin{tikzpicture}
+      \draw[dashed] (-4,2) rectangle (1,6);
+      \draw (-1,5.5) node {$\iddots$};
+      \draw (-3.5,5.5) node {$\ddots$};
+      \draw (-3,4) rectangle (-2,5) node[pos=0.5]{$\C^i$};
+      \draw (6.25,4.2) node {$\bigdtso$};
+      \draw[->] (4,5)--(4,5.9);
+      \draw[->] (4,4)--(4,-0.4);
+      \draw (-3.5,3.5) node {$\iddots$};
+      \draw (-1,3.5) node {$\ddots$};
+      \draw[dashed] (2.1,5) -- (7,5);
+      \draw[dashed] (2.1,4) -- (7,4);
+      \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C_{|\sigma|}$};
+      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=4pt},yshift=0pt] (4.5,-0.5) -- (4.5,4.0) node [black,midway,xshift=1.2cm, yshift=-0cm] {$\bigdts$};
+%      \draw [decorate,decoration={brace,amplitude=10pt},xshift=-4pt,yshift=0pt] (4.5,-0.5) -- (4.5,4.0) node [black,midway,xshift=-0.6cm] {$\bigdts$};
+      \draw (-2,-1.5) rectangle (-1,-0.5) node[pos=0.5]{$\C^j$};
+      \draw[dashed] (-4,-3) rectangle (1,1);
+      \draw (-0,0) node {$\iddots$};
+      \draw (-3,0) node {$\ddots$};
+      \draw[->] (3.5,-0.3)--(3.5,1.8);
+      \draw (3.25,-1.2) node {$\bigxdts$};
+      \draw[->] (3.5,-1.7)--(3.5,-2.8);
+      \draw (-3,-2) node {$\iddots$};
+      \draw (-0,-2) node {$\ddots$};
+      \draw[-, very thick] (2.1,-3.5) -- (2.1,6.5);
+      %\draw[dashed] (2.1,1) -- (3.7,1);
+      \draw[dashed] (2.1,2) -- (3.7,2);
+      \draw[dashed] (2.1,-1.5) -- (5.5,-1.5);
+      \draw[dashed] (2.1,-0.5) -- (5.5,-0.5);
+      \draw[dashed] (2.1,-3) -- (5.5,-3);
+  \end{tikzpicture}
+  \caption{This figure illustrates both line~\eqref{firstlongline} and line~\eqref{secondlongline}.}
+  \label{fig:omega11}
+\end{figure}
+
+One case which is illustrated in Figure~\ref{fig:omega11} is the situation in line~\eqref{firstlongline}. There, the lowest point on the RHS, \texttt{+}, is at the level of the inflation of the rightmost point of $\sigma$, i.e. when $j = \sigma(|\sigma|)$. Therefore, this inflation will be subject to $\Omega_{10}$ operator: $\Omega_{10}(\C^{\sigma(|\sigma|)})$. It now remains to choose $\C^i$ which is above $\C^{\sigma(|\sigma|)}$ in the inflation of $\sigma$, hence $\sigma(|\sigma|) \leq i \leq n$. We apply $\Omega_{01}$ to $\C^i$. The remaining classes that inflate points between (vertically) $\sigma(|\sigma|)$ and $i$ are subjected to $\Omega_\infty$ as each is juxtaposed with any increasing sequence. This scenario happens when $\xdts$ moves up along the upward arrow pointing from it all the way to be at the same level as $\C^{\sigma(|\sigma|)}$. This shrinks the range of $\dts$ -- it needs to stay between $\xdts$ and $\dtso$. Of course, for each simple $\sigma$ in $\C$, there is a term like the one in Figure~\ref{fig:omega11}: $$\sigma\vert{C^1,\ldots,\C^{\sigma(|\sigma|)-1},\Omega_{10}(\C^{\sigma(|\sigma|)}), \Omega_\infty(\C^{\sigma(|\sigma|)+1},\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}.$$
+
+Another case which is illustrated in Figure~\ref{fig:omega11} is the situation in line~\eqref{secondlongline}. There, the lowest point on the RHS, \texttt{+}, is \emph{below} the inflation of the rightmost point of $\sigma$, i.e. $j < \sigma(|\sigma|)$. This is where the difference, compared to the~\eqref{firstlongline}, happens. We apply $\Omega'_{10}$ to $\C^j$ instead of $\Omega_{10}$. The \dtso can, similarly to the previous case, be alongside any class $C^i$ with $i > j$. If $i> j+1$, then the classes $\C^k$ with $j<k<i$ are subjected to $\Omega_\infty$. For each $\sigma \in \Si(\C)$ we get a figure like Figure~\ref{fig:omega11} to go with the expression $$\sigma\vert{\C^1,\ldots,\C^{j-1},\Omega'_{10}(\C^j),\Omega_\infty(\C^{j+1}),\ldots,\Omega_\infty(\C^{i-1}),\Omega_{01}(\C^i),\C^{i+1},\ldots,\C^{|\sigma|}}.$$
+
+Of course, the combinatorial specification of $\Omega_{11}(\C)$ uses $\Omega_{11}(\C_{ominus})$ and $\Omega_{11}(\C_\oplus)$. Therefore, these need to be defined analogously. Every other class used to define $\Omega_{11}(\C/\C_\oplus/\C_\ominus)$ has already been defined above. Therefore, we are done.
+

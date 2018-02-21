@@ -1,0 +1,1132 @@
+\documentclass[12pt, a4paper, twoside]{report}
+
+\usepackage{setspace}
+\onehalfspacing
+%\doublespacing
+\usepackage{amsmath, amssymb, amsthm, mathtools,mathrsfs}
+\usepackage{pifont}
+\allowdisplaybreaks % to break align maths over pages
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue]{hyperref}
+\usepackage{bbm, bm}
+\usepackage{url}
+\usepackage{fancyhdr} %, xspace, psfrag, setspace, supertabular
+\usepackage{algorithm, algpseudocode}
+\usepackage{graphicx}
+\usepackage{geometry} % min OU requirements [inner=40mm, outer=15mm, top=15mm, bottom=20mm]
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning,decorations.pathreplacing}
+\tikzset{>=latex}
+\usepackage[procnames]{listings} % Allows inclusion (and syntax highlighting) of C code blocks
+\usepackage[font={small}]{caption}
+\usepackage{subcaption}
+\usepackage{footnote} 
+\makesavenoteenv{tabular} % to be able to use footnotes in tabulars
+\makesavenoteenv{table} % to be able to use footnotes in tables
+\usepackage{stmaryrd} % for averaging operator
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathdots}
+
+
+\begin{document}
+
+
+
+\input{defs}
+\input{decors}
+\input{title}
+
+\setcounter{secnumdepth}{-2}% default for "report" is 2
+\chapter{Abstract}
+Enumerating permutations is sometimes hard and sometimes tedious.\\
+\noindent Packing permutations is often hard and always tedious.
+
+\chapter{Acknowledgements}
+I would like to thank my supervisor Robert Brignall for finding the balance between guidance and freedom. I especially value that we had fun doing mathematics.\\
+
+My acknowledgements go to the Department of Mathematics and Statistics at The Open University for funding my PhD and providing support in various forms throughout the past three years.\\
+
+Special thanks go to my fellow students at The Open University who made my time there enjoyable.
+\setcounter{secnumdepth}{2}
+
+\tableofcontents
+
+\part{Enumeration}
+%\input{juxt}
+
+\chapter{Iterated juxtapositions}
+
+The goal of this chapter is to make further progress on describing permutation grid classes. In Chapter~\ref{chap:catalanjuxt}, we focus on exact enumeration of a specific set of permutation grid classes of the form $\C|\M$, where $\C$ is a Catalan class and $\M$ is a monotone class. In this chapter, we trade some amount of ``exactness'' for more generality. In particular, we address permutation grid classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|,\ldots|\M_{k+\ell}$, for some $k,\ell \geq 0$, where $\C$ is an arbitrary \emph{context-free} permutation class. ``Context-free'' is significantly more general than ``Catalan''. On the other hand, we cannot enumerate such classes exactly. Instead, we prove that the permutation classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ admit algebraic generating functions.
+
+Algebraicity is as ``nice'' as one can hope for given that many generating functions enumerating context-free classes are already algebraic and non-rational. Below is a hierarchy of families of generating functions showing that the family of algebraic Given that a generating function is a formal power series, the hierarchy below captures how special algebraic functions are.
+
+$$\text{rational} \subset \text{algebraic} \subset \text{$D$-finite} \subset \text{$D$-algebraic} \subset \text{power series}$$
+
+From this viewpoint, our result states that by appending arbitrary but finite number of monotone classes on the right of a context-free class $\C$, the generating function does not get qualitatively worse to the one enumerating $\C$ --- algebraic. A notable corollary of thi sresult is, for instance, that juxtaposition of monotone classes on either side of a context-free permutation class $\C$ with finitely many simple permutations admits an algebraic generating function. Moreover, we work out several examples explicitly to obtain exact generating functions. These are $\Av(321|21)$, $\M|\M|\M$ from~\cite{bevan2015thesis}, and $\S|\M$ (separable next to monotone).
+
+%The first example is significant in that it shows that not all context-free classes that meet our requirements have finitely many simple permutations. Therefore, the corollary above is actually weaker than our main result. 
+
+\section{Introduction}
+\label{sec:iterjuxt_intro}
+
+To begin, we juxtapose a context-free permutation class $\C$ with a finite row of monotone classes $\M_1|\ldots|\M_k$ on the right. Additionally, we assume for the moment that each
+$\M_i$ are monotone increasing permutation classes. We will later argue that for decreasing classes, a symmetry of our argument applies. As mentioned above, the work in this chapter extends the work in Chapter~\ref{chap:catalanjuxt} in two directions. One, the condition that $\C$ is a Catalan permutation class is replaced by requiring $\C$ to only be context-free. Two, juxtaposition from the right is iterated a finite number of times instead of just once. Before we proceed with the statement of the result, let us set the scene. The following definition is taken from Flajolet and Sedgewick~\cite{analcomb}, Section I.5.4, Definition I.13.
+\begin{definition}[Context-free specification]
+  A class $\C$ is said to be \emph{context-free} if it coincides with the first component $\S_1$ of a system of equations
+  \begin{align}
+  \begin{aligned}
+    \begin{cases}
+      \S_1 &= f_1(\Z,\S_1,\ldots,\S_r)\\
+      &\vdots\\
+      \S_r &= f_r(\Z,\S_1,\ldots,\S_r)
+    \end{cases}
+  \end{aligned}
+  \end{align}
+  where each $f_i$ is a constructor that only involves operations of combinatorial sum ($+$) and cartesian product ($\times$), as well as the neutral/empty class $\EE = \{\emptyset\}$.
+\end{definition}
+
+\begin{definition}[Tracking the rightmost point]
+  We say that a context-free class specification of $\C$ \emph{tracks the rightmost point by its vertical position} if it is combinatorialy isomorphic to the context-free class with the specification $\rS$ below and all cartesian products in $\rS$ are left-to-right as they occur bottom-to-top in $\C$. The asterisk (${}^*$) in $\rS$ marks the rightmost point or the block which contains the rightmost point inside $\C_i^*$.
+  \begin{align*}
+\rS &=  \begin{rcases}\begin{dcases}
+  \C_0^* &= f_0^*(\Z,\Z^*,\C_0,\ldots,\C_r,\C_0^*,\ldots,\C_r^*)\\
+       &\vdots\\
+  \C_r^* &= f_r^*(\Z,\Z^*,\C_0,\ldots,\C_r,\C_0^*,\ldots,\C_r^*)\\
+  \C_0 &= f_0(\Z,\C_0,\ldots,\C_r)\\
+       &\vdots\\
+       \C_r &= f_r(\Z,\C_0,\ldots,\C_r)
+       \end{dcases}
+     \end{rcases}
+   \end{align*}
+\end{definition}
+If a class $\C^*$ tracks the rightmost point as outlined above, we refer to $\C^*$ as a \emph{starred class}. Similarly, $\Z^*$ is a \emph{starred point}, or simply the rightmost point. On the other hand, every other class or point is \emph{starless class} or \emph{starless point}. For example, $\C$ and $\Z$. Given the above definition, we assume from now on that every permutation class $\C$ is context-free and admits a specification that tracks the rightmost point. 
+\begin{example}
+  The following is a context-free specification for the class of separable permutations (non-empty):
+  \begin{align*}
+    \S &= \Z + \S_{\oplus}\S + \S_{\ominus}\S\\
+    \S_{\ominus} &= \Z + \S_\oplus\S\\
+    \S_\oplus &= \Z + \S_\ominus\S,
+  \end{align*}
+  where $\S_\ominus$ and $\S_\oplus$ stand for skew-indecomposable and sum-indecomposable permutation classes. Now, among all context-free specifications of $\S$, we insist on picking the following one:
+  \begin{align}
+    \begin{aligned}
+    \S^* &= \Z^* + \S_{\oplus}\S^* + \S^*\S_{\ominus}\\
+    \S &= \Z + \S_{\oplus}\S + \S\S_{\ominus}\\
+    \S_{\ominus} &= \Z + \S_\oplus\S\\
+    \S_\oplus &= \Z + \S\S_\ominus.
+    \label{eq:sepstarcs}
+  \end{aligned}
+  \end{align}
+  In~\eqref{eq:sepstarcs}, the class of separable permutations is represented according to the decomposition in~\eqref{eq:sepstar}, encoding vertical order as left-to-right. See below the representation that we chose.
+  \begin{align}
+    \begin{aligned}
+      \S^* &= \Z + \cplusc{\S_\oplus}{\S^*} + \cminusc{\S^*}{\S_\ominus}\\
+      \S &= \Z + \cplusc{\S_\oplus}{\S} + \cminusc{\S}{\S_\ominus}\\
+      \S_\ominus &= \Z + \cplusc{\S_\oplus}{\S}\\
+      \S_\oplus &= \Z + \cminusc{\S}{\S_\ominus}
+    \label{eq:sepstar}
+  \end{aligned}
+  \end{align}
+\end{example}
+Notice that the cartesian product is naturally non-commutative (keeping track of vertical positions) and therefore, requiring that the combinatorial specification keeps track of the rightmost point by its value amounts to merely picking a specific combinatorial specification out of all context-free specifications for a given class $\C$. It is important in our approach that we deal with context-free classes as we decorate the combinatorial specifications with monotone sequences on the right-hand side and argue that the resulting class of such objects is still context-free.
+
+Let us consider one more example of how vertical order translates into left-to-right order in the Cartesian product. For instance, $\Z\C\C\DD$ refers to a term which has a single point at the bottom, then somewhere above it (and to the left or to the right of it) there is an element from $\C$, then another element of $\C$ is further above the previous one, and above all of this there is an element from $\DD$. Schematically, it could look something like the class in Figure~\ref{fig:order}.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \draw (-0.5,0.5) rectangle (0.5,1.5) node[pos=0.5]{$\DD$};
+    \draw (-3,-0.5) rectangle (-2,0.5) node[pos=0.5]{$\C$};
+    \draw (-1.5,-1.5) rectangle (-0.5,-0.5) node[pos=0.5]{$\C$};
+    \filldraw[black] (-2,-2) circle (2pt);
+    \draw (-1.6,-2.2) node {$\Z$};
+  \end{tikzpicture}
+  \caption{An example of a class which would correspond to a term $\Z\C\C\DD$ in a combinatorial specification that preserves the vertical (bottom-to-top) order of elements.}
+  \label{fig:order}
+\end{figure}
+
+Let $\V = \{\Z,\Z^*,\C_0,\ldots,\C_r,\C^*_0,\ldots,\C_r^*\}$ refer to the collection of all variables in polynomials $f_i/f_i^*$. When we do not care to distinguish between $f_i$ and $f_j$ or $f_i$ and $f_i^*$, we simply write $f$ for a polynomial in variables from $\V$. Similarly, when we do not distinguish between two variables in $\V$, we simply write $X \in \V$. As we just mentioned, each $f$ is a polynomial. We refer to its terms by $\T_\ell$ as in $f = \sum_{\ell=0}^N\T_\ell$. Each term $\T_\ell$ is a product of the variables in $\V$ and for a function $f^*$, each $\T_\ell$ contains exactly one starred variable (there is exactly one rightmost point in each term). 
+
+We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline}.\\
+
+\noindent\textbf{Convention:} \emph{Every gridline is as far left as possible. I.e. if it was any further left, the object on the RHS would not belong to the designated class.}\\
+
+\noindent Because we can encode ``gridline as left as possible'', we can refer to griddable permutations by their gridded representatives.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}[scale=0.2]
+\fill[white]  (0,0) rectangle +(27,27);
+%\draw[help lines, line width=0.1pt, gray] (0,0) grid +(27,27);
+% LHS
+\filldraw[black, fill=red] (13.5,24.5) circle (15pt);
+\filldraw[black] (12.5,25.5) circle (10pt);
+\filldraw[black] (11.5,18.5) circle (10pt);
+\filldraw[black] (10.5,23.5) circle (10pt);
+\filldraw[black] (9.5,17.5) circle (10pt);
+\filldraw[black] (8.5,12.5) circle (10pt);
+\filldraw[black] (7.5,16.5) circle (10pt);
+\filldraw[black] (6.5,26.5) circle (10pt);
+\filldraw[black] (5.5,11.5) circle (10pt);
+\filldraw[black] (4.5,2.5) circle (10pt);
+\filldraw[black] (3.5,9.5) circle (10pt);
+\filldraw[black] (2.5,1.5) circle (10pt);
+\filldraw[black] (1.5,10.5) circle (10pt);
+\filldraw[black] (.5,.5) circle (10pt);
+% RHS
+\filldraw[black] (26.5,22.5) circle (10pt);
+\filldraw[black] (25.5,21.5) circle (10pt);
+\filldraw[black] (24.5,20.5) circle (10pt);
+\filldraw[black] (23.5,19.5) circle (10pt);
+
+\filldraw[black] (22.5,15.5) circle (10pt);
+\filldraw[black] (21.5,14.5) circle (10pt);
+\filldraw[black] (20.5,13.5) circle (10pt);
+
+\filldraw[black] (19.5,8.5) circle (10pt);
+\filldraw[black] (18.5,7.5) circle (10pt);
+\filldraw[black] (17.5,6.5) circle (10pt);
+\filldraw[black] (16.5,5.5) circle (10pt);
+\filldraw[black] (15.5,4.5) circle (10pt);
+\filldraw[black,fill=red] (14.5,3.5) circle (15pt);
+% gridline
+\draw[black, line width=0.5mm] (14,-0.5) -- (14,27.5);
+\end{tikzpicture}
+\caption{\small On the LHS is a permutation from $\C$ while on the RHS is a monotone increasing permutation. The gridline is as far left as possible: if it were shifted further to the left, the red points would form a copy of 21 on the RHS. }
+\label{fig:leftmostgridline}
+\end{figure}
+
+Further remarks about the way we represent permutations in a juxtaposition. Let $x,y$ be two vertically consecutive points on the left-hand side of the juxtaposition $\C|\DD$. An object on the RHS (e.g. a sequence of points) is said to be \emph{associated with} $x$ if it is in the horizontal section of the RHS that falls below $x$ and above $y$ on the LHS. If $x$ is the bottom most point on the LHS, then everything below it on the RHS is associated with $x$. See Figure~\ref{fig:xregion} for an example.
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \filldraw[black] (1,2) circle (2pt) node[above left]{$y$};;
+    \filldraw[black] (2,4) circle (2pt);
+    \filldraw[black] (3,1) circle (2pt);
+    \filldraw[black] (4,3) circle (2pt) node[above left]{$x$};
+    
+    \filldraw[orange, opacity=1] (4.2,0) rectangle (6.3,1);
+    \filldraw[orange, opacity=0.66] (4.2,1) rectangle (6.3,2);
+    \filldraw[orange, opacity=0.33] (4.2,2) rectangle (6.3,3);
+    \filldraw[orange, opacity=0.1] (4.2,3) rectangle (6.3,4);
+    \draw[black, line width=0.5mm] (4.1,0) -- (4.1,4.5); % gridline
+    \draw[thin] (2.2,4)--(6.5,4);
+    \draw[thin] (4.2,3)--(6.5,3);
+    \draw[thin] (1.2,2)--(6.5,2);
+    \draw[thin] (3.2,1)--(6.5,1);
+  \end{tikzpicture}
+  \caption{The shaded regions on the RHS each correspond to a gap between two vertically consecutive points on the LHS. The part of RHS associated with $x$ is the second least opaque region.}
+  \label{fig:xregion}
+\end{figure}
+
+% Furthermore, to be able to refer to the boxes inside inflations/substitutions by their altitude, we adopt the superscript numbering $\C^j = \C_{\sigma^{-1}(j)}$, meaning that $\C^j$ is inflating the $j$th point of $\sigma$ when counting from bottom to top, i.e. the point $(j,\sigma(j))$ in $\sigma$. Sometimes, we arrange all classes that inflate $\sigma$ in the bottom-to-top order rather than left-to-right. This will be denoted by double square bracket instead of the original single square brackets, i.e. $\sigma\vert{\C^1,\ldots,\C^n}$ means that the order of classes inside bracket is vertical, reading bottom to top. For future use, notice that in left-to-right order, $\C_{|\sigma|}$ refers to the class that inflates the rightmost point of $\sigma$. In vertical order, this class is labelled as $\C^{\sigma(|\sigma|)}$.
+
+We are going to need the following operators: $\Omega_0, \Omega_1, \Omega_{10}, \Omega_{01}, \Omega_{11}, \Omega_\infty$. They act on permutation classes, such as $\C$, and represent various forms/stages of juxtaposing a monotone class next to $\C$, in other words, $\Omega_i: \C \mapsto \DD$, where both $\C$ and $\DD$ are context-free permutation classes. It is desirable that $\Omega_i$ respects the rightmost point according to the following rules.
+\begin{enumerate}
+\item If the operator's code begins with $1$, namely $\Omega_1,\Omega_{10},\Omega_{11}$, then the operator can only be applied to a class with a starred class, or alternatively, to a starless class occuring below the starred class.
+\item If the operator's code ends with $0$ or $\infty$, namely $\Omega_0, \Omega_{10}, \Omega_\infty$, then its output is starless. If the operator's code ends with $1$, namely $\Omega_1, \Omega_{01}, \Omega_{11}$, then every term of the output contains exactly one rightmost point (a starred class or point).
+\end{enumerate}
+Rules 1 and 2 capture the observations that: 1. if we juxtapose a monotone (increasing) class next to any class $\C$, $\C|\M$, then the leftmost/lowest point on the RHS must be below the rightmost point on the LHS. And 2., juxtaposing a class on the right sometimes takes over the rightmost point from the class on the left.
+
+Let $\C = \C_0^*$ admit a specification combinatorially isomorphic to $\rS$. Then $\Omega_0(\C_0^*)$ is an operator which juxtaposes a class (starred or not) with an empty space/sequence on the right. Notice, in particular, that $\Omega_0$ distributes over both $+$ and $\times$, and that it erases ${}^*$. 
+
+\begin{align*}
+  \Omega_0(\C_0^*) &= f_0^*(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_{i_0}^*),\Omega_0(\C_{i_0+1}),\ldots,\Omega_0(\C_r))\\
+       &\vdots\\
+  \Omega_0(\C_r^*) &= f_r^*(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_{i_r}^*),\Omega_0(\C_{i_r+1}),\ldots,\Omega_0(\C_r))\\
+  \Omega_0(\C_0) &= f(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_r))\\
+       &\vdots\\
+  \Omega_0(\C_r) &= f_r(\Omega_0(\Z),\Omega_0(\C_0),\ldots,\Omega_0(\C_r))\\
+  \Omega_0(\Z) &= \Z\\
+  \Omega_0(\Z^*) &= \Z
+\end{align*}
+
+Similarly, $\Omega_\infty$ is distributive over both operations $+$ and $\times$. It is the operator which juxtaposes a class, whether starred or not, with $\M$ on the right. As $\Omega_0$, it also erases the ${}^*$. We get the following definition of $\Omega_\infty$.
+
+\begin{align*}
+  \Omega_\infty(\C_0^*) &= f_0^*(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_{i_0}^*),\Omega_\infty(\C_{i_0+1}),\ldots,\Omega_\infty(\C_r))\\
+       &\vdots\\
+  \Omega_\infty(\C_r^*) &= f_r^*(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_{i_r}^*),\Omega_\infty(\C_{i_r+1}),\ldots,\Omega_\infty(\C_r))\\
+  \Omega_\infty(\C_0) &= f(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_r))\\
+       &\vdots\\
+  \Omega_\infty(\C_r) &= f_r(\Omega_\infty(\Z),\Omega_\infty(\C_0),\ldots,\Omega_\infty(\C_r))\\
+  \Omega_\infty(\Z) &= \M\Z\\
+  \Omega_\infty(\Z^*) &= \M\Z\\
+  \M &= \EE + \M\Z\\
+%  \M^* &= \M\Z^*
+\end{align*}
+
+It was necessary to define an extra class $\M$ in order for the combinatorial specification of $\Omega_\infty(\C^*)$ to remain closed (hence also context-free). Usually, $\M$ would be considered to be within the $\C_0,\ldots,\C_r$, but we kept it separate for clarity. The starred version of $\M$ is not needed yet. Consult Figure~\ref{fig:omega_infty} to visualise the juxtapositions $\Omega_\infty(\Z)$ and $\Omega_\infty(\Z^*)$.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_\infty$};
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2,2);
+      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
+    \end{tikzpicture}
+    \caption{Juxtaposing an increasing sequence to the right of a point $\Z^*$ or $\Z$ (rightmost or not) means that this point will not be rightmost anymore.}
+    \label{fig:omega_infty}
+\end{figure}
+
+As before, $X_i$ are variables from $\V$. The next operator, $\Omega_1$, represents juxtaposition of a single point on the right of a class $\C^*$. To define $\Omega_1$, we need to view every $f$ as a finite sum of terms $\T_\ell$. 
+\begin{align*}
+\Omega_1\left(\sum_{\ell=1}^N \T_\ell\right) &= \sum_{\ell=1}^N \Omega_1(\T_\ell).
+\end{align*}
+By definition, $\T_\ell = X_1X_2\cdots X_m$ for some $m$, with all $X_i \in \V$. Without loss of generality, we let $k$ be the index of a starred class, i.e. $X_k^*$. Then
+\begin{align}
+\begin{aligned}
+    \Omega_1(\Z) &= \Z^*\Z\\
+  \Omega_1(\Z^*) &= \Z^*\Z\\
+  \Omega_1(\T_\ell) &=
+                      \begin{cases}
+                        \Omega_1(X_1^*)\Omega_0(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
+                        \Omega_1(X_1)\Omega_0(X_2\cdots X_m) + \Omega_0(X_1)\Omega_1(X_2\cdots X_m),\quad &\text{if $k>1$.}
+                      \end{cases}
+\end{aligned}
+\label{eq:omega1Cstar}
+\end{align}
+The base cases ($\Z$ and $\Z^*$) are drawn in Figure~\ref{fig:omega_1}. The recursive step $\T_\ell$ consists of two cases. Either the bottom-most class/point $X_1$ in $\T_\ell$ is starred (i.e. $X_1 = X_1^*$) or not. If $X_1^*$, then $\Omega_1$ must be applied to it (as it must be applied to a starred class/point or a class/point below it) and $\Omega_0$ is applied to the rest of the classes, $\Omega_0(X_2\cdots X_m)$. If the first class (or point) $X_1$ is not starred, then there are two options. Either apply $\Omega_1$ to $X_1$ and $\Omega_0$ to $X_2\cdots X_m$, or apply $\Omega_0$ to $X_1$ and recursively apply $\Omega_1$ to $X_2\cdots X_m$. Defining operators recursively will be useful when we apply them to permutation classes iteratively.
+\begin{figure}[ht]
+ \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1.5) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1.5)--(-1,1.5);
+      \draw (-2.5,1.8) node{$\Omega_1$};
+%      \filldraw[black] (0,2) circle (2pt);
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,1);
+      \draw[dashed] (0.2,2) -- (2,2);
+      \filldraw[black] (1.2,1.6) circle (2pt);
+      \draw (1.6,1.6) node {$\Z^*$};
+%      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
+    \end{tikzpicture}
+    \caption{Juxtaposing a single point to the right of a point $\Z$ or $\Z^*$ means that the original point is not the rightmost anymore. Also, the new point is the rightmost point.}
+    \label{fig:omega_1}
+\end{figure}
+
+Having notation in place, we define $\Omega_{10}$ and $\Omega_{11}$ as those are fundamentally different from $\Omega_{01}$. As before, both $\Omega_{10}$ and $\Omega_{11}$ are distributive over $+$. It is therefore sufficient to define each of them on $\T_\ell = X_1\cdots X_m$ for some $m$, and the $k$th element starred. Operator $\Omega_{10}$ represents juxtaposing $\C^*$ on the right with $\Z\M$ --- a monotone increasing class that tracks its bottom-most (also left-most) point. As usual, $\Omega_{10}$ erases the star.
+\begin{align*}
+  \Omega_{10}(\Z) &= \Z\M\Z\\
+  \Omega_{10}(\Z^*) &= \Z\M\Z\\
+  \Omega_{10}(\T_\ell) &=
+                      \begin{cases}
+                        \Omega_{10}(X_1^*)\Omega_\infty(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
+                        \Omega_{10}(X_1)\Omega_\infty(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{10}(X_2\cdots X_m),\quad &\text{if $k>1$.}
+                      \end{cases}
+\end{align*}
+
+The base cases (lines 1 and 2 above) are described in Figures~\ref{fig:omega_10}. Since $\Omega_{10}$ erases the star, they result in the same expression $\Z\M\Z$.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{10}$};
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M$};
+      \filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+    \caption{Whether the point $\Z$ or $\Z^*$ on the LHS was the rightmost or not, after applying $\Omega_{10}$ it is not. Notice that $\M$ can be empty.}
+    \label{fig:omega_10}
+\end{figure}
+Next, we define $\Omega_{11}$. The operator that juxtaposes the LHS class with $\Z\M\Z$. Given that $\Omega_{11}$ tracks the topmost point on the RHS, both base cases are the same. They are visualised in Figure~\ref{fig:omega11}.
+\begin{align}
+  \begin{aligned}
+  \Omega_{11}(\Z) &= \Z\M\Z^*\Z\\
+  \Omega_{11}(\Z^*) &= \Z\M\Z^*\Z\\
+  \Omega_{11}(\T_\ell) &=
+                      \begin{cases}
+                        \Omega_{11}(X_1^*)\Omega_0(X_2\cdots X_m)+\Omega_{10}(X_1^*)\Omega_{01}(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
+                        \Omega_{11}(X_1)\Omega_0(X_2\cdots X_m) + \Omega_{10}(X_1)\Omega_{01}(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{11}(X_2\cdots X_m),\quad &\text{if $k>1$.}
+                      \end{cases}
+                    \end{aligned}
+\label{eq:omega11Cstar}
+\end{align}
+
+Notice that the second part of the recursion step contains three cases. This is quite sensible given that 
+
+\begin{figure}[ht]
+ \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{11}$};
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      \filldraw[black] (2.2,1.6) circle (2pt);
+      \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M$};
+      \filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+  \caption{$\Omega_{11}$: juxtaposing a monotone sequence with tracked topmost and bottom most points to the right of a point $\Z$ or $\Z^*$. The RHS now contains the topmost point whether we started with $\Z$ or $\Z^*$.}
+  \label{fig:omega11}
+\end{figure}
+
+The remaining operator $\Omega_{01}$ is simpler because it does not begin with a $1$. See Figure~\ref{fig:omega01}.
+\begin{align*}
+  \Omega_{01}(\Z) &= \M\Z^*\Z\\
+  \Omega_{01}(\Z^*) &= \M\Z^*\Z\\
+  \Omega_{01}(\T_\ell) &= \Omega_{01}(X_1)\Omega_0(X_2\cdots X_m)+\Omega_\infty(X_1)\Omega_{01}(X_2\cdots X_m)
+\end{align*}
+Regardless of the input (starred or not), $\Omega_{01}$ returns an object that tracks the rightmost point.
+
+\begin{figure}[ht]
+ \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{01}$};
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0.2);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      \filldraw[black] (2.2,1.6) circle (2pt);
+      \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M$};
+      % \filldraw[black] (0.8,0.3) circle (2pt);
+      % \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+  \caption{$\Omega_{01}$: juxtaposing a monotone sequence with tracked topmost point to the right of a point $\Z$ or $\Z^*$. The RHS now contains the topmost point whether we started with $\Z$ or $\Z^*$.}
+  \label{fig:omega01}
+\end{figure}
+
+\section{Main results}
+\label{sec:iterjuxt_main}
+
+This section presents results that we are able to obtain with the tools set up in Section~\ref{sec:iterjuxt_intro}. We start with proving the lemma that we need, Lemma~\ref{lem:induction_step}, for the induction step in the proof of Proposition~\ref{prop:onesidedjuxt}. In Proposition~\ref{prop:onesidedjuxt}, we establish that appending monotone increasing classes on the right side of a context-free permutation class which admits a combinatorial specification tracking the rightmost point by value, does not change the character of the original combinatorial specification (and hence the generating function remains algebraic). Next we prove the main result: by left-right flips and up-down flips, we can rephrase appending a decreasing monotone permutation class into appending an increasing monotone permutation class, and that on either side of $\C$ (left or right). This is established in Propositions~\ref{prop:decr_append} and~\ref{prop:left_append}. Therefore, it turns out that appending a monotone class (increasing or decreasing) on either side of a context-free permutation class preserves the character of the combinatorial specification and hence the character of the generating function of such a class. We make this assertion clear in Theorem~\ref{thm:interjuxt_main}. 
+
+Before we state the results, we present a theorem that we use to reduce our work to. It relates the character of the context-free combinatorial specification to the character of the generating function. If the former is ``nice'', then so is the latter.
+
+\begin{theorem}[Chomsky-Schutzenberger, Proposition I.7. in~\cite{analcomb}]
+\label{thm:chomsky}
+  A combinatorial class $\C$ that is context-free admits an ordinary generating function that is an algebraic function. In other words, there exists a (non-null) bivariate polynomial $P(z,y) \in \mathbb{C}[z,y]$ such that $$P(z,C(z)) = 0.$$
+\end{theorem}
+
+\begin{definition}[Phantom point]
+Let $P$ be a permutation from $\C$. An \emph{upper phantom point} $p$ of $P$ is a point external to $P$ that has value $|P|+1$ and no position --- the left-to-right position of $p$ is unimportant. One can perceive $p$ as a line above $P$ instead of as a point. We sometimes refer to $P$ as an upper phantom point of $\C$, meaning that every $P$ in $\C$ has $p$ as its upper phantom point. A \emph{lower phantom point} of $P$, usually denoted by $q$, is a point external to $P$ that has value $0$ and no position. If $\C$ is equipped with both phantom points (upper and lower), we refer to it by $\hatCstar$. If $\C$ is equipped with only one phantom point, it is denoted by $\barC$ (we always specify which phantom point $\barC$ has).
+\end{definition}
+Given that the phantom points have vertical position, they serve as usual points of a permutation $P$ when applying $\Omega$ operators.
+
+The induction lemma, Lemma~\ref{lem:induction_step}, says that appending a monotone increasing permutation class on the right of a context-free permutation class whose combinatorial specification tracks the rightmost point does not change the character of the class that we started with --- the resulting class is context-free and admits a combinatorial specification that tracks the rightmost point by value.
+\begin{lemma}
+  \label{lem:induction_step}
+  Let $\C$ be a context-free permutation class and $\rS$ its combinatorial specification which tracks the rightmost point of $\C$ by its vertical position (value). Let $\M$ be a monotone increasing permutation class. Then the part of $\C|\M$ with both cells non-empty is a context-free permutation class with a combinatorial specification $\rS'$ that tracks the rightmost point by its vertical position.
+\end{lemma}
+\begin{proof}
+In the language of $\Omega$ operators, juxtaposing $\C$ with a monotone increasing $\M$ requires installing points $p$ above $\C$ to construct $\barCstar$. We then enumerate all possible juxtapositions: empty (both cells empty), a sole monotone class (LHS cell is empty), and both cells nonempty. In particular:
+$$\C|\M = \EE + \M + \frac{\Omega_1(\barCstar) + \Omega_{11}(\barCstar)}{\Z^2}.$$
+The post-correction by $\Z^2$ removes the phantom points from $\barC$. Since the last term is the one representing the case of two non-empty cells, we only need to show that $\Omega_1(\barCstar)$ and $\Omega_{11}(\barCstar)$ admit context-free combinatorial specifications that track the rightmost points.
+
+The case of $\Omega_1$ is simple. It represents the situation with the RHS cell accommodating only a single point. The action of $\Omega_1$ on $\barCstar$ is linear, therefore every term $\T$ from any polynomial in $\rS$ has $\Omega_1$ applied to it exactly once. Recall the definition of $\Omega_1$, see~\eqref{eq:omega1Cstar}. If the term $\T$ is a single point (whether $\Z$ or $\Zstar$), it becomes $\Omega_1(\Z)$. Of course, $\Omega_1$ is only applied to $\Z$ if $\Z$ is below $\Zstar$ in $\T$ (follows from the recursive step of the definition of $\Omega_1$). Every other class/point in $\T$ is wrapped in $\Omega_0$. Therefore, for every term $\T$, $\Omega_1(\T)$ is a sum of terms of the same form --- respecting right-most points.
+
+The case of $\Omega_{11}$ is linear over addition the same way $\Omega_1$ is. Therefore, if every $\Omega_{11}(\T)$ is of the admissible form, the entire $\Omega_{11}(\barCstar)$ is. Notice that $\Omega_{11}(\T)$ is a sum of terms, every one of which has one of the forms in the definition of $\Omega_{11}$, see~\eqref{eq:omega11Cstar}. All of those are of the admissible form (assuming that other $\Omega$ operators produce admissible terms --- which is readily checkable that they do).
+
+Hence, $\Omega_1$ and $\Omega_{11}$ produce an output in a valid format --- a combinatorial specification which is of the same form as $\rS$. The only thing that remains to be checked is the correctness of $\Omega$ operators. However, this follows (in an easy but tedious way) from the definition of each operator separately.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:onesidedjuxt}
+  Let $\C$ be a context-free permutation class and $\rS$ its combinatorial specification which tracks the rightmost point of $\C$ with respect to its vertical position (value). Let $\M_1,\ldots,\M_k$ be a sequence of monotone increasing permutation classes. Then $\C|\M_1|\ldots|\M_k$ admits a generating function that is an algebraic function.
+\end{proposition}
+\begin{proof}
+  We prove by induction that for every $k \geq 1$, the class $\C|\M_1|\ldots|M_k$ admits a context-free combinatorial specification which tracks the rightmost point by value. It then follows that there is a combinatorial specification of such class that is context-free. Consequently, it follows by Theorem~\ref{thm:chomsky} that $\C|\M_1|\ldots|\M_k$ admits a generating function that is algebraic.
+
+  First, notice that we can rewrite the original juxtaposition as follows.
+\begin{align}
+  \C|\M_1|\ldots|\M_k = \EE + \M' + \M'|\M' + \M'|\M'|\M' + \ldots + \C'|\underbrace{\M'|\ldots|\M'}_{k},
+\label{eq:rewritten}
+\end{align}
+ where, for the moment, $\M'$ and $\C'$ denote the non-empty versions of the respective classes.
+
+  If $k = 1$, then we are done because both $\M'$ and $\C'|\M'$ are context-free classes that admit combinatorial specifications which track the right-most points by value, $M'$ is trivial and $\C'|\M'$ by Lemma~\ref{lem:induction_step}.
+
+For any $k$ greater than $1$, let $\C_0 = \C'|\M'_1|\ldots|\M'_{k-1}$. By induction assumption, $\C'_0$ admits a combinatorial specification that tracks the right-most point by value and so does $\M'_1|\ldots|\M'_{k-1}$. This is the case as they appear in a rewrite of $\C|\M_1|\ldots|\M_{k-1}$ analogous to~\eqref{eq:rewritten} and the assumption is that $\C|\M_1|\ldots|\M_{k-1}$ admits the combinatorial specification of the right form.  The extra terms that we need to show are of the correct form are: $\Omega_1(\C'|\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\C'|\M'_1|\ldots|\M'_{k-1})$, together with $\Omega_1(\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\M'_1|\ldots|\M'_{k-1})$. By Lemma~\ref{lem:induction_step}, all four of these terms do admit combinatorial specifications which track the right-most point by value.
+\end{proof}
+
+\subsection{Extension to decreasing classes and both sides}
+\label{sec:extensions}
+
+\begin{proposition}
+  \label{prop:decrappend}
+  Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification that tracks the right-most point. Then $\C|\DD$ admits a combinatorial specification which tracks the rightmost point.
+\end{proposition}
+\begin{proof}
+We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We require that if the monotone class on the right is decreasing, we associate points on the RHS \emph{above} the points on the LHS. Also, we ignore the phantom point $p$ and use phantom point $q$ instead. The rewrite of the juxtaposition into classes with non-empty cells is below.
+\begin{align}
+  \C|\DD = \EE + \DD' + \C'|\DD',
+\label{eq:decrease_objective}
+\end{align}
+\begin{figure}[!ht]
+  \centering
+  \begin{tikzpicture}
+    \draw[dashed] (2,14) -- (10,14);
+    \draw[dashed] (2,13) -- (10,13);
+    \draw[dashed] (1,12) -- (10,12);
+    \draw[dashed] (1,11) -- (10,11);
+    \draw[dashed] (3,10) -- (10,10);
+    \draw[dashed] (-1,15) -- (10,15); % p-line
+    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (-1,15) circle (2pt) node[below]{$p$};
+    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,13) rectangle (2,14) node[pos=0.5]{$\C_4$};
+    \draw[fill=gray!30] (3,12) rectangle (4,13) node[pos=0.5]{$\Cstar_3$};
+    \draw[fill=gray!30] (0,11) rectangle (1,12) node[pos=0.5]{$\C_2$};
+    \draw[fill=gray!30] (2,10) rectangle (3,11) node[pos=0.5]{$\C_1$};
+    \draw[-, very thick] (4,8.5) -- (4,15.5);
+    \filldraw[black] (4,12.3) circle (2pt) node[right]{$x$};
+
+    \foreach \i in {1,...,55}
+    {
+      \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$v$};
+    \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$y$};
+
+    \draw[->] (4,8)--(4,6);
+    \filldraw[black] (4,7) circle (0pt) node[right]{$\Theta$};
+
+    \draw[dashed] (2,4) -- (10,4);
+    \draw[dashed] (1,3) -- (10,3);
+    \draw[dashed] (1,2) -- (10,2);
+    \draw[dashed] (1,1) -- (10,1);
+    \draw[dashed] (2,0) -- (10,0);
+    \draw[dashed] (-2,5) -- (10,5); % p-line
+    \draw[dashed] (-1,-1) -- (10,-1); % q-line
+    
+    \filldraw[black] (-2,5) circle (2pt) node[below]{$q$};
+    \filldraw[black] (-1,-1) circle (2pt) node[above]{$p$};
+    
+    \filldraw[fill=gray!30] (2,3) rectangle (3,4) node[pos=0.5]{$\HH_4$};
+    \draw[fill=gray!30] (0,2) rectangle (1,3) node[pos=0.5]{$\HH_3$};
+    \draw[fill=gray!30] (3,1) rectangle (4,2) node[pos=0.5]{$\HHstar_2$};
+    \draw[fill=gray!30] (1,0) rectangle (2,1) node[pos=0.5]{$\HH_1$};
+    \draw[-, very thick] (4,-1.5) -- (4,5.5);
+    \filldraw[black] (4,1.7) circle (2pt) node[right]{$x$};
+
+    \foreach \i in {1,...,55}
+    {
+      \filldraw[black] (4.1+0.1*\i,-0.8+0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.1,-0.8) circle (1.5pt) node[right]{$v$};
+    \filldraw[black] (9.6,4.7) circle (1.5pt) node[right]{$y$};
+  \end{tikzpicture}
+\caption{Appending a monotone decreasing class to $\C$ amounts to appending a monotone increasing class to $\C$ upside-down. In the notation of the figure, $\C_1= \HH_4$, $\C_2 =\HH_3$, $\Cstar_3 = \HHstar_2$, and $\C_4 = \HH_1$. Before the flip --- when dealing with a decrease on the RHS --- one needs to associate decorations with gaps above LHS points, not below LHS points. Additionally, there arises need for two phantom points. Called $p,q$ in the figure.}
+\label{fig:horizontal_flip}
+\end{figure}
+
+Given the set-up above, we transform $\C|\DD$ to $\C|\M$ by flip along the horizontal axis. The rightmost point stays right-most after the flip. The phantom point $q$ assumes the usual position of the phantom point $p$. The points on the RHS now appear below the ones on the LHS that they are associated with. The entire situation is analogous to the one in Lemma~\ref{lem:induction_step}. Therefore, let $\Theta$ be the operator that flips the setting upside down. The only term we need to worry about is when both $\C$ and $\DD$ are non-empty. It follows that
+$$\C'|\DD' = \Theta^{-1}(\Omega_1(\Theta(\hatCstar))) + \Theta^{-1}(\Omega_{11}(\Theta(\hatCstar))).$$ 
+In other words, we can use all infrastructure that is in place for monotone increasing classes to append monotone decreasing classes. Since $\Theta$ is bijective, we transform the decreasing setting into increasing, apply the operators we need to apply, and then bring the situation back by $\Theta^{-1}$. Figure~\ref{fig:horizontal_flip} gives an instance of a horizontal flip transformation.
+\end{proof}
+
+\begin{proposition}
+  \label{prop:leftappend}
+Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification that tracks the left-most points. Then $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
+\end{proposition}
+\begin{proof}
+The proof follows by transformation of $\C$ by a left-to-right flip $\Phi$, then applying $\Omega$ operators, and undoing the flip. For this purpose, we need to keep track of the left-most point of $\C$. First, we require that the combinatorial specification of $\C$ tracks the leftmost point of $\C$. We denote the objects containing the leftmost point by $\C^\circ$ or $\Z^\circ$. Every $\C$ that admits a combinatorial specification that tracks the rightmost point also admits a combinatorial specification that tracks the leftmost point (we can just enumerate it flipped left-to-right). As before, enumerating $\DD|\C$ amounts to enumerating the juxtaposition of two non-empty cells where the one on the left-hand side is $\DD$ and on the right side is $\C$. If $\Phi$ is the left-to-right flip operator, then 
+$$\DD'|\C' = \Phi^{-1}(\Omega_1(\Phi(\barC^\circ))) + \Phi^{-1}(\Omega_{11}(\Phi(\barC^\circ))).$$
+Of course, we keep associate the points in $\DD$ on the LHS below the points in $\C$ on the RHS so that we can apply $\Omega$ operators after the flip. The flip $Phi$ also ``transforms'' the left-most point to rightmost point: $\Phi({}^\circ) = {}^*$ and $\Phi({}^*) = {}^\circ$. To keep track of the side onto which we append the monotone sequence, we use the following contraction:
+$$ \omega_i = \Phi^{-1}(\Omega_i(\Phi(\barC^\circ))).$$
+Therefore, $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
+
+Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We keep both phantom points in the figure for completeness.
+\begin{figure}[!ht]
+  \centering
+  \begin{tikzpicture}[scale=0.8]
+    \begin{scope}[xshift=-0.5cm]
+    \draw[dashed] (-6,14) -- (10,14);
+    \draw[dashed] (-6,13) -- (10,13);
+    \draw[dashed] (-6,12) -- (10,12);
+    \draw[dashed] (-6,11) -- (10,11);
+    \draw[dashed] (-6,10) -- (10,10);
+    \draw[dashed] (-6,15) -- (10,15); % p-line
+    \draw[dashed] (-6,9) -- (10,9); % q-line
+    
+    \filldraw[black] (-1.3,15) circle (2pt) node[below]{$p$};
+    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,13) rectangle (2,14) node[pos=0.5]{$\C_4$};
+    \draw[fill=gray!30] (3,12) rectangle (4,13) node[pos=0.5]{$\Cstar_3$};
+    \draw[fill=gray!30] (0,11) rectangle (1,12) node[pos=0.5]{$\C_2^\circ$};
+    \draw[fill=gray!30] (2,10) rectangle (3,11) node[pos=0.5]{$\C_1$};
+    \draw[-, very thick] (4,8.5) -- (4,15.5);
+    \draw[-, very thick] (0,8.5) -- (0,15.5);
+    \filldraw[black] (4,12.3) circle (2pt) node[right]{$a$};
+    \filldraw[black] (0,11.6) circle (2pt) node[left]{$b$};
+    
+    % RHS
+    \foreach \i in {1,...,55}
+    {
+      \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$u$};
+    \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$v$};
+
+    % LHS
+    \foreach \i in {1,...,53}
+    {
+      \filldraw[black] (-0.1-0.1*\i,14.7-0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (-0.2,14.6) circle (1.5pt) node[left]{$w$};
+    \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
+    \end{scope}
+
+    \draw[->] (1.5,8)--(1.5,6.5);
+    \filldraw[black] (1.5,7.25) circle (0pt) node[right]{$\Phi$};
+
+
+    %==================== reflection ======================
+    \begin{scope}[xscale=-1, xshift=-3.5cm, yshift=-9cm]
+    \draw[dashed] (-6,14) -- (10,14);
+    \draw[dashed] (-6,13) -- (10,13);
+    \draw[dashed] (-6,12) -- (10,12);
+    \draw[dashed] (-6,11) -- (10,11);
+    \draw[dashed] (-6,10) -- (10,10);
+    \draw[dashed] (-6,15) -- (10,15); % p-line
+    \draw[dashed] (-6,9) -- (10,9); % q-line
+    
+    \filldraw[black] (-1.3,15) circle (2pt) node[below]{$p$};
+    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,13) rectangle (2,14) node[pos=0.5]{$\C_4$};
+    \draw[fill=gray!30] (3,12) rectangle (4,13) node[pos=0.5]{$\Cstar_3$};
+    \draw[fill=gray!30] (0,11) rectangle (1,12) node[pos=0.5]{$\C_2^\circ$};
+    \draw[fill=gray!30] (2,10) rectangle (3,11) node[pos=0.5]{$\C_1$};
+    \draw[-, very thick] (4,8.5) -- (4,15.5);
+    \draw[-, very thick] (0,8.5) -- (0,15.5);
+    \filldraw[black] (4,12.3) circle (2pt) node[left]{$a$};
+    \filldraw[black] (0,11.6) circle (2pt) node[right]{$b$};
+
+    \foreach \i in {1,...,55}
+    {
+      \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$u$};
+    \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$v$};   
+
+    % LHS
+    \foreach \i in {1,...,53}
+    {
+      \filldraw[black] (-0.1-0.1*\i,14.7-0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (-0.2,14.6) circle (1.5pt) node[right]{$w$};
+    \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{East side in orange, west side in green. Points $p,q$ define lines $\ell_p$ and $\ell_q$.}
+  \label{fig:phi_flip}
+\end{figure}
+
+\end{proof}
+
+
+\begin{theorem}
+  \label{thm:iterjuxt_main}
+  Let $\C$ be a context-free permutation class that tracks both the right-most and the left-most points. Let $\M_1,\ldots,M_{k+\ell}$ be a sequence of monotone, increasing or decreasing, permutation classes. Then $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ is a context-free permutation class that admits a generating function that is an algebraic function.
+\end{theorem}
+\begin{proof}
+  The claim follows from Propositions~\ref{prop:onesidedjuxt}, \ref{prop:decrappend}, \ref{prop:leftappend} and Lemma~\ref{lem:induction_step}. Indeed, Lemma~\ref{lem:induction_step} states that juxtaposing a monotone increasing class from the right of $\C$ preserves context-free character of $\C$. Proposition~\ref{prop:onesidedjuxt} makes sure that repeated application of Lemma~\ref{lem:induction_step} preserves context-free character of the class as well. Therefore, appending a monotone increasing class on the right keeps the invariant intact. Furthermore, these results together with Proposition~\ref{prop:decrappend} imply that the invariant is preserved when appending decreasing classes on the right as well. Lastly, Proposition~\ref{prop:leftappend} guarantees that we can in fact append on both sides of $\C$ and the resulting class is same in nature as $\C$. Therefore, Theorem~\ref{thm:chomsky} then implies that the generating function is in fact algebraic.
+\end{proof}
+
+
+\section{Example: $\Av(321|21)$}
+\label{sec:example_Av321Av21}
+
+In Chapter \textcolor{red}{TODO: reference Chapter with juxtapositions} we deal with the juxtaposition of a Catalan class with a monotone class by enumerating all such juxtapositions. Here, we work out one of the cases where the Catalan class does not have finitely many simple permutations.\\
+
+We represent $\Av(321)$ by a Dyck path below the diagonal and bottom-to-top. Let $\C := \Av(321)$. \textcolor{red}{TODO: draw a Dyck path to permutation correspondence in a figure.} Then
+\begin{align*}
+  \C^* &= (\C + \EE)R\C^*U + (\C + \EE)RU^*\\
+  \C &= (\C+\EE)R(\C+\EE)U.
+\end{align*}
+This translates into the following combinatorial specification that tracks the rightmost point by value.
+\begin{align*}
+  \C^* &= \C\C^*\Z + \C^*\Z + \C\Z^* + \Z^*\\
+  \C &= \C\C\Z + 2\C\Z + \Z.
+\end{align*}
+As before, we will apply $\Omega_{11}$ to $\barCstar$ instead of $\Cstar$. Let us recall what $\barCstar$ is.
+\begin{align*}
+  \barCstar &= \Z \ominus \Cstar = \Cstar\Z
+\end{align*}
+Let $\B$ be the set of all the classes that need to be defined within the combinatorial specification of $\Omega_{11}(\barCstar)$. Therefore, we start with
+$$\B = \{\Omega_{11}(\barCstar)\}.$$
+Therefore, we define the only class in $\B$ first.
+\begin{align}
+  \begin{aligned}
+  \Omega_{11}(\barCstar) &= \Omega_{11}(\Cstar\Z)\\
+                         &= \Omega_{11}(\Cstar)\Z + \Omega_{10}(\Cstar)\Omega_{01}(\Z)\\
+                         &= \Omega_{11}(\Cstar)\Z + \Omega_{10}(\Cstar)(\M+\EE)\Z^*\Z\\
+                       \end{aligned}
+  \label{eq:omega11barCstar}
+\end{align}
+We update $\B$ according to the last line above.
+$$\B = \{\Omega_{11}(\Cstar), \Omega_{10}(\Cstar), \M\}.$$
+We can readily define $\M$ --- the non-empty sequence of points.
+\begin{align}
+  \M &= \Z + \M\Z
+       \label{eq:M}
+\end{align}
+Again, update $\B$:
+$$\B = \{\Omega_{11}(\Cstar), \Omega_{10}(\Cstar)\}.$$
+To make things easy, we state the following observations as a lemma.
+\begin{lemma}
+  The following operators ``ignore'' stars.
+  \begin{enumerate}
+  \item $\Omega_0(\Cstar) = \Omega_0(\C) = \C$
+  \item $\Omega_\infty(\Cstar) = \Omega_\infty(\C)$
+  \item $\Omega_{01}(\Cstar) = \Omega_{01}(\C)$.
+  \end{enumerate}
+  \label{lem:ignorance}
+\end{lemma}
+\begin{proof}
+First, notice that $\Omega_0(\C) = \C$. Indeed, by definition we have $\Omega_0(\C) = \Omega_0(\C)\Omega_0(\C)\Z + 2\Omega_0(\C)\Z + \Z$, and the claim follows. Consequently, $\Omega_0(\Cstar)$ is defined as
+\begin{align*}
+  \Omega_0(\Cstar) &= \Omega_0(\C)\Omega_0(\Cstar)\Z + \Omega_0(\Cstar)\Z + \Omega_0(\C)\Omega_0(\Z^*) + \Z\\
+                   &=\C\Omega_0(\Cstar)\Z + \Omega_0(\Cstar)\Z + \C\Z + \Z.
+\end{align*}
+It is then clear that $\Omega_0(\C) = \C$. For the same reason ($\Omega_\infty$ and $\Omega_{01}$ do not depend on the rightmost point in the class they take as argument. And since $\Omega_0(\Cstar) = \C$, $\Cstar$ is just the class $\C$ that tracks the rightmost point. The claims 2. and 3. follow.
+\end{proof}
+
+The last important remark is that if an expression is not an argument to any $\Omega_i$, i.e. it is a \emph{top-level expression}, then it can be evaluated. In what follows, we will immediately evaluate all top-level expressions as far as is convenient. Notice that, because we only apply one $\Omega_i$ to a class, all our expressions are top-level. Meaning that if we can evaluate any of them, we are free do so.
+
+We can now proceed with defining the remaining objects. We pop $\Omega_{11}(\Cstar)$ out of $\B$. The color coding is only to help trace the origin of the expressions.
+\begin{align}
+  \begin{aligned}
+  \Omega_{11}(\Cstar) &= \Omega_{11}(\C\Cstar\Z+ \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
+                      &= \Omega_{11}(\C\Cstar\Z) + \textcolor{orange}{\Omega_{11}(\Cstar\Z)} + \textcolor{green}{\Omega_{11}(\C\Z^*)} + \textcolor{blue}{\Omega_{11}(\Z^*)}\\
+                      &= \Omega_{11}(\C)\Omega_0(\Cstar)\Omega_0(\Z) + \Omega_0(\C)\Omega_{11}(\Cstar)\Omega_0(\Z) +\\
+                      &+ \Omega_{10}(\C)\Omega_{01}(\Cstar)\Omega_0(\Z) + \Omega_{10}(\C)\Omega_\infty(\Cstar)\Omega_{01}(\Z) +\\
+                      &+ \Omega_0(\C)\Omega_{10}(\Cstar)\Omega_{01}(\Z) + \textcolor{orange}{\Omega_{11}(\Cstar)\Omega_0(\Z) + \Omega_{10}(\Cstar)\Omega_{01}(\Z)} +\\
+                      &+ \textcolor{green}{\Omega_{11}(C)\Omega_0(\Z^*) + \Omega_0(\C)\Omega_{11}(\Z^*) + \Omega_{10}(\C)\Omega_{01}(\Z^*)} +\\
+                      &+ \textcolor{blue}{\Omega_{11}(\Z^*)}\\
+                      &= \Omega_{11}(\C)\C\Z + \C\Omega_{11}(\Cstar)\Z + \Omega_{10}(\C)\Omega_{01}(\Cstar)\Z +\\
+                      &+ \Omega_{10}(\C)\Omega_\infty(\C)(\M+\EE)\Z^*\Z +\C\Omega_{10}(\Cstar)(\M+\EE)\Z^*\Z + \\
+                      &+ \textcolor{orange}{\Omega_{11}(\Cstar)\Z + \Omega_{10}(\Cstar)(\M+\EE)\Z^*\Z} +\\
+                      &+ \textcolor{green}{\Omega_{11}(\C)\Z + \C\Z(\M+\EE)\Z^*\Z + \Omega_{10}(\C)(\M+\EE)\Z^*\Z} +\\
+                      &+\textcolor{blue}{\Z(\M+\EE)\Z^*\Z}\\
+                      %&= \textcolor{blue}{\M\Z^*\Z} + \textcolor{green}{\Omega_{11}(\C)\Z} + \textcolor{green}{\Omega_{10}(\C)\M^*\Z} + \textcolor{green}{\C\M\Z^*\Z} + \textcolor{orange}{\Omega_{11}(\Cstar)\Z} + \textcolor{orange}{\Omega_{10}(\Cstar)\M^*\Z} +\\
+                      %&+ \Omega_{11}(\C)\C\Z + \Omega_{10}(\C)\Omega_\infty(\C)\M^*\Z + \C\Omega_{10}(\Cstar)\M^*\Z + \C\Omega_{11}(\Cstar)\Z + \Omega_{10}(\C) \Omega_{01}(\C)\Z
+                    \end{aligned}
+                        \label{eq:exampleAv321Av21_omega11Cstar}
+\end{align}
+Updating $\B$ yields the following list. The red items are new.
+$$\B = \{\Omega_{10}(\Cstar),\textcolor{red}{\Omega_\infty(\C)}, \textcolor{red}{\Omega_{11}(\C)},\textcolor{red}{\Omega_{10}(\C)}, \textcolor{red}{\Omega_{01}(\C)}, \textcolor{red}{\Omega_{01}(\Cstar)}\}$$
+Before we proceed, we define $\Omega_\infty(\C)$ as it is a comparably trivial task.
+\begin{align}
+  \begin{aligned}
+    \Omega_\infty(\C) &= \Omega_\infty(\C)\Omega_\infty(\C)\Omega_\infty(\Z) + 2\Omega_\infty(\C)\Omega_\infty(\Z) + \Omega_\infty(\Z))\\
+    &= \Omega_\infty(\C)^2(\M+\EE)\Z + 2\Omega_\infty(\C)(\M+\EE)\Z + (\M+\EE)\Z
+  \end{aligned}
+  \label{eq:omegainftyC}
+\end{align}
+Notice that $\Omega_\infty(\C)$ is essentially class $\C$ where every atom/point can be a nonempty sequence of points. Indeed, the generating function of $\Omega_\infty(\C)$ is $C(z/(1-z)$, where $C(z)$ is the generating function of $\C$.
+
+Having just defined $\Omega_\infty(\C)$ and applying Lemma~\ref{lem:ignorance} leaves us with the following $\B$.
+$$\B = \{\Omega_{10}(\Cstar), \textcolor{red}{\Omega_{11}(\C)},\textcolor{red}{\Omega_{10}(\C)}, \textcolor{red}{\Omega_{01}(\C)}\}$$
+Next, pop $\Omega_{10}(\Cstar)$ out of $\B$. We apply Lemma~\ref{lem:ignorance} as soon as we can.
+\begin{align}
+  \begin{aligned}
+  \Omega_{10}(\Cstar) &= \Omega_{10}(\C\Cstar\Z + \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
+                      &= \Omega_{10}(\C)\Omega_\infty(\C)(\M+\EE)\Z + \C\Omega_{10}(\Cstar)(\M+\EE)\Z\\ % + \C\C\Z(\M+\EE)\Z +\\
+                      &+\textcolor{orange}{\Omega_{10}(\Cstar)(\M+\EE)\Z}+\\ %+ \C\Z(\M+\EE)\Z} +\\
+                      &+\textcolor{green}{\Omega_{10}(\C)(\M+\EE)\Z + \C\Z(\M+\EE)\Z} +\\
+                      &+\textcolor{blue}{\Z(\M+\EE)\Z}
+                    \end{aligned}
+                        \label{eq:omega10Cstar}
+\end{align}
+We do not augment $\B$ at all after this definition. Therefore, we have
+$$\B = \{\Omega_{11}(\C),\Omega_{10}(\C), \Omega_{01}(\C)\}.$$
+We pop $\Omega_{11}(\C)$ and define it below.
+\begin{align}
+  \begin{aligned}
+    \Omega_{11}(\C) &= \Omega_{11}(\C\C\Z + \textcolor{orange}{2\C\Z} + \textcolor{green}{\Z})\\
+    &= \Omega_{11}(\C)\C\Z + \C\Omega_{11}(\C)\Z + \C\C\Z(\M+\EE)\Z^*\Z + \Omega_{10}(\C)\Omega_{01}(\C)\Z +\\
+    &+ \Omega_{10}(\C)\Omega_\infty(\C)(\M+\EE)\Z^*\Z + \C\Omega_{10}(\C)(\M+\EE)\Z^*\Z +\\
+    &+ \textcolor{orange}{2\Omega_{11}(\C)\Z + 2\C\Z(\M+\EE)\Z^*\Z + 2\Omega_{10}(\C)(\M+\EE)\Z^*\Z} +\\
+    &+\textcolor{green}{\Z(\M+\EE)\Z^*\Z}\\
+  \end{aligned}
+  \label{eq:omega11C}
+\end{align}
+Again, there is nothing in the definition~\eqref{eq:omega11C} which would not be known or already in $\B$. We do not augment $\B$ and it remains as it was.
+$$\B = \{\Omega_{10}(\C), \Omega_{01}(\C)\}$$
+We pop the next item, $\Omega_{10}(\C)$.
+\begin{align}
+  \begin{aligned}
+    \Omega_{10}(\C) &= \Omega_{10}(\C\C\Z + \textcolor{orange}{2\C\Z} + \textcolor{green}{\Z})\\
+    &= \Omega_{10}(\C)\Omega_\infty(\C)(\M+\EE)\Z + \C\Omega_{10}(\C)(\M+\EE)\Z +\\
+    &+ \C\C\Z(\M+\EE)\Z +\\
+    &+ \textcolor{orange}{2\Omega_{10}(\C)(\M+\EE)\Z + 2\C\Z(\M+\EE)\Z} + \textcolor{green}{\Z(\M+\EE)\Z}
+  \end{aligned}
+  \label{eq:omega10C}
+\end{align}
+In~\eqref{eq:omega10C} we do not require any new items. In fact, given that we know $\Omega_\infty$, $\Omega_{10}(\C)$ is computable from its own definition only. There is only one class left in $\B$.
+$$\B = \{\Omega_{01}(\C)\}$$
+We pop the last item from $\B$, $\Omega_{01}(\C)$.
+\begin{align}
+  \begin{aligned}
+    \Omega_{01}(\C) &= \Omega_{01}(\C\C\Z + \textcolor{orange}{2\C\Z} + \textcolor{green}{\Z})\\
+    &= \Omega_{01}(\C)\C\Z + \Omega_\infty(\C)\Omega_{01}(\C)\Z + \Omega_\infty(\C)\Omega_\infty(\C)(\M+\EE)\Z^*\Z +\\
+    &+ \textcolor{orange}{2\Omega_{01}(\C)\Z + 2\Omega_\infty(\C)(\M+\EE)\Z^*\Z} + \textcolor{green}{(\M+\EE)\Z^*\Z}
+  \end{aligned}
+  \label{eq:omega01C}
+\end{align}
+As there is nothing in $\B$ and we do not augment it after~\eqref{eq:omega01C}, the definition of $\Omega_{11}(\barCstar)$ is self-contained assuming that we include definitions~\eqref{eq:omega11barCstar}, \eqref{eq:M}, \eqref{eq:omega11Cstar}, \eqref{eq:omegainftyC}, \eqref{eq:omega11C}, \eqref{eq:omega10C}, and \eqref{eq:omega01C}.\\
+
+The final class that represents $\Av(321|21)$ is 
+\begin{align}
+  \F &= 1 + \M + \Omega_1(\barCstar) + \Omega_{11}(\barCstar)
+      \label{eq:example_final}
+\end{align}
+Therefore, the remaining class that we need defined is $\Omega_1(\barCstar)$.
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\barCstar) &= \Omega_1(\Cstar\Z)\\
+    &= \Omega_1(\Cstar)\Z
+  \end{aligned}
+  \label{eq:omega1barCstar}
+\end{align}
+Now it only remains to define $\Omega_1(\Cstar)$ and its own prerequisites. 
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\Cstar) &= \Omega_1(\C\Cstar\Z + \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
+    &= \Omega_1(\C)\Cstar\Z + \C\Omega_1(\Cstar)\Z + \textcolor{orange}{\Omega_1(\Cstar)\Z} + \textcolor{green}{\Omega_1(\C)\Z^* + \C\Z^*\Z} + \textcolor{blue}{\Z^*\Z}
+  \end{aligned}
+  \label{eq:exampleAv321Av21_omega1Cstar}
+\end{align}
+It turns out that we also need to define $\Omega_1(\C)$ along the way.
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\C) &= \Omega_1(\C\C\Z + \textcolor{orange}{2\C\Z} + \textcolor{green}{\Z})\\
+    &= \Omega_1(\C)\C\Z + \C\Omega_1(\C)\Z + \C\C\Z^*\Z + \textcolor{orange}{2\Omega_1(\C)\Z + 2\C\Z^*\Z} + \textcolor{green}{\Z^*\Z}
+  \end{aligned}
+  \label{eq:omega1C}
+\end{align}
+
+\section{Example: $\M|\M|\M$}
+\label{sec:example_mmm}
+This example is probably the simplest not-entirely-degenerate case of iterated juxtaposition of length greater than two. Since a monotone increasing class $\M$ is context-free, we can begin with $\M$ on the left. While it would be possible to enumerate this class by following the ``recipe'' in Section~\ref{sec:iterjuxt}, we exploit the degeneracy of the example to shorten the write-up.
+
+First of all, because we choose the gridding that places gridlines as far left as possible, it can happen that leftmost cell is empty or middle and leftmost cells are both empty, or all three cells are empty. If all three cells are empty, this case is represented by the class $\EE$. If the leftmost two cells are empty, this is essentially class $\M$. For the remaining cases, observe that the rightmost juxtaposition does not need to track the rightmost point as nothing will be juxtaposed on its right. Therefore, we are only interested in expressions of the form $\Omega_{10}(\M|\M)$ or $\Omega_{10}(\M)$ (when zero or one cell is empty, respectively). If we are dealing with a juxtaposition of only two monotone increasing classes (the leftmost cell is empty), then we represent it as $\Omega_{10}(\Mstar)(\M+\EE)$ --- there is either a single point in the left cell or a sequence of length at least two. The term $(\M+\EE)$ makes sure that we allow the right cell to place points above everything on the left. This is necessary as we do not use the phantom point and we do not track the rightmost (topmost) point in the rightmost cell.  On the other hand, if all three cells are nonempty, then we need to use the phantom point and track the rightmost point in the middle cell. So, middle cell can have a single point or a sequence of length at least two. Therefore, the first two cells are either $\Omega_1(\barMstar)$ or $\Omega_{11}(\barMstar)$. We then apply $\Omega_{10}$ to them and multiply them by $\M+\EE$ as justified in the previous case. Therefore, the final object that we aim to enumerate is $\F$ below.
+
+
+\begin{align}
+\F &= \EE + \M + (\M+\EE)\Omega_{10}(\Mstar) + \frac{1}{\Z}(\Omega_{10}(\Omega_1(\barMstar)) + \Omega_{10}(\Omega_{11}(\barMstar)))
+\label{eq:mmm_final}
+\end{align}
+
+\begin{align}
+  \M &= \Z + \M\Z \label{eq:mmm_m}\\
+  \Mstar &=  \Zstar + \M\Zstar\\
+  \Omega_0(\M)&= \Z + \M\Z = \M\\
+  \Omega_0(\Mstar) &= \Z + \M\Z = \M
+\end{align}
+We will often use the fact that $(\M+\EE)\Z = \M$. We do so below as well by collapsing $\Omega_\infty(\Zstar) = (\M+\EE)\Z = \M$.
+\begin{align}
+  \begin{aligned}
+    \Omega_\infty(\M) &= \Omega_\infty(\Z) + \Omega_\infty(\M)\Omega_\infty(\Z)\\
+    &= \M + \Omega_\infty(\M)\M
+  \end{aligned}
+      \label{eq:mmm_omegainfty}
+\end{align}
+
+Next, we define the terms with two nonempty cells.
+
+\begin{align}
+  \begin{aligned}
+    \Omega_{10}(\M) &= \Omega_{10}(\Z) + \Omega_{10}(\M\Z)\\
+    &= \Omega_{10}(\Z) + \Omega_{10}(M)\Omega_\infty(\Z) + \Omega_0(\M)\Omega_{10}(\Z)\\
+    &= \M\Z + \Omega_{10}(\M)\M + \M\M\Z
+  \end{aligned}
+      \label{eq:mmm_omega10M}
+\end{align}
+Notice that $\Omega_{10}$ has the same effect on $\M$ as on $\Mstar$. This is because the rightmost point is also the topmost in $\M$ and $\Mstar$. 
+\begin{align}
+  \Omega_{10}(\Mstar) &= \Omega_{10}(\M)
+  \label{eq:mmm_omega10Mstar}
+\end{align}
+
+We are now ready to define the terms that represent the three nonempty cells. First, we will need $\barMstar$. 
+\begin{align}
+  \barMstar &= \Mstar\Z
+\end{align}
+Then
+\begin{align}
+  \Omega_1(\barMstar) &= \Omega_1(\Mstar)\Omega_0(\Z)
+\end{align}
+Since we know $\Omega_0(\Z)$, we only need to define $\Omega_1(\Mstar)$. We note that $\Omega_1(\Mstar)$ depends on $\Omega_1(\M)$, and $\Omega_1(\M)$ is the same in this case (special property of monotone increasing sequence -- there is not anything above the rightmost point). Therefore, we set
+\begin{align}
+\Omega_1(\Mstar) &= \Omega_1(\M)
+\label{eq:omega1Mstar}
+\end{align}
+and only define the latter. 
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\M) &= \Omega_1(\Z + \M\Z)\\
+    &= \Omega_1(\Z) + \Omega_1(\M)\Omega_0(\Z) + \Omega_0(\M)\Omega_1(\Z)\\
+    &= \Zstar\Z + \Omega_1(\M)\Z + \M\Zstar\Z
+  \end{aligned}
+\end{align}
+Finally, we are ready to define $\Omega_{10}(\Omega_1(\barMstar))$. 
+\begin{align}
+  \Omega_{10}(\Omega_1(\barMstar)) &= \Omega_{10}(\Omega_1(\Mstar)\Omega_0(\Z))\\
+                                   &= \Omega_{10}(\Omega_1(\Mstar))\Omega_\infty(\Omega_0(\Z))\\
+                                   &= \Omega_{10}(\Omega_1(\M))\M
+\end{align}
+where the last line follows from $\Omega_\infty(\Omega_0(Z)) = \Omega_\infty(\Z) = \M$ and $\Omega_{10}(\Omega_1(\Mstar)) = \Omega_{10}(\Omega_1(\M))$ by~\eqref{eq:omega1Mstar}. Therefore,
+\begin{align}
+  \begin{aligned}
+    \Omega_{10}(\Omega_1(\M)) &= \Omega_{10}(\Omega_1(\Z)) + \textcolor{orange}{\Omega_{10}(\Omega_1(\M)\Omega_0(\Z))} + \textcolor{green}{\Omega_{10}(\Omega_0(\M)\Omega_1(\Z))}\\
+    &= \Omega_{10}(\Zstar)\Omega_\infty(\Z) + \textcolor{orange}{\Omega_{10}(\Omega_1(\M))\Omega_\infty(\Omega_0(\Z))} +\\
+    &+ \textcolor{green}{\Omega_{10}(\Omega_0(\M))\Omega_\infty(\Zstar\Z) + \Omega_0(\Omega_0(\M))\Omega_{10}(\Zstar)\Omega_\infty(\Z)}\\
+    &= \M\Z\M + \textcolor{orange}{\Omega_{10}(\Omega_1(\M))\M} + \textcolor{green}{\Omega_{10}(\M)\M\M + \M\M\Z\M}
+  \end{aligned}
+      \label{eq:mmm_omega101M}
+\end{align}
+It now remains to define the last term in $\F$, namely $\Omega_{10}(\Omega_{11}(\barMstar))$. 
+\begin{align}
+  \begin{aligned}
+\Omega_{10}(\Omega_{11}(\barMstar)) &= \Omega_{10}(\Omega_{11}(\Mstar\Z))\\
+                                    &= \Omega_{10}(\Omega_{11}(\Mstar)\Omega_0(\Z)) + \Omega_{10}(\Omega_{10}(\Mstar)\Omega_{01}(\Z))\\
+                                    &= \Omega_{10}(\Omega_{11}(\Mstar))\Omega_\infty(\Omega_0(\Z)) +\\
+                                    &+ \textcolor{orange}{\Omega_{10}(\Omega_{10}(\Mstar))\Omega_\infty(\Omega_{01}(\Z))} + \textcolor{green}{\Omega_0(\Omega_{10}(\Mstar))\Omega_{10}(\Omega_{01}(\Z))}\\
+                                    &= \Omega_{10}(\Omega_{11}(\M))\M + \textcolor{orange}{\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M} +\\
+                                    &+ \textcolor{green}{\Omega_{10}(\M)\Omega_{10}(\M)\M} \\
+  \end{aligned}
+\label{eq:mmm_lastterm}
+\end{align}
+Notice that we used facts such as $\Omega_{11}(\Mstar) = \Omega_{11}(\M)$ and $\Omega_{10}(\Mstar)=\Omega_{10}(\M)$. For~\eqref{eq:mmm_lastterm} to be self-contained, we need to define the following set of expressions: $$\B = \{\Omega_{10}(\Omega_{11}(\M)), \Omega_{10}(\Omega_{10}(\M))\}.$$
+We pop the last item and define it below.
+\begin{align}
+  \begin{aligned}
+    \Omega_{10}(\Omega_{10}(\M)) &= \Omega_{10}(\M\Z + \textcolor{orange}{\Omega_{10}(\M)\M} + \textcolor{green}{\M\M\Z})\\
+    &= \Omega_{10}(\M)\Omega_\infty(\Z) + \Omega_0(\M)\Omega_{10}(\Z) +\\
+    &+ \textcolor{orange}{\Omega_{10}(\Omega_{10}(\M))\Omega_\infty) + \Omega_0(\Omega_{10}(\M))\Omega_{10}(\M)} +\\
+    &+ \textcolor{green}{\Omega_{10}(\M)\Omega_\infty(\M\Z) + \Omega_0(\M)\Omega_{10}(\M)\Omega_\infty(\Z)} +\\
+    &+ \textcolor{green}{\Omega_0(\M\M)\Omega_{10}(\Z)}\\
+    &= \Omega_{10}(\M)\M + \M\M\Z + \textcolor{orange}{\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)} +\\
+    &+ \textcolor{orange}{\Omega_{10}(\M)\Omega_{10}(\M)} + \textcolor{green}{\Omega_{10}(\M)\Omega_\infty(\M)\M} +\\
+    &+ \textcolor{green}{\M\Omega_{10}(\M)\M + \M\M\M\Z}
+  \end{aligned}
+      \label{eq:mmm_omega1010M}
+\end{align}
+Since everything in~\eqref{eq:mmm_omega1010M} is already known, $\B$ stays as it is: $\B = \{\Omega_{10}(\Omega_{11}(\Mstar))\}.$ However, to define this last term in $\B$, we need to define $\Omega_{11}(\Mstar)$ first. Hence, $$\B = \{\Omega_{10}(\Omega_{11}(\Mstar)), \Omega_{11}(\Mstar)\}.$$ Notice that $\Omega_{11}(\Mstar)$ is identical to $\Omega_{11}(\M)$ as $\M$ is monotone increasing and topmost point is also the rightmost. Therefore, we only define $\Omega_{11}(\M)$.
+\begin{align}
+  \begin{aligned}
+    \Omega_{11}(\M) &= \Omega_{11}(\Z) + \Omega_{11}(\M)\Omega_0(\Z) + \Omega_0(\M)\Omega_{11}(\Z) +\\
+    &+\Omega_{10}(\M)\Omega_{01}(\Z)\\
+    &= \M\Zstar\Z + \Omega_{11}(\M)\Z + \M\M\Zstar\Z + \Omega_{10}(\M)\Mstar\Z
+  \end{aligned}
+      \label{eq:mmm_omega11M}
+\end{align}
+All items on the RHS are known, so $\B$ is a singleton now. $$\B = \{\Omega_{10}(\Omega_{11}(\M))\}$$
+\begin{align}
+  \begin{aligned}
+    \Omega_{10}(\Omega_{11}(\M)) &= \Omega_{10}(\M\Zstar\Z) + \textcolor{orange}{\Omega_{10}(\Omega_{11}(\M)\Z)} + \textcolor{green}{\Omega_{10}(\M\M\Zstar\Z)} +\\
+    &+\textcolor{blue}{\Omega_{10}(\Omega_{10}(\M)\Mstar\Z)}\\
+    &= \Omega_{10}(\M)\Omega_\infty(\Zstar\Z) + \M\Omega_{10}(\Zstar)\Omega_\infty(\Z) +\\
+    &+ \textcolor{orange}{\Omega_{10}(\Omega_{11}(\M))\Omega_\infty(\Z)} +\\
+    &+ \textcolor{green}{\Omega_{10}(\M)\Omega_\infty(\M\Zstar\Z) + \M\Omega_{10}(\M)\Omega_\infty(\Zstar\Z) +}\\
+    &+ \textcolor{green}{\M\M\Omega_{10}(\Zstar)\Omega_\infty(\Z)}\\
+    &+ \textcolor{blue}{\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\Mstar\Z) + \Omega_0(\Omega_{10}(\M))\Omega_{10}(\Mstar)\Omega_\infty(\Z)}\\
+    &= \Omega_{10}(\M)\M\M + \M\M\Z\M + \textcolor{orange}{\Omega_{10}(\Omega_{11}(\M))\M} +\\
+    &+ \textcolor{green}{\Omega_{10}(\M)\Omega_\infty(\M)\M\M + \M\Omega_{10}(\M)\M\M} +\\
+    &+ \textcolor{green}{\M\M\M\Z\M} +\\
+    &+ \textcolor{blue}{\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M + \Omega_{10}(\M)\Omega_{10}(\M)\M}
+  \end{aligned}
+      \label{eq:mmm_omega1011M}
+\end{align}
+Since everything in~\eqref{eq:mmm_omega1011M} is defined, we are done. With the information in~\eqref{eq:mmm_m}--\eqref{eq:mmm_omega1011M}, we transform $\F$ as follows.
+\begin{align*}
+  \F &= \EE + \M + (\M + \EE)\Omega_{10}(\M) +\frac{1}{\Z}\bigg(\Omega_{10}(\Omega_1(\M))\M +\\
+     &+\Omega_{10}(\Omega_{11}(\M))\M +\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M + \Omega_{10}(\M)\Omega_{10}(\M)\M\bigg)
+\end{align*}
+
+In the combinatorial specification of $\F$, we need to include the specifications of $\M$~\eqref{eq:mmm_m}, $\Omega_\infty(\M)$~\eqref{eq:mmm_omegainfty}, $\Omega_{10}(\M)$~\eqref{eq:mmm_omega10M}, $\Omega_{10}(\Omega_1(\M))$~\eqref{eq:mmm_omega101M}, $\Omega_{10}(\Omega_{10}(\M))$~\eqref{eq:mmm_omega1010M}, and $\Omega_{10}(\Omega_{11}(\M))$~\eqref{eq:mmm_omega1011M}. The relevant Mathematica Notebook \texttt{exampleMMM.nb} can be found in the accompanying thesis repository $$\text{\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis}}}.$$
+The sequence that we obtain for the number of permutations in $\M|\M|\M$ of each length is $$1,1,2,6,23,93,360,1312,4541,15111,\ldots$$
+This agrees with Bevan's enumeration of $\M|\M|\M$ in his thesis~\cite{bevan2015thesis}, Part I, Table 3.1.
+
+\section{Example: Separable permutations}
+\label{sec:example_sepav21}
+The class of separable permutations has finitely many simple permutations and is relatively simple. We still think this example is useful in that it demonstrates that our method can be used to enumerate various juxtapositions exactly. To the best of our knowledge, the juxtaposition class $\S|\M$, where $\M$ is an increasing monotone class, has not been enumerated yet. We juxtapose $\M$ on the right of the class of separable permutations $\S$ and choose to work with the following combinatorial specification of $\S$.
+\begin{align}
+  \begin{aligned}
+    \S^* &= \Z^* + \S_{\oplus}\S^* + \S^*\S_{\ominus}\\
+    \S &= \Z + \S_{\oplus}\S + \S\S_{\ominus}\\
+    \S_{\ominus} &= \Z + \S_\oplus\S\\
+    \S_\oplus &= \Z + \S\S_\ominus.
+    \label{eq:sepav21_sep}
+  \end{aligned}
+\end{align}
+We also know that
+\begin{align}
+  \begin{aligned}
+    \M &= \Z + (\M+\EE)\Z\\
+    \Mstar &= \Zstar + (\M+\EE)\Zstar
+  \end{aligned}
+\end{align}
+To make this example as short as possible, we will not write out the whole derivation of expressions in the combinatorial specification. It is a routine process which could, in principle, be automated. Also, instead of keeping track of a set $\B$ of classes that we need to define, we will determine the whole list of classes that we need and define those in the list.
+
+Notice that we will not need to define $\Sstar_\oplus$ or $\Sstar_\ominus$. This is because $\S_\oplus$ and $\S_\ominus$, the way they are used in~\eqref{eq:sepav21_sep}, can never contain the rightmost point. Refer to the pictorial definition~\eqref{eq:sepstar} of $\S$ for clearer image. Moreover, notice that
+\begin{align*}
+  \Omega_0(\Sstar) &= \Omega_0(\S)\\
+  \Omega_\infty(\Sstar) &= \Omega_\infty(\S)\\
+  \Omega_{01}(\Sstar) &= \Omega_{01}(\S).
+\end{align*}
+All of these operators ignore and erase the rightmost points of their arguments. Hence, it does not matter if we feed them $\Sstar$ or $\S$. Moreover, $\Omega_0(\S) = \S$, and therefore $\Omega_0(\Sstar) = \S$ as well. We are left with Table~\ref{tab:sep_todefine} of items (combinations of arguments and operators) that we need to define in the combinatorial specification fo $\S$.
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{l|c c c c}
+    & $\S$ & $\Sstar$ & $\S_\ominus$ & $\S_\oplus$\\
+    \hline
+    $\Omega_0$ & \ding{55} & \ding{55} & \ding{55} & \ding{55}\\
+    $\Omega_\infty$ & & \ding{55} & &\\
+    $\Omega_1$ & & & & \\
+    $\Omega_{10}$ & & & & \\
+    $\Omega_{11}$ & & & & \\
+    $\Omega_{01}$ & & \ding{55} & &
+  \end{tabular}
+  \caption{The positions with \ding{55} mark the combinations (operator-argument) which we do not need to define in the combinatorial specification of $\S|\M$ because we either know them already or they amount to the same output as some other combinations.}
+  \label{tab:sep_todefine}
+\end{table}
+
+We are looking to enumerate $\F$, which is just $\S|\M$ rewritten in language of $\Omega$ operators.
+\begin{align}
+  \F &=   \EE + \M + (\Omega_1(\Sstar) + \Omega_{11}(\Sstar))(\M+\EE)
+\end{align}
+Clearly, according to the number of empty cells, we have three cases. The case when both cells are empty is represented by $\EE$. If only one cell is empty, then it must be the left cell because our choice of gridding places the gridline as far left as possible. The remaining cell must then be non-empty and monotone increasing, or $\M$. If both cells are non-empty, then there is either a single point on the right-hand side, represented by $\Omega_1(\Sstar)$, or there are at least two points on the right-hand side, represented by $\Omega_{11}(\Sstar)$. In both these cases we need to allow points on the right-hand side to be above all points on the left-hand side. This is achieved by the term $(\M + \EE)$. Notice that we did not need to use phantom points as we juxtapose the monotone class only once. This shortcut does not generalise to iterated juxtapositions and we already used it in Section~\ref{sec:example_mmm} for $\M|\M$ as the first juxtaposition in $\M|\M|\M$.
+
+
+Before we proceed, let us recall that all operators are linear. Let us begin by defining the action of $\Omega_\infty$. 
+\begin{align}
+  \begin{aligned}
+    \Omega_\infty(\S)% &= \Omega_\infty(\Z) + \textcolor{orange}{\Omega_\infty(\S_\oplus)\Omega_\infty(\S)} + \textcolor{green}{\Omega_\infty(\S)\Omega_\infty(\S_\ominus)}\\
+    &= \M + \Omega_\infty(\S_\oplus)\Omega_\infty(\S) + \Omega_\infty(\S)\Omega_\infty(\S_\ominus)\\
+    \Omega_\infty(\S_\ominus) %&= \Omega_\infty(\Z) + \textcolor{orange}{\Omega_\infty(\S_\oplus)\Omega_\infty(\S)}
+    &= \M + \Omega_\infty(\S_\oplus)\Omega_\infty(\S)\\
+    \Omega_\infty(\S_\oplus) %&= \Omega_\infty(\Z) + \textcolor{green}{\Omega_\infty(\S)\Omega_\infty(\S_\ominus)}
+    &= \M + \Omega_\infty(\S)\Omega_\infty(\S_\ominus)
+  \end{aligned}
+\end{align}
+This deals with the second row of the Table~\ref{tab:sep_todefine}. We define $\Omega_1$ next.
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\S) %&= \Omega_1(\Z) + \textcolor{orange}{\Omega_1(\S_\oplus\S)} + \textcolor{green}{\Omega_1(\S\S_\ominus)}\\
+    %&= \Omega_1(\Z) + \textcolor{orange}{\Omega_1(\S_\oplus)\Omega_0(\S) + \Omega_0(\S_\oplus)\Omega_1(\S)} +\\
+    %&+ \textcolor{green}{\Omega_1(\S)\Omega_0(\S_\ominus) + \Omega_0(\S)\Omega_1(\S_\ominus)}\\
+    &= \Zstar\Z + \Omega_1(\S_\oplus)\S + \S_\oplus\Omega_1(\S) + \Omega_1(\S)\S_\ominus + \S\Omega_1(\S_\ominus)\\
+    \Omega_1(\Sstar) %&= \Omega_1(\Zstar) + \textcolor{orange}{\Omega_1(\S_\oplus\Sstar)} + \textcolor{green}{\Omega_1(\Sstar\S_\ominus)}\\
+    %&= \Omega_1(\Zstar) + \textcolor{orange}{\Omega_1(\S_\oplus)\Omega_0(\Sstar) + \Omega_0(\S_\oplus)\Omega_1(\Sstar)} +\\
+    %&+ \textcolor{green}{\Omega_1(\Sstar)\Omega_0(\S_\ominus)}\\
+    &= \Zstar\Z + \Omega_1(\S_\oplus)\S + \S_\oplus\Omega_1(\Sstar) + \Omega_1(\Sstar)\S_\ominus\\
+    \Omega_1(\S_\oplus) %&= \Omega_1(\Z + \S\S_\ominus)\\
+    %&= \Omega_1(\Z) + \Omega_1(\S)\S_\ominus + \S\Omega_1(\S_\ominus)\\
+    &= \Zstar\Z + \Omega_1(\S)\S_\ominus + \S\Omega_1(\S_\ominus)\\
+    \Omega_1(\S_\ominus) %&= \Omega_1(\Z + \S_\oplus\S)\\
+    %&= \Omega_1(\Z) + \Omega_1(\S_\oplus)\S + \S_\oplus\Omega_1(\S)\\
+    &= \Zstar\Z + \Omega_1(\S_\oplus)\S + \S_\oplus\Omega_1(\S)
+  \end{aligned}
+\end{align}
+This deals with the third row in Table~\ref{tab:sep_todefine}. The next operator we define is $\Omega_{10}$. 
+\begin{align}
+  \begin{aligned}
+    \Omega_{10}(\S) % &= \Omega_{10}(\Z) + \textcolor{orange}{\Omega_{10}(\S_\oplus\S)} + \textcolor{green}{\Omega_{10}(\S\S_\ominus)}\\
+    %&= \Omega_{10}(\Z) +\\
+    %&+\textcolor{orange}{\Omega_{10}(\S_\oplus)\Omega_\infty(\S) + \Omega_0(\S_\oplus)\Omega_{10}(\S)} +\\
+    %&+ \textcolor{green}{\Omega_{10}(\S)\Omega_\infty(\S_\ominus) + \Omega_0(\S)\Omega_{10}(\S_\ominus)}\\
+    &= \M\Z + \Omega_{10}(\S_\oplus)\Omega_\infty(\S) + \S_\oplus\Omega_{10}(\S) + \Omega_{10}(\S)\Omega_\infty(\S_\ominus) +\\
+    &+ \S\Omega_{10}(\S_\ominus)\\
+    \Omega_{10}(\Sstar) %&= \Omega_{10}(\Zstar) + \textcolor{orange}{\Omega_{10}(\S_\oplus\Sstar)} + \textcolor{green}{\Omega_{10}(\Sstar\S_\ominus)}\\
+    %&= \Omega_{10}(\Zstar) +\\
+    %&+\textcolor{orange}{\Omega_{10}(\S_\oplus)\Omega_\infty(\Sstar) + \Omega_0(\S_\oplus)\Omega_{10}(\Sstar)} +\\
+    %&+ \textcolor{green}{\Omega_{10}(\Sstar)\Omega_\infty(\S_\ominus)}\\
+    &= \M\Z + \Omega_{10}(\S_\oplus)\Omega_\infty(\Sstar) + \S_\oplus\Omega_{10}(\Sstar) + \Omega_{10}(\Sstar)\Omega_\infty(\S_\ominus)\\
+    \Omega_{10}(\S_\oplus) %&= \Omega_{10}(\Z) + \textcolor{green}{\Omega_{10}(\S\S_\ominus)}\\
+    %&= \Omega_{10}(\Z) + \textcolor{green}{\Omega_{10}(\S)\Omega_\infty(\S_\ominus) + \Omega_0(\S)\Omega_{10}(\S_\ominus)}\\
+    &= \M\Z + \Omega_{10}(\S)\Omega_\infty(\S_\ominus) + \S\Omega_{10}(\S_\ominus)\\
+    \Omega_{10}(\S_\ominus)% &= \Omega_{10}(\Z) + \textcolor{orange}{\Omega_{10}(\S_\oplus\S)}\\
+    %&= \Omega_{10}(\Z) +\textcolor{orange}{\Omega_{10}(\S_\oplus)\Omega_\infty(\S) + \Omega_0(\S_\oplus)\Omega_{10}(\S)}\\
+    &= \M\Z + \Omega_{10}(\S_\oplus)\Omega_\infty(\S) + \S_\oplus\Omega_{10}(\S) 
+  \end{aligned}
+\end{align}
+This deals with the fourth row of Table~\ref{tab:sep_todefine}. The operator $\Omega_{11}$ is next.
+\begin{align}
+  \begin{aligned}
+    \Omega_{11}(\S) %&= \Omega_{11}(\Z) + \textcolor{orange}{\Omega_{11}(\S_\oplus\S)} + \textcolor{green}{\Omega_{11}(\S\S_\ominus)}\\
+    %&= \Omega_{11}(\Z) +\\
+    %&+\textcolor{orange}{\Omega_{11}(\S_\oplus)\Omega_0(\S) + \Omega_0(\S_\oplus)\Omega_{11}(\S) + \Omega_{10}(\S_\oplus)\Omega_{01}(\S)} +\\
+    %&+ \textcolor{green}{\Omega_{11}(\S)\Omega_0(\S_\ominus) +\Omega_0(\S)\Omega_{11}(\S_\ominus) + \Omega_{10}(\S)\Omega_{01}(\S_\ominus)}\\
+    &= \M\Zstar\Z + \Omega_{11}(\S_\oplus)\S + \S_\oplus\Omega_{11}(\S) + \Omega_{10}(\S_\oplus)\Omega_{01}(\S) +\\
+    &+\Omega_{11}(\S)\S_\ominus + \S\Omega_{11}(\S_\ominus) + \Omega_{10}(\S)\Omega_{01}(\S_\ominus)\\
+    \Omega_{11}(\Sstar)% &= \Omega_{11}(\Zstar) + \textcolor{orange}{\Omega_{11}(\S_\oplus\Sstar)} + \textcolor{green}{\Omega_{11}(\Sstar\S_\ominus)}\\
+    %&= \Omega_{11}(\Zstar) +\\
+    %&+\textcolor{orange}{\Omega_{11}(\S_\oplus)\Omega_0(\Sstar) + \Omega_0(\S_\oplus)\Omega_{11}(\Sstar) + \Omega_{10}(\S_\oplus)\Omega_{01}(\Sstar)} +\\
+    %&+ \textcolor{green}{\Omega_{11}(\Sstar)\Omega_0(\S_\ominus) + \Omega_{10}(\Sstar)\Omega_{01}(\S_\ominus)}\\
+    &= \M\Zstar\Z + \Omega_{11}(\S_\oplus)\S + \S_\oplus\Omega_{11}(\Sstar) + \Omega_{10}(\S_\oplus)\Omega_{01}(\Sstar) +\\
+    &+\Omega_{11}(\Sstar)\S_\ominus + \Omega_{10}(\Sstar)\Omega_{01}(\S_\ominus)\\
+    \Omega_{11}(\S_{\oplus})% &= \Omega_{11}(\Z) + \textcolor{green}{\Omega_{11}(\S\S_\ominus)}\\
+     % &= \Omega_{11}(\Z) + \textcolor{green}{\Omega_{11}(\S)\Omega_0(\S_\ominus) + \Omega_0(\S)\Omega_{11}(\S_\ominus) + \Omega_{10}(\S)\Omega_{01}(\S_\ominus)}\\
+      &= \M\Zstar\Z + \Omega_{11}(\S)\S_\ominus + \S\Omega_{11}(\S_\ominus) + \Omega_{10}(\S)\Omega_{01}(\S_\ominus)\\
+    \Omega_{11}(\S_\ominus) %&= \Omega_{11}(\Z) + \textcolor{orange}{\Omega_{11}(\S_\oplus\S)}\\
+    %&= \Omega_{11}(\Z) + \textcolor{orange}{\Omega_{11}(\S_\oplus)\Omega_0(\S) + \Omega_0(\S_\oplus)\Omega_{11}(\S) + \Omega_{10}(\S_\oplus)\Omega_{01}(\S)}\\
+    &= \M\Zstar\Z + \Omega_{11}(\S_\oplus)\S + \S_\oplus\Omega_{11}(\S) + \Omega_{10}(\S_\oplus)\Omega_{01}(\S)
+  \end{aligned}
+\end{align}
+This defines the row five of Table~\ref{tab:sep_todefine}. It now remains to define $\Omega_{01}$. 
+\begin{align}
+  \begin{aligned}
+    \Omega_{01}(\S) %&= \Omega_{01}(\Z) + \textcolor{orange}{\Omega_{01}(\S_\oplus\S)} + \textcolor{green}{\Omega_{01}(\S\S_\ominus)}\\
+    %&= \Omega_{01}(\Z) +\\
+    %&+\textcolor{orange}{\Omega_{01}(\S_\oplus)\Omega_0(\S) + \Omega_\infty(\S_\oplus)\Omega_{01}(\S)} +\\
+    %&+ \textcolor{green}{\Omega_{01}(\S)\Omega_0(\S_\ominus) + \Omega_\infty(\S)\Omega_{01}(\S_\ominus)}\\
+    &= \Mstar\Z + \Omega_{01}(\S_\oplus)\S + \Omega_\infty(\S_\oplus)\Omega_{01}(\S) +\\
+    &+\Omega_{01}(\S)\S_\ominus + \Omega_\infty(\S)\Omega_{01}(\S_\ominus)\\
+    \Omega_{01}(\S_\ominus) %&= \Omega_{01}(\Z) + \textcolor{orange}{\Omega_{01}(\S_\oplus\S)}\\
+    %&= \Omega_{01}(\Z) + \textcolor{orange}{\Omega_{01}(\S_\oplus)\Omega_0(\S) + \Omega_\infty(\S_\oplus)\Omega_{01}(\S)} +\\
+    &= \Mstar\Z + \Omega_{01}(\S_\oplus)\S + \Omega_\infty(\S_\oplus)\Omega_{01}(\S)\\
+    \Omega_{01}(\S_\oplus) %&= \Omega_{01}(\Z) + \textcolor{green}{\Omega_{01}(\S\S_\ominus)}\\
+    %&= \Omega_{01}(\Z) + \textcolor{green}{\Omega_{01}(\S)\Omega_0(\S_\ominus) + \Omega_\infty(\S)\Omega_{01}(\S_\ominus)}\\
+    &= \Mstar\Z + \Omega_{01}(\S)\S_\ominus + \Omega_\infty(\S)\Omega_{01}(\S_\ominus)
+  \end{aligned}
+\end{align}
+
+The combinatorial specification describing $\S|\M$ involves all terms from Table~\ref{tab:sep_todefine} together with $\M, \Mstar, \S$ and $\Sstar$. One can check that there is no undefined term on the RHS of any of the items in Table~\ref{tab:sep_todefine} --- meaning that every term used on the RHS of any one of the equations is defined elsewhere in the combinatorial specification. Let $F(z)$ be the generating function of $\F$ (thus of $\S|\M$). Since $F(z)$ is not sufficiently compact to be given here in full, we resort to only listing the firt twelve terms of the counting sequence of $\S|\M$. They are below.
+$$1,1,2,6,24,115,609,3409, 19728, 116692, 701062, 4261581, 26146111.$$
+The sequence is not on the OEIS~\cite{oeis}.
+
+\part{Packing}
+\label{part:packing}
+
+%\input{packsmall}
+
+%\input{permpack}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{alpha}
+\bibliography{thesis} 
+
+\end{document}

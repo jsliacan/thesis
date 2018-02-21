@@ -1,2 +1,3 @@
-# thesis
-PhD thesis material
+# README #
+
+Everything concerning OU PhD thesis.
