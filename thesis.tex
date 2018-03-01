@@ -37,26 +37,350 @@
 \input{decors}
 \input{title}
 
-\setcounter{secnumdepth}{-2}% default for "report" is 2
+\setcounter{secnumdepth}{-3}% default for "report" is 2
 \chapter{Abstract}
-Enumerating permutations is sometimes hard and sometimes tedious.\\
-\noindent Packing permutations is often hard and always tedious.
+A permutation class is a set of permutations closed under taking subpermutations. We study two aspects of permutation classes. Enumeration and packing.
+
+Our work on enumeration consists of two campaigns. First, we enumerate all juxtaposition classes of the form ``$\Av(abc)$ next to $\Av(xy)$'', where $abc$ is a permutation of length three and $xy$ is a permutation of length two. We chose to represent elements from such a juxtaposition class by Dyck paths decorated with sequences of points. Context free grammars are then used to enumerate these decorated Dyck paths. Second, we classify the generating functions of $1\times m$ permutation grid classes, where one cell is context-free and the remaining cells are monotone, as algebraic. We rely on properties of combinatorial specifications of context-free classes and use operators to capture juxtapositions. Repeated application of operators resolves $1\times m$ grid classes for $m>2$. We provide numberous examples and corollaries to both re-prove known results and yield new ones. Our methods are algorithmic and as such can be implemented on a PC.
+
+In our work on packing, we consolidate what is currently known about packing densities of 4-point permutations and in the process improve the lower bounds for the packing densities of 1324 and 1342. We also provide rigorous upper bounds for the packing densities of 1324, 1342, and 2413. All our bounds are within $10^{-4}$ of the true packing densities. Together with the known bounds, this gives us a fairly complete picture of all 4-point packing densities. We also list a number of lower bounds and upper bounds for small permutations of length at least five. Our main tool for the upper bounds is the framework of flag algebras introduced by Razborov in 2007. We also present Permpack --- a flag algebra package for permutations. 
 
 \chapter{Acknowledgements}
-I would like to thank my supervisor Robert Brignall for finding the balance between guidance and freedom. I especially value that we had fun doing mathematics.\\
+I would like to thank my supervisor Robert Brignall for finding the right balance between guidance and freedom. I especially value the opportunity to pursue side projects with little or no relationship to my thesis without the pressure of producing measurable results. It made mathematics more enjoyable. Thank you.\\
 
 My acknowledgements go to the Department of Mathematics and Statistics at The Open University for funding my PhD and providing support in various forms throughout the past three years.\\
 
-Special thanks go to my fellow students at The Open University who made my time there enjoyable.
-\setcounter{secnumdepth}{2}
+Special thanks go to my office mates who tolerated my smelly running clothes as well as my constant chewing in our office: Grahame Erskine, Michael Ewetola, Jay Fraser, and Olivia Jeans. I am grateful to David Bevan for advice and welcome when I first came to the department and for maths conversations. Thanks also go to Lax Chan, Argyris Christodoulou, Ioannis Dourekas, Vasso Evdoridou, Matthew Jacques, Robert Lewis, Alison Maidment, David Marchant, Maha Moustafa, David Mart\'{i}-Pete, Tony Royle, Margaret Stanier, Brigitte Stenhouse, and James Tuite.\\
 
+Additionally, I would like to thank to my co-authors, collaborators, and influences outside of my department: Dan Kr\'a\v{l}, Oleg Pikhurko, Jozef Skokan, Kostas Tyros, Walter Stromquist, and Michael Albert.\\
+
+Thanks also go to my parents and Veronika for being supportive throughout.\\
+
+Lastly, I thank Fiona who helps me stay mathematically curious.
+
+
+\chapter{Declarations}
+There are five chapters in this thesis.
+\begin{enumerate}
+\item Chapter~\ref{chap:general_intro} consists of a general exposition of the area of permutation patterns and the two viewpoints of the area that we take in this thesis: enumeration and packing. Most of the work in this chapter follows expositions in other theses such as Bevan's~\cite{bevan2015thesis} \textcolor{red}{TODO: add more references}. 
+\item Chapter~\ref{chap:catalanjuxt} consists of joint work with Robert Brignall. The corresponding paper~\cite{brignallsliacanjuxt} is published in \emph{Electronic Journal of Combinatorics}. We use PermLab~\cite{albertpermlab}, Mathematica~\cite{mathematica} and Sage~\cite{sagemath} for computations.
+\item Chapter~\ref{chap:iterjuxt} consists of joint work with Robert Brignall. We use PermLab~\cite{albertpermlab} and Mathematica~\cite{mathematica} for our computations.
+\item Chapter~\ref{chap:packsmall} consists of joint work with Walter Stromquist. The corresponding paper is published in \emph{Discrete Mathematics and Theoretical Computer Science} in \emph{Permutation Patterns 2016} special issue. We make extensive use of software: Flagmatic package~\cite{flagmatic}, Mathematica~\cite{mathematica}, Sage~\cite{sagemath}, and our own Permpack~\cite{permpack}.
+\item Chapter~\ref{chap:permpack} consists of description of Permpack that the author wrote for the work in Chapter~\ref{chap:packsmall}. Permpack was written to resemble Flagmatic in order to make it easier to use alongside Flagmatic. However, no Flagmatic code was used, nor were any algorithms taken into Permpack. Permpack is a Sage~\cite{sagemath} package.
+\end{enumerate}
+None of the results appear in any other thesis and all co-authors have agreed with inclusion of joint work in this thesis.
+
+
+
+\setcounter{secnumdepth}{3}
 \tableofcontents
 
+\chapter{General Introduction}
+\label{chap:general_intro}
+
+\begin{center}
+\emph{Enumerating permutations is sometimes hard and usually tedious. Packing permutations is often hard and always tedious.}
+\end{center}
+\begin{flushright}
+  \vspace{-15pt}
+  --- folklore
+  \vspace{20pt}
+\end{flushright}
+
+
+
+This entire thesis is concerned with only one kind of object --- \emph{permutation}. We treat permutations as patterns or words that use every letter in the alphabet exactly once. The alphabet being $[n] := \{1,\ldots,n\}$. In fact, we study permutation classes rather than permutations themselves. These are collections of permutations closed under taking subpermutations. There are several natural approaches to studying permutation classes. Let $\C$ be a permutation class. Then one can enquire about the properties of a typical object from $\C$? Alternatively, one could be interested in how many permutations of each length are there in $\C$? Yet another different approach would be to ask questions such as what is the maximum number of inversions that a permutation in $\C$ can have? While all three are interesting directions of study, we focus on questions of the second and third kinds only.
+
+Enumerative approach to permutation classes has been quite dominant in the permutation patterns community. There are several works that survey this area chronologically and systematically. We point to the chapter \emph{Permutation Classes} by Vatter~\cite{vatterhandbook} in the Handbook of Enumerative Combinatorics. For further book material, refer to the references therein. On the other hand, additional surveys of the field can be found in the conference proceedings of Permutation Patterns 2007~\cite{lintonruskucvatter}. The contributions relevant to this thesis are \emph{A survey of simple permutations} by Brignall~\cite{brignallsimple}, \emph{An introduction to structural methods in permutation patterns} by Albert~\cite{albertstructural}, and parts of \emph{Some general results in combinatorial enumeration} by Klazar~\cite{klazargeneral}. Another relevant survey is \emph{Some open problems on permutation patterns} by Steingrimsson~\cite{einar2012openproblems}. The general background of enumerative combinatorics from the perspective of generating functions via the \emph{symbolic method} is best treated in \emph{Analytic Combinatorics} by Flajolet and Sedgewick~\cite{analcomb}.
+
+Permutation packing has been less prevalent among research topics in the area of permutation patterns. The single best survey article, containing new (at that time) results, is \emph{On packing densities of permutations} by Albert, Atkinson, Handley, Holton, and Stromquist~\cite{albert2002packing}. Although there have been significant advances in permutation packing area since 2002, there have not been many of them. Hence the article is still relevant in 2018.
+
+\section{Concepts and definitions}
+We now proceed to define key concepts needed throughout the thesis. We postpone the particular definitions needed in separate chapters to those chapters. A \emph{pattern} of length $k$, where $k \leq n$, is a $k$-tuple of distinct integers from $[n] :=\{1,\ldots,n\}$. Pattern of length $n$ is called a \emph{permutation}. We write tuples as strings: 1324 stands for $(1,3,2,4)$. Two patterns $\pi$ and $\sigma$ of length $k$ are \emph{identical}, if $\pi[i] = \sigma[i]$ for all $i \in [k]$. They are \emph{order-isomorphic} if for all pairs of indices $i,j$, it holds that $\pi[i] <\pi[j]$ implies $\sigma[i] < \sigma[j]$. For a set $I = \{i_1,\ldots,i_m\}$ of $m$ indices from $[n]$, the \emph{sub-pattern} $\pi[I]$ is the $m$-tuple $\pi[i_1]\pi[i_2]\cdots \pi[i_m]$. By overloading the notation slightly, we also use $\pi[I]$ to refer to the \emph{subpermutation} of length $m$ which is order-isomorphic to the sub-pattern $\pi[I]$. Finally, we do not distinguish between different representations of the same permutation. For example, 2413 and its plot on the grid in Figure~\ref{fig:im2413} will be referred to as 2413 interchangeably. Let $\F$ be a set of \emph{forbidden} permutations. We say that permutation $pi$ is \emph{$\F$-free} if no $phi\in\F$ is a subpermutation of $\pi$. Such $\pi$ is also said to \emph{avoid} $\F$ or be \emph{admissible}. 
+
+
+\begin{figure}[ht]
+  \begin{center}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.5]
+        \draw[gray] (0,0) grid (4,4);
+        \filldraw[black] (0.5,0.5) circle (8pt);
+        \filldraw[black] (1.5,1.5) circle (8pt);
+        \filldraw[black] (2.5,2.5) circle (8pt);
+        \filldraw[black] (3.5,3.5) circle (8pt);
+      \end{tikzpicture}
+      \caption{1234}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.5]
+        \draw[gray] (0,0) grid (4,4);
+        \filldraw[black] (0.5,0.5) circle (8pt);
+        \filldraw[black] (1.5,1.5) circle (8pt);
+        \filldraw[black] (2.5,3.5) circle (8pt);
+        \filldraw[black] (3.5,2.5) circle (8pt);
+      \end{tikzpicture}
+      \caption{1243}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \centering
+      \begin{tikzpicture}[scale=0.5]
+        \draw[gray] (0,0) grid (4,4);
+        \filldraw[black] (0.5,1.5) circle (8pt);
+        \filldraw[black] (1.5,3.5) circle (8pt);
+        \filldraw[black] (2.5,0.5) circle (8pt);
+        \filldraw[black] (3.5,2.5) circle (8pt);
+      \end{tikzpicture}
+      \caption{2413}
+    \end{subfigure}
+
+  \end{center}
+  \caption{Pictorial representations of selected permutations.}
+  \label{fig:im2413}
+\end{figure}
+    
+\subsection{Special permutations}
+
+Let \emph{interval} refer to a contiguous set of integers, e.g. $\{3,6,4,5\}$. A permutation $\pi$ is \emph{simple} if it does not contains any non-trivial intervals. For instance, $2413$ is simple while $1243$ is not (both $12$ and $43$ are intervals). We call $\pi$ an inflation of $\sigma$ if it can be obtained from $\sigma$ by substituting points of $\sigma$ for permutations. We denote $\pi$ as inflation of $\sigma$ by $\pi = \sigma[\alpha_1,\ldots,\alpha_{|\sigma|}]$, where $\alpha_1,\ldots,\alpha_{|\sigma|}$ are permutations that inflate $\sigma$ into $\pi$. Consider the example of $1243$ which is an inflation of $12$ by $12$ and $21$ as in $1232 = 12[12,21]$. In this case, it is also an inflation of $12$ by $1$ and $132$ as in $1243=12[1,132]$. There is a fundamental result by Albert and Atkinson~\cite{albertatkinsonrestricted} which says that if $\sigma$ is of length at least three and simple, then for any $\pi$ which is an inflation of $\sigma$ there is always a unique way to inflate $\sigma$ into $\pi$. Hence, $12$ and $21$ are special. 
+
+A \emph{decreasing (increasing) permutation} of length $k$ is the $k$-tuple $k\ldots321$ ($123\ldots k$). A permutation $\pi$ is \emph{layered}, if it is an increasing sequence of decreasing permutations. To be exact, a layered permutation $\pi$ is a concatenation of smaller permutations $\pi= \pi_1\pi_2\ldots\pi_\ell$ such that for all $1 \leq i \leq \ell$, $\pi_i$ is a decreasing sequence of consecutive integers satisfying the following: if $x \in \pi_i$ and $y \in \pi_j$ with $i<j$, then $x<y$. For instance, 321465987 can be partitioned as $321|4|65|987$, so it is layered. On the other hand, 2413 is not layered. This brings us to the notion of sum and skew-sum of permutations. Let $\pi_1$ and $\pi_2$ be permutations of lengths $k$ and $\ell$. We say that $\pi$ is a \emph{sum of $\pi_1$ and $\pi_2$}, denoted by $\pi = \pi_1\oplus\pi_2$, if $\pi$ consists of two intervals $\pi[1]\cdots\pi[k]$ and $\pi[k+1]\cdots\pi[\ell]$ such that $\pi[1]\cdots\pi[k]$ is order-isomorphic to $\pi_1$, $\pi[k+1]\cdots\pi[\ell]$ is order-isomorphic to $\pi_2$, and $\pi[i] < \pi[j]$ for all $i\leq k$ and $j>k$. Similarly, $\pi$ is a \emph{skew-sum of $\pi_1$ and $\pi_2$}, denoted by $\pi = \pi_1\ominus \pi_2$, if $\pi$ consists of the two intervals as above, except this time we require that $\pi[i] > \pi[j]$ for all $i\leq k$ and $j > k$. A permutation is called \emph{sum-indecomposable} if it cannot be expressed as a sum of two non-empty permutations. Analogously, \emph{skew-indecomposable} permutations cannot be expressed as skew sums of non-empty permutations. With this new notation in place, a layered permuation with $k$ layers is $\pi = \pi_1\oplus\cdots\oplus \pi_k$ such that all $\pi_i$ are decreasing permutations. A permutation is called \emph{separable}, if it can be obtained from single points by repeated application of sum and skew-sum. For instance, $42315=(1\ominus (1\oplus 1)\ominus 1)\oplus 1$ is separable, but $2413$ is not.
+
+\subsection{Permutation classes}
+A \emph{permutation class} $\C$ is a countable set of permutations which is closed under taking subpermutations, i.e. if $\pi$ is in $\C$ and $\sigma \subseteq \pi$, then $\sigma$ is also in $\C$. Given that the subpermutation relation is a partial order on a permutation class $\C$, there is a minimal set of forbidden permutations called the \emph{basis} $\B$ of $\C$. We also write $\C = \Av(\B)$ to make explicit the fact that $\C$ is the set of avoiders of $\B$. For example, the class $\Av(231,312)$ is the class of layered permutations. Similarly, $\Av(2413, 3142)$ is the class of separable permutations. The subset of a class $\C$ containing only permutations of length $n$ is referred to by $\C_n$. Hence, $\C = \bigcup_{n\geq0}\C_n$. We use $|\C_n|$ to denote the number of elements of length $n$ in $\C$. 
+
+To enumerate a permutation class $\C$ means to provide a sequence $(a_n)_{n\geq 0}$ such that $a_n = |\C_n|$. Given that $(a_n)_n$ has infinitely many terms, we need a clever data structure to store it in finite memory. A \emph{generating function} $C(z)$ of $\C$ is a formal power series $C(z) = \sum_{n\geq 0}a_nz^n$ with the coefficient of $z^n$ being the $n$-th term of the seqence. Ideally we would know the closed form of $C(z)$, e.g. closed form of $C(z) = \sum_{n\geq 0}z^n$ is $1/(1-z)$. A rational generating function is a ratio of two polynomials. Algebraic generating function are roots of polynomial equations. As a shortcute, when we say that a generating function enumerating $\C$ is rational/algebraic/etc., we mean that the closed form of the formal power series storing the counting sequence which enumerates $\C$ is rational/algebraic/etc.. A crude way of ``enumerating'' a permutation class is by determining its growth rate. The \emph{growth rate} of a class $\C$ is denoted by $\gr{\C}$ and is defined as below provided that the limit exists.
+$$\gr{\C} = \lim_{n\to\infty}\sqrt[n]{|\C_n|}$$
+Naturally, if the above limit does not exist, we speak about an \emph{upper growth rate} of $\C$ defined as $\lim\sup_{n\to\infty}\sqrt[n]{|\C_n|}$ and a \emph{lower growth rate} of $\C$ defined as $\lim\inf_{n\to\infty}\sqrt[n]{|\C_n|}$. Conveniently, growth rate is well-defined for permutation classes with basis of size one --- also called \emph{principal} classes.
+
+
 \part{Enumeration}
-%\input{juxt}
+
+This chapter contains results on enumeration of permutation grid classes. They are useful given that one of the approaches to enumerating permutation classes is through permutation \emph{grid classes}. These are permutation classes themselves but offer additional insight into structure of the permutations in them. For instance, a permutation $\sigma$ is a member of $\C$ if it can be split by a vertical line into a left part and a right part so that the left part avoids 21 (is increasing) and the right part avoids 12 (is decreasing). If all permutations in $\C$ can be characterised this way and all permutations that can be characterised this way are in $\C$, then $\C$ is a $1\times 2$ grid class with the left cell being $\Av(21)$ and the right cell being $\Av(12)$.\\
+
+The grid class that we just described, in our notation $\Av(21)|\Av(12)$, was enumerated by Atkinson~\cite{atkinson1998incrdecr}. In~\cite{atkinson1997restricted}, Atkinson used grid classes to enumerate other classes such as $\Av(132,4321)$, $\Av(321,2134)$, and $\Av(321,1324)$. In recent years, grid classes were critical to enumeration of two-by-four classes with two basis elements of length four. See Pantone~\cite{pantone2by4} for enumeration of $\Av(3124,4312)$. Albert, Atkinson, and Brignall used grid classes to enumerate $\Av(2143,4231)$ in~\cite{albert2011enumeration} and three other two-by-four classes in~\cite{albert2012gridclasses}. Albert, Atkinson, and Vatter~\cite{albert2012inflations} use a special kind of grid classes to enumerate three specific permutation classes. Another paper making use of grid classes to enumerate $\Av(4231, 35142, 42513, 351624)$ is by Albert and Brignall~\cite{albert2014schubert}. We also mention Bevan's enumeration of $\Av(4213,2143)$ in~\cite{bevan-new} which utilizes permutation grid classes. 
+
+Recall that a growth rate of a permutation class $\C$ is defined as $\lim_{n}\sqrt[n]{|\C_n|} = \lim\inf_{n}\sqrt[n]{|\C_n|}=\lim\sup_{n}\sqrt[n]{|\C_n|}$ if it exists. Grid classes have been central to Vatter's proof~\cite{vatter11small} of the fact that there are only countably many growth rates of permutation classes below $\xi \approx 2.30522$ while there are uncountably many growth rates arbitrarily close to $\xi$. Two follow-up papers of Vatter~\cite{vattercountableuncountable}, and Pantone and Vatter~\cite{pantonevatter16categorize} make use of grid classes as well.
+
+Apart from enumerating permutation classes, several other applications of grid classes exist, among them~\cite{albert2011enumeration, aabrv2013, bevan-new, brignall2012pwo, murphy2003pwo, vatter2011pwo}. For a comprehensive introduction to grid classes and their further uses, see Bevan's PhD thesis~\cite{bevan2015thesis}.
+
+Because of their more general applicability, the study of grid classes in their own right has emerged in a few directions. For instance, it is conjectured that all monotone grid classes are finitely based, but this is only known for a few special cases, most notably those whose row-column graph is acyclic~\cite{aabrv2013}, and a few other special cases (see~\cite{albert-brignall-2times2, atkinson1997restricted, waton, bevan2015thesis}). In another direction, the role of grid classes with respect to partial well-ordering has been explored in e.g.~\cite{brignall2012pwo, murphy2003pwo, vatter2011pwo}. Finally, while the asymptotic enumeration of monotone grid classes was answered completely by Bevan~\cite{bevan15growth-rates}, exact enumeration is harder, primarily due to the difficulty of handling multiple griddings: that is, enumerating `griddable' objects rather than `gridded' ones. One general result here is that all geometric grid classes have rational generating functions~\cite{aabrv2013}, but the move from `gridded' to `griddable' is nonconstructive, instead relying on properties of regular languages.
+
+Since grid classes are often used on the way to enumerating other permutation classes, it would be convenient to be able to enumerate grid classes. Ideally, we would have exact enumerations of classes of the form shown in Figure~\ref{fig:genericgridclass}.
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+  \draw[gray, very thin] (0,0) grid (4,4);
+  \draw[gray, very thin] (0,0) -- (0,-0.5);
+  \draw[gray, very thin] (1,0) -- (1,-0.5);
+  \draw[gray, very thin] (2,0) -- (2,-0.5);
+  \draw[gray, very thin] (3,0) -- (3,-0.5);
+  \draw[gray, very thin] (4,0) -- (4,-0.5);
+
+  \draw[gray, very thin] (4,4) -- (4.5,4);
+  \draw[gray, very thin] (4,3) -- (4.5,3);
+  \draw[gray, very thin] (4,2) -- (4.5,2);
+  \draw[gray, very thin] (4,1) -- (4.5,1);
+  \draw[gray, very thin] (4,0) -- (4.5,0);
+
+  \draw[gray, very thin] (6.5,4) -- (7,4);
+  \draw[gray, very thin] (6.5,3) -- (7,3);
+  \draw[gray, very thin] (6.5,2) -- (7,2);
+  \draw[gray, very thin] (6.5,1) -- (7,1);
+  \draw[gray, very thin] (6.5,0) -- (7,0);
+  \draw[gray, very thin] (7,4) -- (7,-0.5);
+
+  \draw[gray, very thin] (0,-2.5) -- (0,-3);
+  \draw[gray, very thin] (1,-2.5) -- (1,-3);
+  \draw[gray, very thin] (2,-2.5) -- (2,-3);
+  \draw[gray, very thin] (3,-2.5) -- (3,-3);
+  \draw[gray, very thin] (4,-2.5) -- (4,-3);
+  \draw[gray, very thin] (0,-3) -- (4.5,-3);
+
+  \draw[gray, very thin] (7,-3) -- (6.5,-3);
+  \draw[gray, very thin] (7,-3) -- (7,-2.5);
+  \node at (0.5, 3.5){$\C_{11}$};
+  \node at (1.5, 3.5){$\C_{12}$};
+  \node at (2.5, 3.5){$\C_{13}$};
+
+
+  \node at (0.5, 2.5){$\C_{21}$};
+  \node at (1.5, 2.5){$\C_{22}$};
+  \node at (2.5, 2.5){$\C_{23}$};
+
+
+  \node at (0.5, 1.5){$\C_{31}$};
+  \node at (1.5, 1.5){$\C_{32}$};
+  \node at (2.5, 1.5){$\C_{33}$};
+
+  \node at (2.5, -1.5){$\vdots$};
+  \node at (5.5, -1.5){$\ddots$};
+  \node at (5.5, 1.5){$\ldots$};
+
+  \node at (0.5, -2.5){$\C_{n1}$};
+  \node at (1.5, -2.5){$\C_{n2}$};
+  \node at (2.5, -2.5){$\C_{n3}$};
+  \node at (6.5, 3.5){$\C_{1m}$};
+  \node at (6.5, 2.5){$\C_{2m}$};
+  \node at (6.5, 1.5){$\C_{3m}$};
+  \node at (6.5, -2.5){$\C_{nm}$};
+\end{tikzpicture}
+\end{center}
+\caption{A generic format of a generalised grid class, where $\C_{ij}$ are arbitrary but fixed permutation classes.}
+\label{fig:genericgridclass}
+\end{figure}
+
+The current state of affairs is much more grim. We cannot even enumerate grid classes of the form shown in Figure~\ref{fig:oneC} or in Figure~\ref{fig:allM}. However, there are several important results in this direction. For instance, due to Bevan~\cite{bevan15growth-rates} we at least know the growth rates of monotone grid classes (where every cell is monotone, like Figure~\ref{fig:allM}). The growth rates are equal to the square of the spectral radius of a certain associated row-column graph.
+
+\begin{figure}[ht!]
+  \centering
+  \begin{subfigure}{0.45\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.6]
+  \draw[gray, very thin] (0,0) grid (4,4);
+  \draw[gray, very thin] (0,0) -- (0,-0.5);
+  \draw[gray, very thin] (1,0) -- (1,-0.5);
+  \draw[gray, very thin] (2,0) -- (2,-0.5);
+  \draw[gray, very thin] (3,0) -- (3,-0.5);
+  \draw[gray, very thin] (4,0) -- (4,-0.5);
+
+  \draw[gray, very thin] (4,4) -- (4.5,4);
+  \draw[gray, very thin] (4,3) -- (4.5,3);
+  \draw[gray, very thin] (4,2) -- (4.5,2);
+  \draw[gray, very thin] (4,1) -- (4.5,1);
+  \draw[gray, very thin] (4,0) -- (4.5,0);
+
+  \draw[gray, very thin] (6.5,4) -- (7,4);
+  \draw[gray, very thin] (6.5,3) -- (7,3);
+  \draw[gray, very thin] (6.5,2) -- (7,2);
+  \draw[gray, very thin] (6.5,1) -- (7,1);
+  \draw[gray, very thin] (6.5,0) -- (7,0);
+  \draw[gray, very thin] (7,4) -- (7,-0.5);
+
+  \draw[gray, very thin] (0,-2.5) -- (0,-3);
+  \draw[gray, very thin] (1,-2.5) -- (1,-3);
+  \draw[gray, very thin] (2,-2.5) -- (2,-3);
+  \draw[gray, very thin] (3,-2.5) -- (3,-3);
+  \draw[gray, very thin] (4,-2.5) -- (4,-3);
+  \draw[gray, very thin] (0,-3) -- (4.5,-3);
+
+  \draw[gray, very thin] (7,-3) -- (6.5,-3);
+  \draw[gray, very thin] (7,-3) -- (7,-2.5);
+  \node at (0.5, 3.5){$\M$};
+  \node at (1.5, 3.5){$\M$};
+  \node at (2.5, 3.5){$\M$};
+  \node at (3.5, 3.5){$\M$};
+
+
+  \node at (0.5, 2.5){$\M$};
+  \node at (1.5, 2.5){$\M$};
+  \node at (2.5, 2.5){\textcolor{red}{$\C$}};
+  \node at (3.5, 2.5){$\M$};
+
+
+  \node at (0.5, 1.5){$\M$};
+  \node at (1.5, 1.5){$\M$};
+  \node at (2.5, 1.5){$\M$};
+  \node at (3.5, 1.5){$\M$};
+
+  \node at (2.5, -1.5){$\vdots$};
+  \node at (5.5, -1.5){$\ddots$};
+  \node at (5.5, 1.5){$\ldots$};
+
+  \node at (0.5, -2.5){$\M$};
+  \node at (1.5, -2.5){$\M$};
+  \node at (2.5, -2.5){$\M$};
+  \node at (6.5, 3.5){$\M$};
+  \node at (6.5, 2.5){$\M$};
+  \node at (6.5, 1.5){$\M$};
+  \node at (6.5, -2.5){$\M$};
+\end{tikzpicture}
+\caption{All cells are monotone except for $\C$, which is a more complex class.}
+\label{fig:oneC}
+\end{subfigure}\hfill
+\begin{subfigure}{0.45\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.6]
+  \draw[gray, very thin] (0,0) grid (4,4);
+  \draw[gray, very thin] (0,0) -- (0,-0.5);
+  \draw[gray, very thin] (1,0) -- (1,-0.5);
+  \draw[gray, very thin] (2,0) -- (2,-0.5);
+  \draw[gray, very thin] (3,0) -- (3,-0.5);
+  \draw[gray, very thin] (4,0) -- (4,-0.5);
+
+  \draw[gray, very thin] (4,4) -- (4.5,4);
+  \draw[gray, very thin] (4,3) -- (4.5,3);
+  \draw[gray, very thin] (4,2) -- (4.5,2);
+  \draw[gray, very thin] (4,1) -- (4.5,1);
+  \draw[gray, very thin] (4,0) -- (4.5,0);
+
+  \draw[gray, very thin] (6.5,4) -- (7,4);
+  \draw[gray, very thin] (6.5,3) -- (7,3);
+  \draw[gray, very thin] (6.5,2) -- (7,2);
+  \draw[gray, very thin] (6.5,1) -- (7,1);
+  \draw[gray, very thin] (6.5,0) -- (7,0);
+  \draw[gray, very thin] (7,4) -- (7,-0.5);
+
+  \draw[gray, very thin] (0,-2.5) -- (0,-3);
+  \draw[gray, very thin] (1,-2.5) -- (1,-3);
+  \draw[gray, very thin] (2,-2.5) -- (2,-3);
+  \draw[gray, very thin] (3,-2.5) -- (3,-3);
+  \draw[gray, very thin] (4,-2.5) -- (4,-3);
+  \draw[gray, very thin] (0,-3) -- (4.5,-3);
+
+  \draw[gray, very thin] (7,-3) -- (6.5,-3);
+  \draw[gray, very thin] (7,-3) -- (7,-2.5);
+  \node at (0.5, 3.5){$\M$};
+  \node at (1.5, 3.5){$\M$};
+  \node at (2.5, 3.5){$\M$};
+  \node at (3.5, 3.5){$\M$};
+
+
+  \node at (0.5, 2.5){$\M$};
+  \node at (1.5, 2.5){$\M$};
+  \node at (2.5, 2.5){$\M$};
+  \node at (3.5, 2.5){$\M$};
+
+
+  \node at (0.5, 1.5){$\M$};
+  \node at (1.5, 1.5){$\M$};
+  \node at (2.5, 1.5){$\M$};
+  \node at (3.5, 1.5){$\M$};
+
+  \node at (2.5, -1.5){$\vdots$};
+  \node at (5.5, -1.5){$\ddots$};
+  \node at (5.5, 1.5){$\ldots$};
+
+  \node at (0.5, -2.5){$\M$};
+  \node at (1.5, -2.5){$\M$};
+  \node at (2.5, -2.5){$\M$};
+  \node at (6.5, 3.5){$\M$};
+  \node at (6.5, 2.5){$\M$};
+  \node at (6.5, 1.5){$\M$};
+  \node at (6.5, -2.5){$\M$};
+\end{tikzpicture}
+\caption{All cells are monotone (increasing or decreasing).}
+\label{fig:allM}
+\end{subfigure}
+\caption{We cannot enumerate either of the two grid classes in~\ref{fig:oneC} and~\ref{fig:allM}.}
+\label{fig:wecantdo}
+\end{figure}
+
+Approaching the topic from another angle, Albert, Atkinson, Bouvel, Ru\v{s}kuc and Vatter~\cite{aabrv2013} proved that geometric monotone grid classes are enumerated by \emph{rational} generating functions. Notice that this result is weaker than exact enumeration along two dimensions. First, the authors do not aim at exact enumeration. Second, they assume certain niceness of the monotone classes, i.e.~geometricity. Still, their result is important and goes to show how unreasonable it is at this point to ask for exact enumeration of arbitrary grid classes.
+
+Lastly, Bevan~\cite{bevan2015thesis} conjectured the generating functions of monotone increasing grid classes of dimension $1\times k$ for some $k$.\\
+
+The aim of Part I of this thesis is to make progress on describing permutation grid classes along the lines of previous research. In Chapter~\ref{chap:catalanjuxt} we pick the simplest possible non-trivial grid classes of the form shown in Figure~\ref{fig:oneC} and enumerate them exactly. They are $1\times 2$ grid classes, also referred to as juxtapositions, of a Catalan class $\C$ with a a monotone class $\M$. In Chapter~\ref{chap:iterjuxt} we choose to prove a result similar in character to that of~\cite{aabrv2013}. We show that all $1\times m$ monotone grid classes with one cell substituted for a context-free class $\C$ admit algebraic generating functions. Our methods allow us to enumerate several new grid classes exactly
+
+
+\chapter{Simple juxtapositions}
+\label{chap:catalanjuxt}
+
+\input{juxt}
 
 \chapter{Iterated juxtapositions}
-
+\label{chap:iterjuxt}
 The goal of this chapter is to make further progress on describing permutation grid classes. In Chapter~\ref{chap:catalanjuxt}, we focus on exact enumeration of a specific set of permutation grid classes of the form $\C|\M$, where $\C$ is a Catalan class and $\M$ is a monotone class. In this chapter, we trade some amount of ``exactness'' for more generality. In particular, we address permutation grid classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|,\ldots|\M_{k+\ell}$, for some $k,\ell \geq 0$, where $\C$ is an arbitrary \emph{context-free} permutation class. ``Context-free'' is significantly more general than ``Catalan''. On the other hand, we cannot enumerate such classes exactly. Instead, we prove that the permutation classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ admit algebraic generating functions.
 
 Algebraicity is as ``nice'' as one can hope for given that many generating functions enumerating context-free classes are already algebraic and non-rational. Below is a hierarchy of families of generating functions showing that the family of algebraic Given that a generating function is a formal power series, the hierarchy below captures how special algebraic functions are.
@@ -67,7 +391,7 @@ From this viewpoint, our result states that by appending arbitrary but finite nu
 
 %The first example is significant in that it shows that not all context-free classes that meet our requirements have finitely many simple permutations. Therefore, the corollary above is actually weaker than our main result. 
 
-\section{Introduction}
+\section{Introduction, definitions, prerequisites}
 \label{sec:iterjuxt_intro}
 
 To begin, we juxtapose a context-free permutation class $\C$ with a finite row of monotone classes $\M_1|\ldots|\M_k$ on the right. Additionally, we assume for the moment that each
@@ -213,7 +537,7 @@ Further remarks about the way we represent permutations in a juxtaposition. Let 
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}
-    \filldraw[black] (1,2) circle (2pt) node[above left]{$y$};;
+    \filldraw[black] (1,2) circle (2pt) node[above left]{$y$};
     \filldraw[black] (2,4) circle (2pt);
     \filldraw[black] (3,1) circle (2pt);
     \filldraw[black] (4,3) circle (2pt) node[above left]{$x$};
@@ -250,24 +574,29 @@ Recall that $X_i$ are variables from $\V$. We view every $f$ as a finite sum of 
 
 \noindent\textbf{Operator $\Omega_0$}\\
 This operator juxtaposes a class (starred or not) with a sequence (possibly empty) on the right. Notice, in particular, that $\Omega_0$ distributes over both $+$ and $\times$, and that it erases ${}^*$. 
-\begin{align*}
+\begin{align}
+  \begin{aligned}
   \Omega_0(\Z) &= \Z\\
   \Omega_0(\Z^*) &= \Z\\
   \Omega_0(\Z^\circ) &= \Z^\circ\\
-  \Omega_0(\Z^{\circ*}) &= \Z^{\circ*}\\
+  \Omega_0(\Z^{\circ*}) &= \Z^{\circ}\\
   \Omega_0(\T_h) &= \Omega_0(X_1)\Omega_0(X_2\cdots X_m)
-\end{align*}
+\end{aligned}
+\end{align}
 
 \noindent\textbf{Operator $\Omega_\infty$}\\
 This operator \emph{recursively} juxtaposes a class (starred or not) with a monotone increasing class -- possibly empty. Again, $\Omega_\infty$ is distributive over operations $+$ and $\times$. As $\Omega_0$, it also erases the ${}^*$. We get the following definition of $\Omega_\infty$. Consult Figure~\ref{fig:omega_infty} with this definition.
-\begin{align*}
+\begin{align}
+  \begin{aligned}
   \M &= \Z + \M\Z\\
   \Omega_\infty(\Z) &= \M\\
   \Omega_\infty(\Z^*) &= \M\\
   \Omega_\infty(\Z^\circ) &= (\M+\EE)\Z^\circ\\
   \Omega_\infty(\Z^{\circ*}) &= (\M+\EE)\Z^\circ\\
   \Omega_\infty(\T_h) &= \Omega_\infty(X_1)\Omega_\infty(X_2\cdots X_m)
-\end{align*}
+\end{aligned}
+                        \label{eq:iterjuxt_omegainfty}
+\end{align}
 We only included $\M$ to keep the definition self-contained.
 
 \begin{figure}[ht]
@@ -296,7 +625,7 @@ We only included $\M$ to keep the definition self-contained.
       % \draw (2.6,1.6) node {$\Z^*$};
       \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
     \end{tikzpicture}
-    \caption{Since $\Omega_\infty$ erases stars, $\Z$ and $\Zstar$ are mapped to the same object. However, $\Z^\circ$ is preserved under all $\Omega$ operators. We denote $\M+\EE$ by $\M^\EE$.}
+    \caption{$\Omega_\infty$: Since $\Omega_\infty$ erases stars, $\Z$ and $\Zstar$ are mapped to the same object. However, $\Z^\circ$ is preserved under all $\Omega$ operators. We denote $\M+\EE$ by $\M^\EE$.}
     \label{fig:omega_infty}
 \end{figure}
 
@@ -315,11 +644,25 @@ This operator juxtaposes a class (starred or not) with a single point. It turns 
                         \Omega_1(X_1)\Omega_0(X_2\cdots X_m) + \Omega_0(X_1)\Omega_1(X_2\cdots X_m),\quad &\text{if $k>1$.}
                       \end{cases}
 \end{aligned}
-\label{eq:omega1Cstar}
+\label{eq:iterjuxt_def_omega1}
 \end{align}
 The base cases ($\Z, \Z^*$ and $\Z^\circ$) are drawn in Figure~\ref{fig:omega_1}. The recursive step $\T_h$ consists of two cases. Either the bottom-most class/point $X_1$ in $\T_h$ is starred (i.e. $X_1 = X_1^*$ or $X_1 = X_1^{\circ*}$) or not. If $X_1^*/X_1^{\circ*}$, then $\Omega_1$ must be applied to it (as it must be applied to a starred class/point or a class/point below it) and $\Omega_0$ is applied to the rest of the classes, $\Omega_0(X_2\cdots X_m)$. If the first class (or point) $X_1$ is not starred, then there are two options. Either apply $\Omega_1$ to $X_1$ and $\Omega_0$ to $X_2\cdots X_m$, or apply $\Omega_0$ to $X_1$ and recursively apply $\Omega_1$ to $X_2\cdots X_m$. Defining operators recursively will be useful when we apply them to permutation classes iteratively.
 \begin{figure}[ht]
  \centering
+ \begin{tikzpicture}
+      \filldraw[black] (-5,1.5) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1.5)--(-1,1.5);
+      \draw (-2.5,1.8) node{$\Omega_1$};
+%      \filldraw[black] (0,2) circle (2pt);
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,1);
+      \draw[dashed] (0.2,2) -- (2,2);
+      \filldraw[black] (1.2,1.6) circle (2pt);
+      \draw (1.6,1.6) node {$\Z^*$};
+%      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
+    \end{tikzpicture}
     \begin{tikzpicture}
       \filldraw[black] (-5,1.5) circle (2pt) node[above]{$\Z^\circ/\Z^{\circ*}$};
       \draw[|->] (-4,1.5)--(-1,1.5);
@@ -334,100 +677,22 @@ The base cases ($\Z, \Z^*$ and $\Z^\circ$) are drawn in Figure~\ref{fig:omega_1}
       \draw (1.6,1.6) node {$\Z^*$};
 %      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
     \end{tikzpicture}
-        \begin{tikzpicture}
-      \filldraw[black] (-5,1.5) circle (2pt) node[above]{$\Z/\Z^*$};
-      \draw[|->] (-4,1.5)--(-1,1.5);
-      \draw (-2.5,1.8) node{$\Omega_1$};
-%      \filldraw[black] (0,2) circle (2pt);
-
-      \filldraw[black] (0,2) circle (2pt);
-      \draw (-0.3,2.2) node {$\Z$};
-      \draw[-, very thick] (0.2,2.5) -- (0.2,1);
-      \draw[dashed] (0.2,2) -- (2,2);
-      \filldraw[black] (1.2,1.6) circle (2pt);
-      \draw (1.6,1.6) node {$\Z^*$};
-%      \draw (0.5,0.5) rectangle (1.5,1.5) node[pos=0.5]{$\M$};
-    \end{tikzpicture}
-    \caption{Juxtaposing a single point to the right of any point means that the original point is not the right-most anymore and the new one becomes right-most. The left-most point is unafected.}
+    \caption{$\Omega_1$: Juxtaposing a single point to the right of any point means that the original point is not the right-most anymore and the new one becomes right-most. The left-most point is unafected.}
     \label{fig:omega_1}
 \end{figure}
 
-Having notation in place, we define $\Omega_{10}$ and $\Omega_{11}$ as those are fundamentally different from $\Omega_{01}$. As before, both $\Omega_{10}$ and $\Omega_{11}$ are distributive over $+$. It is therefore sufficient to define each of them on $\T_h = X_1\cdots X_m$ for some $m$, and the $k$th element starred. Operator $\Omega_{10}$ represents juxtaposing $\C^*$ on the right with $\Z\M$ --- a monotone increasing class that tracks its bottom-most (also left-most) point. As usual, $\Omega_{10}$ erases the star.
-\begin{align*}
-  \Omega_{10}(\Z) &= \Z\M\Z\\
-  \Omega_{10}(\Z^*) &= \Z\M\Z\\
-  \Omega_{10}(\T_h) &=
-                      \begin{cases}
-                        \Omega_{10}(X_1^*)\Omega_\infty(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
-                        \Omega_{10}(X_1)\Omega_\infty(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{10}(X_2\cdots X_m),\quad &\text{if $k>1$.}
-                      \end{cases}
-\end{align*}
-
-The base cases (lines 1 and 2 above) are described in Figures~\ref{fig:omega_10}. Since $\Omega_{10}$ erases the star, they result in the same expression $\Z\M\Z$.
-
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
-      \draw[|->] (-4,1)--(-1,1);
-      \draw (-2.5,1.3) node{$\Omega_{10}$};
-      \filldraw[black] (0,2) circle (2pt);
-      \draw (-0.3,2.2) node {$\Z$};
-      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
-      \draw[dashed] (0.2,2) -- (2.5,2);
-      % \filldraw[black] (2.2,1.6) circle (2pt);
-      % \draw (2.6,1.6) node {$\Z^*$};
-      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M$};
-      \filldraw[black] (0.8,0.3) circle (2pt);
-      \draw (1.2,0.2) node {$\Z$};
-    \end{tikzpicture}
-    \caption{Whether the point $\Z$ or $\Z^*$ on the LHS was the rightmost or not, after applying $\Omega_{10}$ it is not. Notice that $\M$ can be empty.}
-    \label{fig:omega_10}
-\end{figure}
-Next, we define $\Omega_{11}$. The operator that juxtaposes the LHS class with $\Z\M\Z$. Given that $\Omega_{11}$ tracks the topmost point on the RHS, both base cases are the same. They are visualised in Figure~\ref{fig:omega11}.
+\noindent\textbf{Operator $\Omega_{01}$}\\
+This operator juxtaposes a class $\C$ with a monotone sequence that tracks its right-most (top-most) point but not the left-most (bottom-most) point. As usually, $\Omega_{01}$ is linear. It does not distribute over the Cartesian product. Also, $\Omega_{01}$ introduces the right-most point if there was none in $\C/\C^\circ$. Like the rest of the operators, $\Omega_{01}$ does not interact with the left-most point in $\C^\circ/\C^{\circ*}$. See Figure~\ref{fig:omega01}.
 \begin{align}
   \begin{aligned}
-  \Omega_{11}(\Z) &= \Z\M\Z^*\Z\\
-  \Omega_{11}(\Z^*) &= \Z\M\Z^*\Z\\
-  \Omega_{11}(\T_h) &=
-                      \begin{cases}
-                        \Omega_{11}(X_1^*)\Omega_0(X_2\cdots X_m)+\Omega_{10}(X_1^*)\Omega_{01}(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
-                        \Omega_{11}(X_1)\Omega_0(X_2\cdots X_m) + \Omega_{10}(X_1)\Omega_{01}(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{11}(X_2\cdots X_m),\quad &\text{if $k>1$.}
-                      \end{cases}
-                    \end{aligned}
-\label{eq:omega11Cstar}
-\end{align}
-
-Notice that the second part of the recursion step contains three cases. This is quite sensible given that 
-
-\begin{figure}[ht]
- \centering
-    \begin{tikzpicture}
-      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
-      \draw[|->] (-4,1)--(-1,1);
-      \draw (-2.5,1.3) node{$\Omega_{11}$};
-
-      \filldraw[black] (0,2) circle (2pt);
-      \draw (-0.3,2.2) node {$\Z$};
-      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
-      \draw[dashed] (0.2,2) -- (2.5,2);
-      \filldraw[black] (2.2,1.6) circle (2pt);
-      \draw (2.6,1.6) node {$\Z^*$};
-      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M$};
-      \filldraw[black] (0.8,0.3) circle (2pt);
-      \draw (1.2,0.2) node {$\Z$};
-    \end{tikzpicture}
-  \caption{$\Omega_{11}$: juxtaposing a monotone sequence with tracked topmost and bottom most points to the right of a point $\Z$ or $\Z^*$. The RHS now contains the topmost point whether we started with $\Z$ or $\Z^*$.}
-  \label{fig:omega11}
-\end{figure}
-
-The remaining operator $\Omega_{01}$ is simpler because it does not begin with a $1$. See Figure~\ref{fig:omega01}.
-\begin{align*}
-  \Omega_{01}(\Z) &= \M\Z^*\Z\\
-  \Omega_{01}(\Z^*) &= \M\Z^*\Z\\
+  \Omega_{01}(\Z) &= (\M+\EE)\Zstar\Z\\
+  \Omega_{01}(\Zstar) &= (\M+\EE)\Zstar\Z\\
+  \Omega_{01}(\Z^\circ) &= (\M+\EE)\Zstar\Z^\circ\\
+  \Omega_{01}(\Z^{\circ*}) &= (\M+\EE)\Zstar\Z^\circ\\
   \Omega_{01}(\T_h) &= \Omega_{01}(X_1)\Omega_0(X_2\cdots X_m)+\Omega_\infty(X_1)\Omega_{01}(X_2\cdots X_m)
-\end{align*}
-Regardless of the input (starred or not), $\Omega_{01}$ returns an object that tracks the rightmost point.
+\end{aligned}
+                      \label{eq:iterjuxt_def_omega01}
+\end{align}
 
 \begin{figure}[ht]
  \centering
@@ -442,30 +707,199 @@ Regardless of the input (starred or not), $\Omega_{01}$ returns an object that t
       \draw[dashed] (0.2,2) -- (2.5,2);
       \filldraw[black] (2.2,1.6) circle (2pt);
       \draw (2.6,1.6) node {$\Z^*$};
-      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M$};
-      % \filldraw[black] (0.8,0.3) circle (2pt);
-      % \draw (1.2,0.2) node {$\Z$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
     \end{tikzpicture}
-  \caption{$\Omega_{01}$: juxtaposing a monotone sequence with tracked topmost point to the right of a point $\Z$ or $\Z^*$. The RHS now contains the topmost point whether we started with $\Z$ or $\Z^*$.}
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z^\circ/\Z^{\circ*}$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{01}$};
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z^\circ$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0.2);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      \filldraw[black] (2.2,1.6) circle (2pt);
+      \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
+    \end{tikzpicture}
+  \caption{$\Omega_{01}$: Juxtaposing a monotone sequence with tracked right-most point to the right of a point renders that point not right-most (regardless of whether it was or was not before). The right-most point is now the right-most point on the RHS. Also, $\Omega_{01}$ does not affect whether the original point is left-most. We denote $\M+\EE$ by $\M^\EE$.}
   \label{fig:omega01}
 \end{figure}
+
+\noindent\textbf{Operator $\Omega_{10}$:}\\
+This operator juxtaposes a class $\C$, which might or might not track the left-most and right-most points, with a monotone sequence on the right and tracks the sequence's left-most (bottom-most) point. Again, $\Omega_{10}$ is linear over $+$. It erases the right-most point from $\Cstar/\C^{\circ*}$ and does not affect the left-most point in $\C^\circ/\C^{\circ*}$. The base cases of the definition below are described in Figures~\ref{fig:omega_10}. 
+\begin{align}
+  \begin{aligned}
+  \Omega_{10}(\Z) &= \Z(\M+\EE)\Z\\
+  \Omega_{10}(\Z^*) &= \Z(\M+\EE)\Z\\
+  \Omega_{10}(\Z^\circ) &= \Z(\M+\EE)\Z^\circ\\
+  \Omega_{10}(\Z^{\circ*}) &= \Z(\M+\EE)\Z^\circ\\
+  \Omega_{10}(\T_h) &=
+                      \begin{cases}
+                        \Omega_{10}(X_1^*)\Omega_\infty(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
+                        \Omega_{10}(X_1)\Omega_\infty(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{10}(X_2\cdots X_m),\quad &\text{if $k>1$.}
+                      \end{cases}
+                    \end{aligned}
+                                                                                                                       \label{eq:iterjuxt_def_omega10}
+\end{align}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{10}$};
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
+      \filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z^\circ/\Z^{\circ*}$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{10}$};
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z^\circ$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      % \filldraw[black] (2.2,1.6) circle (2pt);
+      % \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
+      \filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+    \caption{$\Omega_{10}$: Juxtaposing a monotone sequence with tracked left-most point to the right of a point renders that point not right-most (regardless of whether it was or was not before) and does not affect whether that point is left-most. We denote $\M+\EE$ by $\M^\EE$.} 
+    \label{fig:omega_10}
+  \end{figure}
+
+\noindent\textbf{Operator $\Omega_{11}$:}
+This operator juxtaposes a class $\C$, which might and might not track the right-most and left-most points, on the right with a monotone increasing sequence that tracks both the left-most and the rightmost points. As usual, $\Omega_{11}$ is linear over $+$. Also, $\Omega_{11}$ does not affect the left-most point of $\C^\circ/\C^{\circ*}$ and replaces the right-most point of $\Cstar/\C^{\circ*}$. See Figure~\ref{fig:omega11}.
+\begin{align}
+  \begin{aligned}
+  \Omega_{11}(\Z) &= \Z(\M+\EE)\Z^*\Z\\
+  \Omega_{11}(\Z^*) &= \Z(\M+\EE)\Z^*\Z\\
+  \Omega_{11}(\Z^\circ) &= \Z(\M+\EE)\Z^*\Z^\circ\\
+  \Omega_{11}(\Z^{\circ*}) &= \Z(\M+\EE)\Z^*\Z^\circ\\
+  \Omega_{11}(\T_h) &=
+                      \begin{cases}
+                        \Omega_{11}(X_1^*)\Omega_0(X_2\cdots X_m)+\Omega_{10}(X_1^*)\Omega_{01}(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
+                        \Omega_{11}(X_1)\Omega_0(X_2\cdots X_m) + \Omega_{10}(X_1)\Omega_{01}(X_2\cdots X_m) +\quad &\text{if $k>1$.}\\
+                        \Omega_0(X_1)\Omega_{11}(X_2\cdots X_m)
+                      \end{cases}
+                    \end{aligned}
+  \label{eq:iterjuxt_def_omega11}
+\end{align}
+
+\begin{figure}[ht]
+ \centering
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z/\Z^*$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{11}$};
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      \filldraw[black] (2.2,1.6) circle (2pt);
+      \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
+      \filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+    \begin{tikzpicture}
+      \filldraw[black] (-5,1) circle (2pt) node[above]{$\Z^\circ/\Z^{\circ*}$};
+      \draw[|->] (-4,1)--(-1,1);
+      \draw (-2.5,1.3) node{$\Omega_{11}$};
+
+      \filldraw[black] (0,2) circle (2pt);
+      \draw (-0.3,2.2) node {$\Z^\circ$};
+      \draw[-, very thick] (0.2,2.5) -- (0.2,0);
+      \draw[dashed] (0.2,2) -- (2.5,2);
+      \filldraw[black] (2.2,1.6) circle (2pt);
+      \draw (2.6,1.6) node {$\Z^*$};
+      \draw (1,0.5) rectangle (2,1.5) node[pos=0.5]{$\M^\EE$};
+      \filldraw[black] (0.8,0.3) circle (2pt);
+      \draw (1.2,0.2) node {$\Z$};
+    \end{tikzpicture}
+  \caption{$\Omega_{11}$: juxtaposing a monotone sequence with tracked left-most and right-most most points to the right of a single point. The RHS now contains the right-most point whether we started with $\Z,\Zstar,\Z^\circ$ or $\Z^{\circ*}$. The original point was the left-most, this property of it remains unaffected. We denote $\M+\EE$ by $\M^\EE$.}
+  \label{fig:omega11}
+\end{figure}
+
+Before we proceed to state and prove our results, we state the key result of Chomsky and Schutzenberger as Theorem~\ref{thm:chomsky}. It relates the character of a context-free combinatorial specification to the character of its generating function. If the former is ``nice'', then so is the latter. Our work then consists of proving that the juxtaposition classes in question have ``nice'' combinatorial specifications. Once that is known, Theorem~\ref{thm:chomsky} translates the result into the language of generating functions as we state it.
+
+\begin{theorem}[Chomsky-Schutzenberger, Proposition I.7. in~\cite{analcomb}]
+\label{thm:chomsky}
+A combinatorial class $\C$ that is context-free admits an ordinary generating function that is an algebraic function. In other words, there exists a (non-null) bivariate polynomial $P(z,y) \in \mathbb{C}[z,y]$ such that $$P(z,C(z)) = 0.$$
+\end{theorem}
+
+To help us with enumeration, we append fictitious points to permutations or permutation classes. \emph{Phantom points} do not count towards the size of elements in a class but offer additional handles when decorating permutations on the right with monotone classes.
+\begin{definition}[Phantom point]
+Let $P$ be a permutation from $\C$. An \emph{upper phantom point} $p$ of $P$ is a point external to $P$ that has value $|P|+1$ and no position --- the left-to-right position of $p$ is unimportant. One can perceive $p$ as a line above $P$ instead of as a point. We sometimes refer to $P$ as an upper phantom point of $\C$, meaning that every $P$ in $\C$ has $p$ as its upper phantom point. A \emph{lower phantom point} of $P$, usually denoted by $q$, is a point external to $P$ that has value $0$ and no position. If $\C$ is equipped with both phantom points (upper and lower), we refer to it by $\hatC$. If $\C$ is equipped with only one phantom point, it is denoted by $\barC$ (we always specify which phantom point $\barC$ has).
+\end{definition}
+Given that the phantom points have vertical position, they serve as usual points of a permutation $P$ when applying $\Omega$ operators. Recall that $\Omega$ operators work by decorating points on the LHS with various monotone sequences on the RHS. Such a monotone sequence is always associated with a point immediatelly above it on the LHS. Therefore, there is no sequence of points on the RHS above the topmost point on the LHS even though a juxtaposition as we think of it allows points to be there. This is where phantom points come in. We place a phantom point at height $|P|+1$ on the LHS and thereby create another gap (between $p$ and the top-most point of $P$) for a monotone sequence on the RHS. See Figure~\ref{fig:illustrate_phantom_pt}.
+
+
+\begin{figure}[ht]
+ \centering
+ \begin{tikzpicture}
+   \filldraw[black] (0,5) circle (2pt) node[above]{$p$};
+    \filldraw[black] (1,2) circle (2pt);
+    \filldraw[black] (2,4) circle (2pt) node[above left]{$x$};
+    \filldraw[black] (3,1) circle (2pt);
+    \filldraw[black] (4,3) circle (2pt);
+    
+    \filldraw[orange, opacity=1] (4.2,0) rectangle (6.8,1);
+    \filldraw[orange, opacity=0.66] (4.2,1) rectangle (6.8,2);
+    \filldraw[orange, opacity=0.33] (4.2,2) rectangle (6.8,3);
+    \filldraw[orange, opacity=0.1] (4.2,3) rectangle (6.8,4);
+    \draw[black, line width=0.5mm] (4.1,0) -- (4.1,5.2); % gridline
+    \draw[thin] (0.2,5)--(7,5);
+    \draw[thin] (2.2,4)--(7,4);
+    \draw[thin] (4.2,3)--(7,3);
+    \draw[thin] (1.2,2)--(7,2);
+    \draw[thin] (3.2,1)--(7,1);
+    % sequence on the RHS
+    \foreach \i in {1,...,49}
+    {
+      \filldraw[black] (4.2+0.05*\i,0+0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.25,0.1) circle (1.5pt);
+    \filldraw[black] (6.65,4.9) circle (1.5pt);
+
+    \draw [decorate,decoration={brace,amplitude=3pt, mirror},xshift=-4pt,yshift=0pt] (7.5,4) -- (7.5,5) node [black, below right, yshift=-8pt]{\footnotesize \ new gap};
+    
+  \end{tikzpicture}
+  \caption{Compare with Figure~\ref{fig:xregion}. Phantom point $p$ created an extra gap where we can place a monotone sequence --- above the topmost point $x$ of $P=2413$. When done with enumeration, it is necessary to remove $p$ as it is not part of $P$ and we do not want it to distort the generating function.}
+  \label{fig:illustrate_phantom_pt}
+\end{figure}
+
+Before we proceed to state the results in the next section, let us phrase one last observation as a lemma. It will be useful in the forthcoming proofs and examples.
+
+\begin{lemma}
+  The following operators ``ignore'' the right-most points (stars) in their arguments as indicated below.
+  \begin{enumerate}
+  \item $\Omega_0(\Cstar) = \Omega_0(\C) = \C$
+  \item $\Omega_\infty(\Cstar) = \Omega_\infty(\C)$
+  \item $\Omega_{01}(\Cstar) = \Omega_{01}(\C)$.
+  \end{enumerate}
+  \label{lem:ignorance}
+\end{lemma}
+\begin{proof}
+First, notice that any term in any polynomial from a context-free specification of some $\C$ remains unaffected by $\Omega_0$. This follows from the definition. Second, again by definition, $\Omega_0$ acts identically on starred and starless objects. This proves the first item. For the same reasons, action of $\Omega_\infty$ and $\Omega_{01}$ does not depend on the rightmost point in the class they take as argument.
+\end{proof}
+
 
 \section{Main results}
 \label{sec:iterjuxt_main}
 
-This section presents results that we are able to obtain with the tools set up in Section~\ref{sec:iterjuxt_intro}. We start with proving the lemma that we need, Lemma~\ref{lem:induction_step}, for the induction step in the proof of Proposition~\ref{prop:onesidedjuxt}. In Proposition~\ref{prop:onesidedjuxt}, we establish that appending monotone increasing classes on the right side of a context-free permutation class which admits a combinatorial specification tracking the rightmost point by value, does not change the character of the original combinatorial specification (and hence the generating function remains algebraic). Next we prove the main result: by left-right flips and up-down flips, we can rephrase appending a decreasing monotone permutation class into appending an increasing monotone permutation class, and that on either side of $\C$ (left or right). This is established in Propositions~\ref{prop:decr_append} and~\ref{prop:left_append}. Therefore, it turns out that appending a monotone class (increasing or decreasing) on either side of a context-free permutation class preserves the character of the combinatorial specification and hence the character of the generating function of such a class. We make this assertion clear in Theorem~\ref{thm:interjuxt_main}. 
+This section presents results that we are able to obtain with the tools set up in Section~\ref{sec:iterjuxt_intro}. We start by proving Lemma~\ref{lem:induction_step} that we need for the induction step in the proof of Proposition~\ref{prop:onesidedjuxt}. In Proposition~\ref{prop:onesidedjuxt}, we establish that appending monotone increasing classes on the right side of a context-free permutation class which admits a combinatorial specification tracking the rightmost point by value, does not change the character of the original combinatorial specification and hence the generating function of the obtained juxtaposition class is algebraic. Next we prove the main result: by left-right flips and up-down flips, we can rephrase appending a decreasing monotone permutation class into appending an increasing monotone permutation class, and we can do so on either side of $\C$ (left or right). This is established in Propositions~\ref{prop:decrappend} and~\ref{prop:leftappend}. Therefore, it turns out that appending a monotone class (increasing or decreasing) on either side of a context-free permutation class preserves the character of the combinatorial specification and hence the character of the generating function of such a class. This is a textbook situation for mathematical induction. We use it to prove that after finitely many such juxtapositions, the resulting class is still enumerated by a generating function that is an algebraic function, see Theorem~\ref{thm:iterjuxt_main}. Lastly, we show in a Corollary~\ref{cor:finmanysimples} that Theorem~\ref{thm:iterjuxt_main} applies to all context-free permutation classes with finitely many simple permutations. 
 
-Before we state the results, we present a theorem that we use to reduce our work to. It relates the character of the context-free combinatorial specification to the character of the generating function. If the former is ``nice'', then so is the latter.
-
-\begin{theorem}[Chomsky-Schutzenberger, Proposition I.7. in~\cite{analcomb}]
-\label{thm:chomsky}
-  A combinatorial class $\C$ that is context-free admits an ordinary generating function that is an algebraic function. In other words, there exists a (non-null) bivariate polynomial $P(z,y) \in \mathbb{C}[z,y]$ such that $$P(z,C(z)) = 0.$$
-\end{theorem}
-
-\begin{definition}[Phantom point]
-Let $P$ be a permutation from $\C$. An \emph{upper phantom point} $p$ of $P$ is a point external to $P$ that has value $|P|+1$ and no position --- the left-to-right position of $p$ is unimportant. One can perceive $p$ as a line above $P$ instead of as a point. We sometimes refer to $P$ as an upper phantom point of $\C$, meaning that every $P$ in $\C$ has $p$ as its upper phantom point. A \emph{lower phantom point} of $P$, usually denoted by $q$, is a point external to $P$ that has value $0$ and no position. If $\C$ is equipped with both phantom points (upper and lower), we refer to it by $\hatCstar$. If $\C$ is equipped with only one phantom point, it is denoted by $\barC$ (we always specify which phantom point $\barC$ has).
-\end{definition}
-Given that the phantom points have vertical position, they serve as usual points of a permutation $P$ when applying $\Omega$ operators.
 
 The induction lemma, Lemma~\ref{lem:induction_step}, says that appending a monotone increasing permutation class on the right of a context-free permutation class whose combinatorial specification tracks the rightmost point does not change the character of the class that we started with --- the resulting class is context-free and admits a combinatorial specification that tracks the rightmost point by value.
 \begin{lemma}
@@ -473,15 +907,15 @@ The induction lemma, Lemma~\ref{lem:induction_step}, says that appending a monot
   Let $\C$ be a context-free permutation class and $\rS$ its combinatorial specification which tracks the rightmost point of $\C$ by its vertical position (value). Let $\M$ be a monotone increasing permutation class. Then the part of $\C|\M$ with both cells non-empty is a context-free permutation class with a combinatorial specification $\rS'$ that tracks the rightmost point by its vertical position.
 \end{lemma}
 \begin{proof}
-In the language of $\Omega$ operators, juxtaposing $\C$ with a monotone increasing $\M$ requires installing points $p$ above $\C$ to construct $\barCstar$. We then enumerate all possible juxtapositions: empty (both cells empty), a sole monotone class (LHS cell is empty), and both cells nonempty. In particular:
-$$\C|\M = \EE + \M + \frac{\Omega_1(\barCstar) + \Omega_{11}(\barCstar)}{\Z^2}.$$
-The post-correction by $\Z^2$ removes the phantom points from $\barC$. Since the last term is the one representing the case of two non-empty cells, we only need to show that $\Omega_1(\barCstar)$ and $\Omega_{11}(\barCstar)$ admit context-free combinatorial specifications that track the rightmost points.
+In the language of $\Omega$ operators, juxtaposing a context-free $\C$ with  $\Av(21)$ requires installing points $p$ above $\C$ to construct $\barCstar$. We then enumerate all possible juxtapositions: empty (both cells empty), a sole monotone class (LHS cell is empty), and both cells non-empty. In particular, we have ($\M$ denotes a non-empty $\Av(21)$)
+$$\C|\Av(21) = \EE + \M + \frac{\Omega_1(\barCstar) + \Omega_{11}(\barCstar)}{\Z^2}.$$
+The post-correction by $\Z^2$ removes the phantom points from $\barC$. Given that division is not a legal operation in context-free combinatorial specifications, one can think of the division operation as ``removing phantom points''. This formal distinction is acceptable as we could have worked without phantom points in the first place. They are there only for our convenience. Notice that phantom points, once installed, are present until the last layer of $\Omega$ operators is applied. Only then they are removed. Again, this is important in that the ``division'' by $\Z^2$ is done only once regardless of the number of iterations of juxtapositions. Crucially, the post-correction by $\Z^{-2}$ does not render the character of the generating function non-algebraic. Now, since the last term is the one representing the case of two non-empty cells, we only need to show that $\Omega_1(\barCstar)$ and $\Omega_{11}(\barCstar)$ admit context-free combinatorial specifications that track the rightmost points.
 
-The case of $\Omega_1$ is simple. It represents the situation with the RHS cell accommodating only a single point. The action of $\Omega_1$ on $\barCstar$ is linear, therefore every term $\T$ from any polynomial in $\rS$ has $\Omega_1$ applied to it exactly once. Recall the definition of $\Omega_1$, see~\eqref{eq:omega1Cstar}. If the term $\T$ is a single point (whether $\Z$ or $\Zstar$), it becomes $\Omega_1(\Z)$. Of course, $\Omega_1$ is only applied to $\Z$ if $\Z$ is below $\Zstar$ in $\T$ (follows from the recursive step of the definition of $\Omega_1$). Every other class/point in $\T$ is wrapped in $\Omega_0$. Therefore, for every term $\T$, $\Omega_1(\T)$ is a sum of terms of the same form --- respecting right-most points.
+The case of $\Omega_1$ is simple. It represents the situation with the RHS cell accommodating only a single point. The action of $\Omega_1$ on $\barCstar$ is linear, therefore every term $\T$ from any polynomial in $\rS$ has $\Omega_1$ applied to it exactly once. Recall the definition of $\Omega_1$, see~\eqref{eq:iterjuxt_def_omega1}. If the term $\T$ is a single point (whether $\Z$ or $\Zstar$, ignoring left-most (circled) points for the moment), it becomes $\Omega_1(\Z)$. Of course, $\Omega_1$ is only applied to $\Z$ if $\Z$ is below $\Zstar$ in $\T$ (follows from the recursive step of the definition of $\Omega_1$). Every other class/point in $\T$ is wrapped in $\Omega_0$. Therefore, for every term $\T$, $\Omega_1(\T)$ is a sum of terms of the same form --- respecting right-most points.
 
-The case of $\Omega_{11}$ is linear over addition the same way $\Omega_1$ is. Therefore, if every $\Omega_{11}(\T)$ is of the admissible form, the entire $\Omega_{11}(\barCstar)$ is. Notice that $\Omega_{11}(\T)$ is a sum of terms, every one of which has one of the forms in the definition of $\Omega_{11}$, see~\eqref{eq:omega11Cstar}. All of those are of the admissible form (assuming that other $\Omega$ operators produce admissible terms --- which is readily checkable that they do).
+The case of $\Omega_{11}$ is linear over addition the same way $\Omega_1$ is. Therefore, if every $\Omega_{11}(\T)$ is of the admissible form, the entire $\Omega_{11}(\barCstar)$ is. Notice that $\Omega_{11}(\T)$ is a sum of terms, every one of which has one of the forms in the definition of $\Omega_{11}$, see~\eqref{eq:iterjuxt_def_omega11}. All of those are of the admissible form as the base cases return algebraic expressions when they are fed algebraic expressions and recursive step relies on other $\Omega$ operators. Those produce admissible terms as well, which is readily checkable.
 
-Hence, $\Omega_1$ and $\Omega_{11}$ produce an output in a valid format --- a combinatorial specification which is of the same form as $\rS$. The only thing that remains to be checked is the correctness of $\Omega$ operators. However, this follows (in an easy but tedious way) from the definition of each operator separately.
+Hence, $\Omega_1$ and $\Omega_{11}$ produce an output in a valid format --- a combinatorial specification which is of the same form as $\rS$. The only thing that remains to be checked is the correctness of $\Omega$ operators. However, this follows (in an easy but tedious way) from the definition of each operator separately. To verify this claim, one needs to go through definitions and check that the operations represent juxtapositions in the exact ways that we want them to. 
 \end{proof}
 
 \begin{proposition}
@@ -500,7 +934,7 @@ Hence, $\Omega_1$ and $\Omega_{11}$ produce an output in a valid format --- a co
 
   If $k = 1$, then we are done because both $\M'$ and $\C'|\M'$ are context-free classes that admit combinatorial specifications which track the right-most points by value, $M'$ is trivial and $\C'|\M'$ by Lemma~\ref{lem:induction_step}.
 
-For any $k$ greater than $1$, let $\C_0 = \C'|\M'_1|\ldots|\M'_{k-1}$. By induction assumption, $\C'_0$ admits a combinatorial specification that tracks the right-most point by value and so does $\M'_1|\ldots|\M'_{k-1}$. This is the case as they appear in a rewrite of $\C|\M_1|\ldots|\M_{k-1}$ analogous to~\eqref{eq:rewritten} and the assumption is that $\C|\M_1|\ldots|\M_{k-1}$ admits the combinatorial specification of the right form.  The extra terms that we need to show are of the correct form are: $\Omega_1(\C'|\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\C'|\M'_1|\ldots|\M'_{k-1})$, together with $\Omega_1(\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\M'_1|\ldots|\M'_{k-1})$. By Lemma~\ref{lem:induction_step}, all four of these terms do admit combinatorial specifications which track the right-most point by value.
+For any $k$ greater than $1$, let $\C_0 = \C'|\M'_1|\ldots|\M'_{k-1}$. By induction assumption, $\C'_0$ admits a combinatorial specification that tracks the right-most point by value and so does $\M'_1|\ldots|\M'_{k-1}$. This is the case as they appear in a rewrite of $\C|\M_1|\ldots|\M_{k-1}$ analogous to~\eqref{eq:rewritten} and the assumption is that $\C|\M_1|\ldots|\M_{k-1}$ admits the combinatorial specification of the correct form.  The extra terms that we need to show are of the correct form are: $\Omega_1(\C'|\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\C'|\M'_1|\ldots|\M'_{k-1})$, together with $\Omega_1(\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\M'_1|\ldots|\M'_{k-1})$. By Lemma~\ref{lem:induction_step}, all four of these terms do admit combinatorial specifications which track the right-most point by value.
 \end{proof}
 
 \subsection{Extension to decreasing classes and both sides}
@@ -511,7 +945,7 @@ For any $k$ greater than $1$, let $\C_0 = \C'|\M'_1|\ldots|\M'_{k-1}$. By induct
   Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification that tracks the right-most point. Then $\C|\DD$ admits a combinatorial specification which tracks the rightmost point.
 \end{proposition}
 \begin{proof}
-We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We require that if the monotone class on the right is decreasing, we associate points on the RHS \emph{above} the points on the LHS. Also, we ignore the phantom point $p$ and use phantom point $q$ instead. The rewrite of the juxtaposition into classes with non-empty cells is below.
+We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We require that if the monotone class on the right is decreasing, we associate points on the RHS \emph{above} the points on the LHS. Also, in effect, we ignore the phantom point $p$ and use phantom point $q$ instead but we make this clear below. The rewrite of the juxtaposition into classes with non-empty cells is below.
 \begin{align}
   \C|\DD = \EE + \DD' + \C'|\DD',
 \label{eq:decrease_objective}
@@ -576,7 +1010,7 @@ We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We 
 \label{fig:horizontal_flip}
 \end{figure}
 
-Given the set-up above, we transform $\C|\DD$ to $\C|\M$ by flip along the horizontal axis. The rightmost point stays right-most after the flip. The phantom point $q$ assumes the usual position of the phantom point $p$. The points on the RHS now appear below the ones on the LHS that they are associated with. The entire situation is analogous to the one in Lemma~\ref{lem:induction_step}. Therefore, let $\Theta$ be the operator that flips the setting upside down. The only term we need to worry about is when both $\C$ and $\DD$ are non-empty. It follows that
+Given the set-up above, we transform $\C|\DD$ to $\C|\M$ by flip along the horizontal axis. The rightmost point stays right-most after the flip. The phantom point $q$ assumes the usual position of the phantom point $p$, i.e. $\Theta(q) = p$ and $\Theta(p) = q$, a mere renaming in practice.  The points on the RHS now appear below the ones on the LHS that they are associated with. The entire situation is analogous to the one in Lemma~\ref{lem:induction_step}. Therefore, let $\Theta$ be the operator that flips the setting upside down. The only term we need to worry about is when both $\C$ and $\DD$ are non-empty. It follows that
 $$\C'|\DD' = \Theta^{-1}(\Omega_1(\Theta(\hatCstar))) + \Theta^{-1}(\Omega_{11}(\Theta(\hatCstar))).$$ 
 In other words, we can use all infrastructure that is in place for monotone increasing classes to append monotone decreasing classes. Since $\Theta$ is bijective, we transform the decreasing setting into increasing, apply the operators we need to apply, and then bring the situation back by $\Theta^{-1}$. Figure~\ref{fig:horizontal_flip} gives an instance of a horizontal flip transformation.
 \end{proof}
@@ -588,9 +1022,7 @@ Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free per
 \begin{proof}
 The proof follows by transformation of $\C$ by a left-to-right flip $\Phi$, then applying $\Omega$ operators, and undoing the flip. For this purpose, we need to keep track of the left-most point of $\C$. First, we require that the combinatorial specification of $\C$ tracks the leftmost point of $\C$. We denote the objects containing the leftmost point by $\C^\circ$ or $\Z^\circ$. Every $\C$ that admits a combinatorial specification that tracks the rightmost point also admits a combinatorial specification that tracks the leftmost point (we can just enumerate it flipped left-to-right). As before, enumerating $\DD|\C$ amounts to enumerating the juxtaposition of two non-empty cells where the one on the left-hand side is $\DD$ and on the right side is $\C$. If $\Phi$ is the left-to-right flip operator, then 
 $$\DD'|\C' = \Phi^{-1}(\Omega_1(\Phi(\barC^\circ))) + \Phi^{-1}(\Omega_{11}(\Phi(\barC^\circ))).$$
-Of course, we keep associate the points in $\DD$ on the LHS below the points in $\C$ on the RHS so that we can apply $\Omega$ operators after the flip. The flip $Phi$ also ``transforms'' the left-most point to rightmost point: $\Phi({}^\circ) = {}^*$ and $\Phi({}^*) = {}^\circ$. To keep track of the side onto which we append the monotone sequence, we use the following contraction:
-$$ \omega_i = \Phi^{-1}(\Omega_i(\Phi(\barC^\circ))).$$
-Therefore, $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
+Of course, we keep associating the points in $\DD$ on the LHS below the points in $\C$ on the RHS so that we can apply $\Omega$ operators after the flip. The flip $\Phi$ also ``transforms'' the left-most point to rightmost point: $\Phi({}^\circ) = {}^*$ and $\Phi({}^*) = {}^\circ$. Therefore, $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
 
 Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We keep both phantom points in the figure for completeness.
 \begin{figure}[!ht]
@@ -688,31 +1120,202 @@ Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We kee
   Let $\C$ be a context-free permutation class that tracks both the right-most and the left-most points. Let $\M_1,\ldots,M_{k+\ell}$ be a sequence of monotone, increasing or decreasing, permutation classes. Then $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ is a context-free permutation class that admits a generating function that is an algebraic function.
 \end{theorem}
 \begin{proof}
-  The claim follows from Propositions~\ref{prop:onesidedjuxt}, \ref{prop:decrappend}, \ref{prop:leftappend} and Lemma~\ref{lem:induction_step}. Indeed, Lemma~\ref{lem:induction_step} states that juxtaposing a monotone increasing class from the right of $\C$ preserves context-free character of $\C$. Proposition~\ref{prop:onesidedjuxt} makes sure that repeated application of Lemma~\ref{lem:induction_step} preserves context-free character of the class as well. Therefore, appending a monotone increasing class on the right keeps the invariant intact. Furthermore, these results together with Proposition~\ref{prop:decrappend} imply that the invariant is preserved when appending decreasing classes on the right as well. Lastly, Proposition~\ref{prop:leftappend} guarantees that we can in fact append on both sides of $\C$ and the resulting class is same in nature as $\C$. Therefore, Theorem~\ref{thm:chomsky} then implies that the generating function is in fact algebraic.
+  The claim follows from Propositions~\ref{prop:onesidedjuxt}, \ref{prop:decrappend}, \ref{prop:leftappend} and Lemma~\ref{lem:induction_step}. Indeed, Lemma~\ref{lem:induction_step} states that juxtaposing a monotone increasing class from the right of $\C$ preserves context-free character of $\C$. Proposition~\ref{prop:onesidedjuxt} makes sure that repeated application of Lemma~\ref{lem:induction_step} preserves context-free character of the class as well. Therefore, appending a monotone increasing class on the right keeps the invariant intact. Furthermore, these results together with Proposition~\ref{prop:decrappend} imply that the invariant is preserved when appending decreasing classes on the right as well. Lastly, Proposition~\ref{prop:leftappend} guarantees that we can in fact append on both sides of $\C$ and the resulting class is same in nature as $\C$. The only remaining issues is to fix any order in which the gridding is done. We choose to first grid all monotone classes from the right and then all the monotone classes from the left. The gridding is now unique for every griddable permutation. Finally, Theorem~\ref{thm:chomsky} then implies that the generating function is in fact algebraic.
 \end{proof}
 
+\begin{corollary}
+ Let $\C$ be a context-free permutation class with finitely many simple permutations and let $\M_1,\ldots,\M_{k+\ell}$ be as in Theorem~\ref{thm:iterjuxt_main}. Then
+ $$\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$$
+ is a context-free permutation class which admits a generating function that is an algebraic function.
+\label{cor:finmanysimples}
+\end{corollary}
+\begin{proof}
+  We show that every context-free permutation class with finitely many simple permutations admits a combinatorial specification that tracks the right-most and left-most points. The claim then follows from Theorem~\ref{thm:iterjuxt_main}.
 
-\section{Example: $\Av(321|21)$}
+  If $\Si(\C)$ is the set of simple permutations in $\C$, we say that a vector $(\C_1,\ldots,\C_{|\sigma|})$ is admissible, if $\sigma \in \Si(\C)$ and $\sigma[\alpha_1,\ldots,\alpha_{|\sigma|}]$ is in $\C$ for all choices of $\alpha_i\in\C_i$. In case of $12$ and $21$, we insist that $\C_1$ in an admissible vector $(\C_1,\C_2)$ is always sum-indecomposable and skew-indecomposable, respectively. For convenience, we temporarily violate the customary notation about inflations. We use $\C_i$ to denote the $i$-th class from the bottom in the inflation of $\sigma$, i.e. $\sigma[C_1,\ldots,\C_i,\ldots,\C_{|\sigma|}]$ means that the bottom-most point in $\sigma$ is inflated by $\C_1$, the point immediately above it in $\sigma$ is inflated by $\C_2$, and so on. In other words, we list the inflation by value instead of by position. Additionally, assume that the point with value $k_\sigma$ in $\sigma$ is the rightmost point of $\sigma$ and the point with value $\ell_\sigma$ is the left-most point of $\sigma$. Furthermore, we use a variable $X$ to stand for a class from $\{\C_1,\ldots,\C_r\}$. We now give the combinatorial specification template that every context-free class $\C$ with finitely many simples fits into. We only define the classes with both the left-most and the right-most points tracked. However, the combinatorial specification needs definitions of starred, circled, starles and circleless classes as well. Their definitions are analogous and take up a lot of space. We skip them.
+
+  \begin{align}
+    \begin{aligned}
+    \C_1^{\circ*} &= \Z + \sum_{\substack{\text{admissible}\\(X_1,X_2)}}12[X_1^\circ,X_2^*] + \sum_{\substack{\text{admissible}\\(X_1,X_2)}}21[X_1^*,X_2^\circ] +\\
+                   &+ \sum_{\sigma \in \Si(\C)}\sum_{\substack{\text{admissible}\\(\C_1,\ldots,\Cstar_k,\ldots,\C_\ell^\circ,\ldots,\C_{|\sigma|})}}\sigma[\C_1,\ldots,\Cstar_k,\ldots,\C_\ell^\circ,\ldots,\C_{|\sigma|}]\\
+                   &\vdots\\
+    \C_r^{\circ*} &= \Z + \sum_{\substack{\text{admissible}\\(X_1,X_2)}}12[X_1^\circ,X_2^*] + \sum_{\substack{\text{admissible}\\(X_1,X_2)}}21[X_1^*,X_2^\circ] +\\
+                  &+ \sum_{\sigma \in \Si(\C)}\sum_{\substack{\text{admissible}\\(\C_1,\ldots,\Cstar_k,\ldots,\C_\ell^\circ,\ldots,\C_{|\sigma|})}}\sigma[\C_1,\ldots,\Cstar_k,\ldots,\C_\ell^\circ,\ldots,\C_{|\sigma|}]\\
+                \end{aligned}
+    \label{eq:proofcombspec}
+  \end{align}
+This completes the proof.
+\end{proof}
+
+Section~\ref{sec:example_sepav21} gives an example of a very simple class with finitely many simple permutations --- the class of separable permutations, or $\S$. We know $\Si(\S) = \emptyset$ and therefore, the last terms on the RHS in~\eqref{eq:proofcombspec} vanishes. We enumerate exactly the juxtaposition of the class of separable permutations with the class of monotone increasing permutations. 
+
+Notice that Corollary~\ref{cor:finmanysimples} is strictly weaker than Theorem~\ref{thm:iterjuxt_main}. For instance, $\Av(321)$ is a class with infinitely many simple permutations. Indeed, $2413$, $246135$, $24681357$, $\ldots$ are all $321$-avoiders and all of them are simple. Yet $\Av(321)$ admits a combinatorial specification required by Theorem~\ref{thm:iterjuxt_main}. We show this in Section~\ref{sec:example_Av321Av21} where we juxtapose it with a monotone increasing class and enumerate this juxtaposition exactly using methods developed in Section~\ref{sec:iterjuxt_intro}.
+
+In Section~\ref{sec:example_mmm}, we enumerate exactly a repeated juxtaposition of the form $\C|\M|\M$ where $\C = \M$ and $\M$ is a monotone increasing class. 
+
+\section{Applications to exact enumeration}
+\subsection{Example: $\Av(321|21)$}
 \label{sec:example_Av321Av21}
 
-In Chapter \textcolor{red}{TODO: reference Chapter with juxtapositions} we deal with the juxtaposition of a Catalan class with a monotone class by enumerating all such juxtapositions. Here, we work out one of the cases where the Catalan class does not have finitely many simple permutations.\\
+In Chapter~\ref{chap:catalanjuxt} we deal with the juxtaposition of a Catalan class with a monotone class by enumerating all such juxtapositions. Here, we re-enumerate one of those cases. In particular, the one where the Catalan class does not have finitely many simple permutations. This demonstrates the gap between the Corollary~\ref{cor:finmanysimples} and Theorem~\ref{thm:iterjuxt_main}. \\
 
-We represent $\Av(321)$ by a Dyck path below the diagonal and bottom-to-top. Let $\C := \Av(321)$. \textcolor{red}{TODO: draw a Dyck path to permutation correspondence in a figure.} Then
+We represent permutations in $\Av(321)$ by Dyck paths below the diagonal, starting in the bottom left corner and going to the top right corner of the grid. An exact definition of Dyck path can be found in Section~\ref{sec:catalanjuxt_defs}, including Figure~\ref{fig:dyckexample}. Also, below we replicate Figure~\ref{fig:bij321dyck} that demonstrates how we associate permutations from $\Av(321)$ with Dyck paths.
+
+\begin{figure}[!ht]
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\dyck{0,0}{9}{black}{0,0,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,1}
+\end{tikzpicture}
+\begin{tikzpicture}[scale=0.2]
+\dyck{0,0}{9}{black}{0,0,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,1}
+% LTR minima
+\filldraw[black] (2.5,0.5) circle (6pt);
+\filldraw[black] (4.5,2.5) circle (6pt);
+\filldraw[black] (6.5,3.5) circle (6pt);
+\filldraw[black] (7.5,4.5) circle (6pt);
+\filldraw[black] (8.5,8.5) circle (6pt);
+\end{tikzpicture}
+\begin{tikzpicture}[scale=0.2]
+\dyck{0,0}{9}{black}{0,0,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,1}
+% LTR minima
+\filldraw[black] (2.5,0.5) circle (6pt);
+\filldraw[black] (4.5,2.5) circle (6pt);
+\filldraw[black] (6.5,3.5) circle (6pt);
+\filldraw[black] (7.5,4.5) circle (6pt);
+\filldraw[black] (8.5,8.5) circle (6pt);
+% rest of pts
+\filldraw[black,fill=white] (5.5,7.5) circle (6pt);
+\end{tikzpicture}
+\begin{tikzpicture}[scale=0.2]
+\dyck{0,0}{9}{black}{0,0,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,1}
+% LTR minima
+\filldraw[black] (2.5,0.5) circle (6pt);
+\filldraw[black] (4.5,2.5) circle (6pt);
+\filldraw[black] (6.5,3.5) circle (6pt);
+\filldraw[black] (7.5,4.5) circle (6pt);
+\filldraw[black] (8.5,8.5) circle (6pt);
+% rest of pts
+\filldraw[black] (5.5,7.5) circle (6pt);
+\filldraw[black,fill=white] (3.5,6.5) circle (6pt);
+\end{tikzpicture}
+\begin{tikzpicture}[scale=0.2]
+\dyck{0,0}{9}{black}{0,0,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,1}
+% LTR minima
+\filldraw[black] (2.5,0.5) circle (6pt);
+\filldraw[black] (4.5,2.5) circle (6pt);
+\filldraw[black] (6.5,3.5) circle (6pt);
+\filldraw[black] (7.5,4.5) circle (6pt);
+\filldraw[black] (8.5,8.5) circle (6pt);
+% rest of pts
+\filldraw[black] (5.5,7.5) circle (6pt);
+\filldraw[black] (3.5,6.5) circle (6pt);
+\filldraw[black,fill=white] (1.5,5.5) circle (6pt);
+\end{tikzpicture}
+\begin{tikzpicture}[scale=0.2]
+\dyck{0,0}{9}{black}{0,0,0,1,1,0,0,1,0,0,1,0,1,1,1,1,0,1}
+% LTR minima
+\filldraw[black] (2.5,0.5) circle (6pt);
+\filldraw[black] (4.5,2.5) circle (6pt);
+\filldraw[black] (6.5,3.5) circle (6pt);
+\filldraw[black] (7.5,4.5) circle (6pt);
+\filldraw[black] (8.5,8.5) circle (6pt);
+% rest of pts
+\filldraw[black] (5.5,7.5) circle (6pt);
+\filldraw[black] (3.5,6.5) circle (6pt);
+\filldraw[black] (1.5,5.5) circle (6pt);
+\filldraw[black,fill=white] (0.5,1.5) circle (6pt);
+\end{tikzpicture}
+\begin{tikzpicture}[scale=0.2]
+% grid
+\fill[white]  (0,0) rectangle +(9,9);
+\draw[help lines] (0,0) grid +(9,9);
+% LTR minima
+\filldraw[black] (2.5,0.5) circle (6pt);
+\filldraw[black] (4.5,2.5) circle (6pt);
+\filldraw[black] (6.5,3.5) circle (6pt);
+\filldraw[black] (7.5,4.5) circle (6pt);
+\filldraw[black] (8.5,8.5) circle (6pt);
+% rest of pts
+\filldraw[black] (5.5,7.5) circle (6pt);
+\filldraw[black] (3.5,6.5) circle (6pt);
+\filldraw[black] (1.5,5.5) circle (6pt);
+\filldraw[black] (0.5,1.5) circle (6pt);
+\end{tikzpicture}
+\caption{\small{An example of a reversible process (left to right) of associating a unique 321-avoider with a given Dyck path.}}
+\end{center}
+\end{figure}
+
+Having set the scene, we can start the enumeration. Let $\C := \Av(321)$. In a Dyck path, we denote the right step with $R$ and the up step with $U$. We choose the following combinatorial specification that tracks the right-most point of $\C$ (we do not need to track the left-most point). 
 \begin{align*}
   \C^* &= (\C + \EE)R\C^*U + (\C + \EE)RU^*\\
   \C &= (\C+\EE)R(\C+\EE)U.
 \end{align*}
-This translates into the following combinatorial specification that tracks the rightmost point by value.
-\begin{align*}
+In a Dyck path, $U$ and $R$ are like brackets -- they are interpreted in pairs. Hence, we rewrite the specification into the canonical form~\eqref{eq:combspecav321}. 
+\begin{align}
+  \begin{aligned}
   \C^* &= \C\C^*\Z + \C^*\Z + \C\Z^* + \Z^*\\
   \C &= \C\C\Z + 2\C\Z + \Z.
-\end{align*}
-As before, we will apply $\Omega_{11}$ to $\barCstar$ instead of $\Cstar$. Let us recall what $\barCstar$ is.
+\end{aligned}
+       \label{eq:combspecav321}
+\end{align}
+We use this example to demonstrate the method of $\Omega$ operators in full detail. In practice, one would be able to make the analysis that follows significantly shorter by exploiting certain ad-hoc properties of this particular juxtaposition. However, we follow the recipe.
+
+We need to apply $\Omega$ operators to $\Cstar$ in such a way that the expression represents the juxtaposition $\C|\M$, where $\M = \Av(21)$. The \emph{final expression} that represents $\Av(321|21)$ is 
+\begin{align}
+  \F &= \EE + \M + \frac{\Omega_1(\barCstar) + \Omega_{11}(\barCstar)}{\Z}
+      \label{eq:exampleAv321Av21_final}
+\end{align}
+Indeed, the juxtaposition is either empty (term $\EE$ in $\F$), or the left cell is empty (term $\M$ in $\F$) or both cells are non-empty (terms $\Omega_1(\barCstar)$ and $\Omega_{11}(\barCstar)$ in $\F$ with the former representing a single point in the right cell and the latter representing a sequence of length at least two in the right cell). Notice that the situation where only the right cell is empty cannot occur because the gridline is as far left as possible. Enumeration of $\M$ is trivial and so the main issue will be to enumerate the last two terms of $\F$. The last thing to explain about~\eqref{eq:exampleAv321Av21_final} is the division by $\Z$ on the RHS. In short, $\Z^{-1}$ removes the phantom points after they are not needed anymore. The enumeration of $\Av(321|21)$ proceeds by obtaining the generating function for $\Omega_1(\barCstar) + \Omega_{11}(\barCstar)$, correcting it by $\Z^{-1}$ to remove phantom points, and then adding to it the generating function for $\EE+\M$. Notice that, in general, any ``algebraic'' post-correction does not affect the character of the generating function (if it was algebraic to begin with). 
+
+Let us first recall the specification of $\barCstar$.
 \begin{align*}
   \barCstar &= \Z \ominus \Cstar = \Cstar\Z
 \end{align*}
-Let $\B$ be the set of all the classes that need to be defined within the combinatorial specification of $\Omega_{11}(\barCstar)$. Therefore, we start with
-$$\B = \{\Omega_{11}(\barCstar)\}.$$
+Let $\B$ be the set of all the classes that need to be defined within the combinatorial specification of $\Omega_{11}(\barCstar)$. We start with all the terms in $\F$ inside $\B$, as we need them all to be in the combinatorial specification.
+$$\B = \{\EE, \M, \Omega_1(\barCstar), \Omega_{11}(\barCstar)\}$$
+We pop $\EE$ first, as it is trivial to define.
+\begin{align}
+  \EE &= 1
+        \label{eq:exampleAv321Av21_E}
+\end{align}
+Next, we pop $\M$ and define it below.
+\begin{align}
+  \M &= \Z + \M\Z
+       \label{eq:exampleAv321Av21_M}
+\end{align}
+The new $\B$ is as follows
+$$\B = \{\Omega_1(\barCstar), \Omega_{11}(\barCstar)\}.$$
+Next we pop $\Omega_1(\barCstar)$ and define it.
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\barCstar) &= \Omega_1(\Cstar\Z)\\
+    &= \Omega_1(\Cstar)\Z
+  \end{aligned}
+  \label{eq:exampleAv321Av21_omega1barCstar}
+\end{align}
+We update $\B$ to include the new undefined class (in red).
+$$\B = \{\textcolor{red}{\Omega_1(\Cstar)}, \Omega_{11}(\barCstar)\}.$$
+We pop the new element from $\B$ and define it next.
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\Cstar) &= \Omega_1(\C\Cstar\Z + \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
+    &= \Omega_1(\C)\Omega_0(\Cstar\Z) + \Omega_0(\C)\Omega_1(\Cstar)\Omega_0(\Z) + \textcolor{orange}{\Omega_1(\Cstar)\Omega_0(\Z)} +\\
+    &+\textcolor{green}{\Omega_1(\C)\Omega_0(\Z^*) + \Omega_0(\C)\Omega_1(\Z^*)} + \textcolor{blue}{\Omega_1(\Zstar)}\\
+    &= \Omega_1(\C)\C\Z + \C\Omega_1(\Cstar)\Z + \textcolor{orange}{\Omega_1(\Cstar)\Z} +\\
+    &+\textcolor{green}{\Omega_1(\C)\Z + \C\Z^*\Z} + \textcolor{blue}{\Zstar\Z}
+  \end{aligned}
+  \label{eq:exampleAv321Av21_omega1Cstar}
+\end{align}
+We used the facts from Lemma~\ref{lem:ignorance}. For instance, $\Omega_0(\Cstar) = \Omega_0(\C) = \C$. We also used the definitions of $\Omega_1$ and $\Omega_0$, for instance $\Omega_1(\Zstar) = \Zstar\Z$ and $\Omega_0(\Zstar) = \Z$. One term remains undefined on the RHS of~\eqref{eq:exampleAv321Av21_omega1Cstar}, $\Omega_1(\C)$. Since it is the only new class that needs defining, we will skip pushing it to $\B$ and immediatelly popping it out of there. The definition is below.
+\begin{align}
+  \begin{aligned}
+    \Omega_1(\C) &= \Omega_1(\C\C\Z + \textcolor{orange}{2\C\Z} + \textcolor{green}{\Z})\\
+    &= \Omega_1(\C)\C\Z + \C\Omega_1(\C)\Z + \C\C\Z^*\Z + \textcolor{orange}{2\Omega_1(\C)\Z + 2\C\Z^*\Z} + \textcolor{green}{\Z^*\Z}
+  \end{aligned}
+  \label{eq:exampleAv321Av21_omega1C}
+\end{align}
+There is no undefined term on the RHS of~\eqref{eq:exampleAv321Av21_omega1C} and therefore $\B$ is currently a singleton.
+$$\B = \{\Omega_{11}(\barCstar)\}$$
 Therefore, we define the only class in $\B$ first.
 \begin{align}
   \begin{aligned}
@@ -722,37 +1325,12 @@ Therefore, we define the only class in $\B$ first.
                        \end{aligned}
   \label{eq:omega11barCstar}
 \end{align}
-We update $\B$ according to the last line above.
-$$\B = \{\Omega_{11}(\Cstar), \Omega_{10}(\Cstar), \M\}.$$
-We can readily define $\M$ --- the non-empty sequence of points.
-\begin{align}
-  \M &= \Z + \M\Z
-       \label{eq:M}
-\end{align}
-Again, update $\B$:
-$$\B = \{\Omega_{11}(\Cstar), \Omega_{10}(\Cstar)\}.$$
-To make things easy, we state the following observations as a lemma.
-\begin{lemma}
-  The following operators ``ignore'' stars.
-  \begin{enumerate}
-  \item $\Omega_0(\Cstar) = \Omega_0(\C) = \C$
-  \item $\Omega_\infty(\Cstar) = \Omega_\infty(\C)$
-  \item $\Omega_{01}(\Cstar) = \Omega_{01}(\C)$.
-  \end{enumerate}
-  \label{lem:ignorance}
-\end{lemma}
-\begin{proof}
-First, notice that $\Omega_0(\C) = \C$. Indeed, by definition we have $\Omega_0(\C) = \Omega_0(\C)\Omega_0(\C)\Z + 2\Omega_0(\C)\Z + \Z$, and the claim follows. Consequently, $\Omega_0(\Cstar)$ is defined as
-\begin{align*}
-  \Omega_0(\Cstar) &= \Omega_0(\C)\Omega_0(\Cstar)\Z + \Omega_0(\Cstar)\Z + \Omega_0(\C)\Omega_0(\Z^*) + \Z\\
-                   &=\C\Omega_0(\Cstar)\Z + \Omega_0(\Cstar)\Z + \C\Z + \Z.
-\end{align*}
-It is then clear that $\Omega_0(\C) = \C$. For the same reason ($\Omega_\infty$ and $\Omega_{01}$ do not depend on the rightmost point in the class they take as argument. And since $\Omega_0(\Cstar) = \C$, $\Cstar$ is just the class $\C$ that tracks the rightmost point. The claims 2. and 3. follow.
-\end{proof}
+We update $\B$ according to the last line above (recall that $\M$ is already defined in~\eqref{eq:exampleAv321Av21_M}). The red items are new.
+$$\B = \{\textcolor{red}{\Omega_{11}(\Cstar), \Omega_{10}(\Cstar)}\}.$$
 
-The last important remark is that if an expression is not an argument to any $\Omega_i$, i.e. it is a \emph{top-level expression}, then it can be evaluated. In what follows, we will immediately evaluate all top-level expressions as far as is convenient. Notice that, because we only apply one $\Omega_i$ to a class, all our expressions are top-level. Meaning that if we can evaluate any of them, we are free do so.
+Before we proceed, we remark that if an expression is not an argument to any $\Omega_i$, i.e. it is a \emph{top-level expression}, then it can be evaluated. In what follows, we will immediately evaluate all top-level expressions as far as is convenient. Notice that, because we only apply one layer of $\Omega$ operators to any original class ($\C,\Cstar,\M,\Z,\Zstar$), all our expressions are top-level.
 
-We can now proceed with defining the remaining objects. We pop $\Omega_{11}(\Cstar)$ out of $\B$. The color coding is only to help trace the origin of the expressions.
+We pop $\Omega_{11}(\Cstar)$ out of $\B$ to define it below. The color coding in~\eqref{eq:exampleAv321Av21_omega11Cstar} and most of the future calculations is there to help the reader trace the origin of the expressions.
 \begin{align}
   \begin{aligned}
   \Omega_{11}(\Cstar) &= \Omega_{11}(\C\Cstar\Z+ \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
@@ -772,21 +1350,19 @@ We can now proceed with defining the remaining objects. We pop $\Omega_{11}(\Cst
                     \end{aligned}
                         \label{eq:exampleAv321Av21_omega11Cstar}
 \end{align}
-Updating $\B$ yields the following list. The red items are new.
+Updating $\B$ yields the following list. The red items those that have not yet been defined and occur on the RHS of~\eqref{eq:exampleAv321Av21_omega11Cstar}.
 $$\B = \{\Omega_{10}(\Cstar),\textcolor{red}{\Omega_\infty(\C)}, \textcolor{red}{\Omega_{11}(\C)},\textcolor{red}{\Omega_{10}(\C)}, \textcolor{red}{\Omega_{01}(\C)}, \textcolor{red}{\Omega_{01}(\Cstar)}\}$$
-Before we proceed, we define $\Omega_\infty(\C)$ as it is a comparably trivial task.
+Before we proceed, we define $\Omega_\infty(\C)$ as, in the scheme of things, it is a trivial task.
 \begin{align}
   \begin{aligned}
     \Omega_\infty(\C) &= \Omega_\infty(\C)\Omega_\infty(\C)\Omega_\infty(\Z) + 2\Omega_\infty(\C)\Omega_\infty(\Z) + \Omega_\infty(\Z))\\
     &= \Omega_\infty(\C)^2(\M+\EE)\Z + 2\Omega_\infty(\C)(\M+\EE)\Z + (\M+\EE)\Z
   \end{aligned}
-  \label{eq:omegainftyC}
+  \label{eq:exampleAv321Av21_omegainftyC}
 \end{align}
-Notice that $\Omega_\infty(\C)$ is essentially class $\C$ where every atom/point can be a nonempty sequence of points. Indeed, the generating function of $\Omega_\infty(\C)$ is $C(z/(1-z)$, where $C(z)$ is the generating function of $\C$.
-
-Having just defined $\Omega_\infty(\C)$ and applying Lemma~\ref{lem:ignorance} leaves us with the following $\B$.
+Notice that $\Omega_\infty(\C)$ is essentially class $\C$ where every atom/point is replaced with a nonempty sequence of points. Indeed, the generating function of $\Omega_\infty(\C)$ is $C(z/(1-z)$, where $C(z)$ is the generating function of $\C$. Having defined $\Omega_\infty(\C)$, we can reduce what are essentially duplicities in $\B$ by applying Lemma~\ref{lem:ignorance}. This allows us to disregard $\Omega_{01}(\Cstar)$ and only keep $\Omega_{01}(\C)$. The new $\B$ is below.
 $$\B = \{\Omega_{10}(\Cstar), \textcolor{red}{\Omega_{11}(\C)},\textcolor{red}{\Omega_{10}(\C)}, \textcolor{red}{\Omega_{01}(\C)}\}$$
-Next, pop $\Omega_{10}(\Cstar)$ out of $\B$. We apply Lemma~\ref{lem:ignorance} as soon as we can.
+Next, pop $\Omega_{10}(\Cstar)$ out of $\B$. To speed up the procedure, we apply Lemma~\ref{lem:ignorance} to the experssions below as soon as we can. This way there will not be any need to post-adjust $\B$. 
 \begin{align}
   \begin{aligned}
   \Omega_{10}(\Cstar) &= \Omega_{10}(\C\Cstar\Z + \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
@@ -795,9 +1371,9 @@ Next, pop $\Omega_{10}(\Cstar)$ out of $\B$. We apply Lemma~\ref{lem:ignorance} 
                       &+\textcolor{green}{\Omega_{10}(\C)(\M+\EE)\Z + \C\Z(\M+\EE)\Z} +\\
                       &+\textcolor{blue}{\Z(\M+\EE)\Z}
                     \end{aligned}
-                        \label{eq:omega10Cstar}
+                        \label{eq:exampleAv321Av21_omega10Cstar}
 \end{align}
-We do not augment $\B$ at all after this definition. Therefore, we have
+We do not augment $\B$ at all after this definition as everything on the RHS has either been defined or is already in $\B$. Therefore, we have
 $$\B = \{\Omega_{11}(\C),\Omega_{10}(\C), \Omega_{01}(\C)\}.$$
 We pop $\Omega_{11}(\C)$ and define it below.
 \begin{align}
@@ -808,9 +1384,9 @@ We pop $\Omega_{11}(\C)$ and define it below.
     &+ \textcolor{orange}{2\Omega_{11}(\C)\Z + 2\C\Z(\M+\EE)\Z^*\Z + 2\Omega_{10}(\C)(\M+\EE)\Z^*\Z} +\\
     &+\textcolor{green}{\Z(\M+\EE)\Z^*\Z}\\
   \end{aligned}
-  \label{eq:omega11C}
+  \label{eq:exampleAv321Av21_omega11C}
 \end{align}
-Again, there is nothing in the definition~\eqref{eq:omega11C} which would not be known or already in $\B$. We do not augment $\B$ and it remains as it was.
+Again, there is nothing in the definition~\eqref{eq:exampleAv321Av21_omega11C} which would not be known or already in $\B$. We do not augment $\B$ and it remains as it was.
 $$\B = \{\Omega_{10}(\C), \Omega_{01}(\C)\}$$
 We pop the next item, $\Omega_{10}(\C)$.
 \begin{align}
@@ -820,9 +1396,9 @@ We pop the next item, $\Omega_{10}(\C)$.
     &+ \C\C\Z(\M+\EE)\Z +\\
     &+ \textcolor{orange}{2\Omega_{10}(\C)(\M+\EE)\Z + 2\C\Z(\M+\EE)\Z} + \textcolor{green}{\Z(\M+\EE)\Z}
   \end{aligned}
-  \label{eq:omega10C}
+  \label{eq:exampleAv321Av21_omega10C}
 \end{align}
-In~\eqref{eq:omega10C} we do not require any new items. In fact, given that we know $\Omega_\infty$, $\Omega_{10}(\C)$ is computable from its own definition only. There is only one class left in $\B$.
+In~\eqref{eq:exampleAv321Av21_omega10C} we do not require any new items. In fact, it turns out that $\Omega_{10}(\C)$ is computable from its own definition only, an standalone recursion. There is only one class left in $\B$.
 $$\B = \{\Omega_{01}(\C)\}$$
 We pop the last item from $\B$, $\Omega_{01}(\C)$.
 \begin{align}
@@ -831,59 +1407,48 @@ We pop the last item from $\B$, $\Omega_{01}(\C)$.
     &= \Omega_{01}(\C)\C\Z + \Omega_\infty(\C)\Omega_{01}(\C)\Z + \Omega_\infty(\C)\Omega_\infty(\C)(\M+\EE)\Z^*\Z +\\
     &+ \textcolor{orange}{2\Omega_{01}(\C)\Z + 2\Omega_\infty(\C)(\M+\EE)\Z^*\Z} + \textcolor{green}{(\M+\EE)\Z^*\Z}
   \end{aligned}
-  \label{eq:omega01C}
+  \label{eq:exampleAv321Av21_omega01C}
 \end{align}
-As there is nothing in $\B$ and we do not augment it after~\eqref{eq:omega01C}, the definition of $\Omega_{11}(\barCstar)$ is self-contained assuming that we include definitions~\eqref{eq:omega11barCstar}, \eqref{eq:M}, \eqref{eq:omega11Cstar}, \eqref{eq:omegainftyC}, \eqref{eq:omega11C}, \eqref{eq:omega10C}, and \eqref{eq:omega01C}.\\
+As there is nothing in $\B$ and we do not augment it after~\eqref{eq:exampleAv321Av21_omega01C}, the definition of $\Omega_{11}(\barCstar)$ is self-contained assuming that we include definitions~\eqref{eq:exampleAv321Av21_E}, \eqref{eq:exampleAv321Av21_M}, \eqref{eq:exampleAv321Av21_omega1barCstar}, \eqref{eq:exampleAv321Av21_omega1Cstar}, \eqref{eq:exampleAv321Av21_omega1C}, \eqref{eq:omega11barCstar}, \eqref{eq:exampleAv321Av21_omega11Cstar}, \eqref{eq:exampleAv321Av21_omegainftyC}, \eqref{eq:exampleAv321Av21_omega10Cstar}, \eqref{eq:exampleAv321Av21_omega11C}, \eqref{eq:exampleAv321Av21_omega10C}, and \eqref{eq:exampleAv321Av21_omega01C}.
 
-The final class that represents $\Av(321|21)$ is 
-\begin{align}
-  \F &= 1 + \M + \Omega_1(\barCstar) + \Omega_{11}(\barCstar)
-      \label{eq:example_final}
-\end{align}
-Therefore, the remaining class that we need defined is $\Omega_1(\barCstar)$.
-\begin{align}
-  \begin{aligned}
-    \Omega_1(\barCstar) &= \Omega_1(\Cstar\Z)\\
-    &= \Omega_1(\Cstar)\Z
-  \end{aligned}
-  \label{eq:omega1barCstar}
-\end{align}
-Now it only remains to define $\Omega_1(\Cstar)$ and its own prerequisites. 
-\begin{align}
-  \begin{aligned}
-    \Omega_1(\Cstar) &= \Omega_1(\C\Cstar\Z + \textcolor{orange}{\Cstar\Z} + \textcolor{green}{\C\Z^*} + \textcolor{blue}{\Z^*})\\
-    &= \Omega_1(\C)\Cstar\Z + \C\Omega_1(\Cstar)\Z + \textcolor{orange}{\Omega_1(\Cstar)\Z} + \textcolor{green}{\Omega_1(\C)\Z^* + \C\Z^*\Z} + \textcolor{blue}{\Z^*\Z}
-  \end{aligned}
-  \label{eq:exampleAv321Av21_omega1Cstar}
-\end{align}
-It turns out that we also need to define $\Omega_1(\C)$ along the way.
-\begin{align}
-  \begin{aligned}
-    \Omega_1(\C) &= \Omega_1(\C\C\Z + \textcolor{orange}{2\C\Z} + \textcolor{green}{\Z})\\
-    &= \Omega_1(\C)\C\Z + \C\Omega_1(\C)\Z + \C\C\Z^*\Z + \textcolor{orange}{2\Omega_1(\C)\Z + 2\C\Z^*\Z} + \textcolor{green}{\Z^*\Z}
-  \end{aligned}
-  \label{eq:omega1C}
-\end{align}
+The corresponding calculations are done in Mathematica~\cite{mathematica} and can be found in \texttt{exampleAv321Av21.nb} inside the \texttt{scripts} folder at
 
-\section{Example: $\M|\M|\M$}
+$$\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis}}.$$
+
+The gerating function of $\Av(321|21)$ coincides with the one obtained in Section~\ref{sec:catalanjuxt_av321av21} and we restate it below for convenience.
+\begin{align*}
+  F(z) &= -\frac{1-\sqrt{1-4z} + z(-4+\sqrt{1-4z} + \sqrt{1-5z}/\sqrt{1-z})}{2z^2}
+\end{align*}
+The first twelve term sof the counting sequence enumerating $\Av(321|21)$ are
+$$1,1,2,6,23,98,434,1949,8803,39888,181201,825201,3767757.$$
+The sequence is in the OEIS~\cite{oeis} as \href{https://oeis.org/A278301}{A278301}.
+\subsection{Example: $\Av(21|21|21)$}
 \label{sec:example_mmm}
-Since a monotone increasing class $\M$ is context-free and clearly admits a combinatorial specification that tracks the right-most point, we choose $\C = \M$ and enumerate $\C|\M|\M$. This example is very simple yet not entirely degenerate case of iterated juxtapositions of with at least two iterations. While it is entirely possible to enumerate this class by following the algorithmic definitions in Section~\ref{sec:iterjuxt_main}, we exploit the degeneracy of the example to shorten the write-up.
+As before, $\Av(21)$ denotes the class of increasing permutations and $\Av(21|21|21)$ then refers to a repeated juxtaposition of $\Av(21)$ with $\Av(21)$, and then the resulting class juxtaposed with $\Av(21)$ (on the right). We know that $\Av(21)$, and its non-empty version that we call $\M$, are context-free classes and clearly admitting combinatorial specifications that track the right-most point. This example is a very simple yet not completely degenerate case of iterated juxtapositions with at least three cells. We chose to give full details of enumeration to illustrate how our methods work on repeated juxtapositions. While it is entirely possible to enumerate this class by following the algorithmic definitions in Section~\ref{sec:iterjuxt_main}, we exploit the slight degeneracies in this example to shorten the write-up.
 
-First of all, we rewrite $\M|\M|\M$ in terms of operators from Section~\ref{sec:iterjuxt_intro}. Because we choose the gridding that places gridlines as far left as possible, it can happen that leftmost cell is empty or middle and leftmost cells are both empty, or all three cells are empty. If all three cells are empty, this case is represented by the class $\EE$. If the leftmost two cells are empty, this is essentially class $\M$. For the remaining cases, observe that the rightmost juxtaposition does not need to track the rightmost point as nothing will be juxtaposed on its right. Therefore, we are only interested in expressions of the form $\Omega_{10}(\M|\M)$ or $\Omega_{10}(\M)$ (when zero or one cell is empty, respectively) and not in any $\Omega_{11}$ terms. If we are dealing with a juxtaposition of only two monotone increasing classes (the case when the leftmost cell is empty), then we represent it as $\Omega_{10}(\Mstar)(\M+\EE)$ --- there is either a single point in the left cell or a sequence of length at least two. The term $(\M+\EE)$ makes sure that we allow the right cell to place points above everything on the left. This is necessary as we do not use the phantom point and we do not track the rightmost (topmost) point in the rightmost cell.  On the other hand, if all three cells are nonempty, then we need to use the phantom point and track the rightmost point in the middle cell. So, middle cell can have a single point or a sequence of length at least two. Therefore, the first two cells are either $\Omega_1(\barMstar)$ or $\Omega_{11}(\barMstar)$. We then apply $\Omega_{10}$ to them and multiply them by $\M+\EE$ as justified in the previous case. Therefore, the final object that we aim to enumerate is $\F$ below.
+First of all, we rewrite $\Av(21|21|21)$ in terms of $\Omega$ operators (defined in Section~\ref{sec:iterjuxt_intro}). Because we choose the gridding with gridlines as far left as possible (gridding from the right), every griddable permutation is griddable in one of the following ways: either all three cells are non-empty, or only the leftmost cell is empty, or only the rightmost cell is non-empty, or all three cells are empty. If all three cells are empty, this case is represented by the empty class $\EE$. If the leftmost two cells are empty, this is essentially the monotone increasing class $\M$ (non-empty, as before). For the remaining cases, observe that the rightmost juxtaposition does not need to track the rightmost point as nothing will be juxtaposed on its right. Therefore, at the outermost layer, we are only interested in expressions of the form $\Omega_{10}(\M)$ and $\Omega_{10}(\M|\M)$  (when one and zero cells are empty, respectively). Consider the case when the leftmost cell is empty and the remaining two cells are non-empty. We express this situation by $\Omega_{10}(\Mstar)(\M+\EE)$ --- the left of the two cells is a non-empty monotone increasing class whose combinatorial specification traks the rightmost point, $\Mstar$. The term $(\M+\EE)$ makes sure that we allow the right cell to place points above everything in the left cell. We have to correct for this, as we do not use the phantom point and we do not track the rightmost (topmost) point in the rightmost cell.  The other case is when all three cells are nonempty. Then we need to use the phantom point and track the rightmost point in the middle cell. So, the middle cell can have a single point or a sequence of length at least two. Therefore, the first two cells are either $\Omega_1(\barMstar)$ or $\Omega_{11}(\barMstar)$. We then apply $\Omega_{10}$ to them. Notice that we do not multiply by $\M+\EE$ as we are already using the phantom point. Consequently, we remove the trace of the phantom point by dividing the 3-cell expression by $\Z$. Therefore, the final object that we aim to enumerate is $\F$ below.
 
 
 \begin{align}
   \F &= \EE + \M + (\M+\EE)\Omega_{10}(\Mstar) +\frac{1}{\Z}(\Omega_{10}(\Omega_1(\barMstar)) + \Omega_{10}(\Omega_{11}(\barMstar)))
 \label{eq:mmm_final}
 \end{align}
+Notice that $\F$ is not a class or a combinatorial specification of a class. It is merely an expression that is formally correct and captures both structure and enumeration of $\Av(21|21|21)$. It is a sort of hybrid benefiting from both the combinatorial specification and the generating function of $\Av(21|21|21)$. Therefore, we will aim to obtain the combinatorial specification for the following class
+\begin{align}
+  \EE + \M + (\M+\EE)\Omega_{10}(\Mstar) +\Omega_{10}(\Omega_1(\barMstar)) + \Omega_{10}(\Omega_{11}(\barMstar)).
+  \label{eq:mmm_combspec}
+\end{align}
+Once we have it, we obtain its generating function and at this stage, we remove the trace of the phantom point by dividing the appropriate terms by $\Z$.
 
+We begin by defining the most simple classes so that we do not have to worry about them later. 
 \begin{align}
   \M &= \Z + \M\Z \label{eq:mmm_m}\\
   \Mstar &=  \Zstar + \M\Zstar\\
-  \Omega_0(\M)&= \Z + \M\Z = \M\\
-  \Omega_0(\Mstar) &= \Z + \M\Z = \M
+  \barMstar &= \Mstar\Z \label{eq:mmm_barMstar}\\
+  \Omega_0(\M)&= \Z + \M\Z = \M\label{eq:mmm_omega0M}\\
+  \Omega_0(\Mstar) &= \Z + \M\Z = \M\label{eq:mmm_omega0Mstar}
 \end{align}
-We will often use the fact that $(\M+\EE)\Z = \M$. We do so below as well by collapsing $\Omega_\infty(\Zstar) = (\M+\EE)\Z = \M$.
+We will often use the fact that $(\M+\EE)\Z = \M$, such as in~\eqref{eq:mmm_omega0M} and~\eqref{eq:mmm_omega0Mstar}. We also use it to collapse $\Omega_\infty(\Zstar)$ into $\M$ as follows: $\Omega_\infty(\Zstar) = (\M+\EE)\Z = \M$.
 \begin{align}
   \begin{aligned}
     \Omega_\infty(\M) &= \Omega_\infty(\Z) + \Omega_\infty(\M)\Omega_\infty(\Z)\\
@@ -902,26 +1467,27 @@ Next, we define the terms with two nonempty cells.
   \end{aligned}
       \label{eq:mmm_omega10M}
 \end{align}
-Notice that $\Omega_{10}$ has the same effect on $\M$ as on $\Mstar$. This is because the rightmost point is also the topmost in $\M$ and $\Mstar$. 
-\begin{align}
-  \Omega_{10}(\Mstar) &= \Omega_{10}(\M)
-  \label{eq:mmm_omega10Mstar}
-\end{align}
 
-We are now ready to define the terms that represent the three nonempty cells. First, we will need $\barMstar$. 
+\begin{observation}
+\label{mmm_observation}
+Notice that $\Omega_{10}$ has the same effect on $\M$ as on $\Mstar$, i.e. $\Omega_{10}(\Mstar) = \Omega_{10}(\M)$. This is quite peculiar sa $\Omega_{10}$ does not ignore the rightmost point in its argument. However, in $\M$ and $\Mstar$, the rightmost point is also the topmost point. And hence every point in $\M$ and $\Mstar$ is below the rightmost point. By the same reasoning, $\Omega_1(\Mstar) = \Omega_1(\M)$ and $\Omega_{11}(\Mstar) = \Omega_{11}(\M)$. We will use these identities below to avoid defining expressions duplicitly.
+\end{observation}
+We have now defined every class needed for the first three terms of~\eqref{eq:mmm_combspec}. Next, we define the terms that represent the three nonempty cells. As in Section~\ref{sec:example_Av321Av21}, let $\B$ be the stack of undefined items. We begin with
+$$\B = \{\Omega_{10}(\Omega_1(\barMstar)) + \Omega_{10}(\Omega_{11}(\barMstar))\}.$$
+Since we have defined $\barMstar$ in~\eqref{eq:mmm_barMstar}, we now need to push $\Omega_1(\barMstar)$ and $\Omega_{11}(\barMstar)$ onto the stack before we define anything else. Hence,
+$$\B = \{\textcolor{red}{\Omega_1(\barMstar), \Omega_{11}(\barMstar)}, \Omega_{10}(\Omega_1(\barMstar)), \Omega_{10}(\Omega_{11}(\barMstar))\}.$$
+We pop the first item and define it below.
 \begin{align}
-  \barMstar &= \Mstar\Z
+  \begin{aligned}
+  \Omega_1(\barMstar) &= \Omega_1(\Mstar)\Omega_0(\Z)\\
+                      &=  \Omega_1(\M)\Z
+                    \end{aligned}
 \end{align}
-Then
-\begin{align}
-  \Omega_1(\barMstar) &= \Omega_1(\Mstar)\Omega_0(\Z)
-\end{align}
-Since we know $\Omega_0(\Z)$, we only need to define $\Omega_1(\Mstar)$. We note that $\Omega_1(\Mstar)$ depends on $\Omega_1(\M)$, and $\Omega_1(\M)$ is the same in this case (special property of monotone increasing sequence -- there is not anything above the rightmost point). Therefore, we set
-\begin{align}
-\Omega_1(\Mstar) &= \Omega_1(\M)
-\label{eq:omega1Mstar}
-\end{align}
-and only define the latter. 
+Recall that $\Omega_1(\Mstar)$ is the same object as $\Omega_1(\M)$ thanks to the Observation~\ref{mmm_observation}, that the rightmost point is also the topmost point in $\M$. Therefore, we need to define $\Omega_1(\M)$. We skip pushing and popping it onto and from the stack and define it straight away.
+% \begin{align}
+% \Omega_1(\Mstar) &= \Omega_1(\M)
+% \label{eq:omega1Mstar}
+% \end{align}
 \begin{align}
   \begin{aligned}
     \Omega_1(\M) &= \Omega_1(\Z + \M\Z)\\
@@ -929,13 +1495,38 @@ and only define the latter.
     &= \Zstar\Z + \Omega_1(\M)\Z + \M\Zstar\Z
   \end{aligned}
 \end{align}
-Finally, we are ready to define $\Omega_{10}(\Omega_1(\barMstar))$. 
+Currently, $\B$ looks as follows
+$$\B = \{\Omega_{11}(\barMstar), \Omega_{10}(\Omega_1(\barMstar)), \Omega_{10}(\Omega_{11}(\barMstar))\}.$$
+We pop the next element and break it down.
 \begin{align}
-  \Omega_{10}(\Omega_1(\barMstar)) &= \Omega_{10}(\Omega_1(\Mstar)\Omega_0(\Z))\\
-                                   &= \Omega_{10}(\Omega_1(\Mstar))\Omega_\infty(\Omega_0(\Z))\\
-                                   &= \Omega_{10}(\Omega_1(\M))\M
+  \begin{aligned}
+    \Omega_{11}(\barMstar) &= \Omega_{11}(\Mstar\Z)\\
+    &= \Omega_{11}(\Mstar)\Omega_0(\Z) + \Omega_{10}(\Mstar)\Omega_{01}(\Z)\\
+    &= \Omega_{11}(\Mstar)\Z + \Omega_{10}(\Mstar)\M\Z
+  \end{aligned}
 \end{align}
-where the last line follows from $\Omega_\infty(\Omega_0(Z)) = \Omega_\infty(\Z) = \M$ and $\Omega_{10}(\Omega_1(\Mstar)) = \Omega_{10}(\Omega_1(\M))$ by~\eqref{eq:omega1Mstar}. Therefore,
+Where the last line follows from the definition of $\Omega_{0}$ and $\Omega_{01}$ and from the fact that $(\M+\EE)\Z = \M$. Given that $\Omega_{11}(\Mstar) = \Omega_{11}(\M)$ and $\Omega_{10}(\Mstar) = \Omega_{10}(\M)$, we push the only new element $\Omega_{11}(\M)$ onto $\B$ (recall that $\Omega_{10}(\M)$ was defined in~\eqref{eq:mmm_omega10M}).
+$$\B = \{\textcolor{red}{\Omega_{11}(\M)}, \Omega_{10}(\Omega_1(\barMstar)), \Omega_{10}(\Omega_{11}(\barMstar))\}$$
+We pop $\Omega_{11}(\M)$ next.
+\begin{align}
+  \begin{aligned}
+    \Omega_{11}(\M) &= \Omega_{11}(\Z) + \Omega_{11}(\M)\Omega_0(\Z) + \Omega_0(\M)\Omega_{11}(\Z) +\\
+    &+\Omega_{10}(\M)\Omega_{01}(\Z)\\
+    &= \M\Zstar\Z + \Omega_{11}(\M)\Z + \M\M\Zstar\Z + \Omega_{10}(\M)\Mstar\Z
+  \end{aligned}
+      \label{eq:mmm_omega11M}
+\end{align}
+We used the definition of $\Omega_{11}$, $\Omega_{0}$ and $\Omega_{01}$ to evaluate them on the base case input $\Z$. There is no new class on the last line of~\eqref{eq:mmm_omega11M} and hence we need not update $\B$ which now is
+$$\B = \{\Omega_{10}(\Omega_1(\barMstar)), \Omega_{10}(\Omega_{11}(\barMstar))\}.$$
+Notice that we now know both inner expressions of the items in $\B$: $\Omega_1(\barMstar)$ and $\Omega_{11}(\barMstar)$. It therefore remains to define the action of $\Omega_{10}$ on them. We pop the next item from $\B$.
+\begin{align}
+  \begin{aligned}
+  \Omega_{10}(\Omega_1(\barMstar)) &= \Omega_{10}(\Omega_1(\Mstar)\Omega_0(\Z))\quad \text{by~\eqref{eq:mmm_barMstar}}\\
+                                   &= \Omega_{10}(\Omega_1(\Mstar))\Omega_\infty(\Omega_0(\Z))\quad \text{by def of $\Omega_{10}$}\\
+                                   &= \Omega_{10}(\Omega_1(\M))\M
+                                   \end{aligned}
+\end{align}
+where the last line follows from $\Omega_\infty(\Omega_0(Z)) = \Omega_\infty(\Z) = \M$ and $\Omega_{10}(\Omega_1(\Mstar)) = \Omega_{10}(\Omega_1(\M))$ by Observation~\ref{mmm_observation}. Given that again we only have one new term to be defined, we omit pushing and popping it to and from $\B$. Therefore,
 \begin{align}
   \begin{aligned}
     \Omega_{10}(\Omega_1(\M)) &= \Omega_{10}(\Omega_1(\Z)) + \textcolor{orange}{\Omega_{10}(\Omega_1(\M)\Omega_0(\Z))} + \textcolor{green}{\Omega_{10}(\Omega_0(\M)\Omega_1(\Z))}\\
@@ -945,11 +1536,11 @@ where the last line follows from $\Omega_\infty(\Omega_0(Z)) = \Omega_\infty(\Z)
   \end{aligned}
       \label{eq:mmm_omega101M}
 \end{align}
-It now remains to define the last term in $\F$, namely $\Omega_{10}(\Omega_{11}(\barMstar))$. 
+There are no undefined objects in the last line and hence $\B$ is now a singleton: it remains to define $\Omega_{10}(\Omega_{11}(\barMstar))$. 
 \begin{align}
   \begin{aligned}
-\Omega_{10}(\Omega_{11}(\barMstar)) &= \Omega_{10}(\Omega_{11}(\Mstar\Z))\\
-                                    &= \Omega_{10}(\Omega_{11}(\Mstar)\Omega_0(\Z)) + \Omega_{10}(\Omega_{10}(\Mstar)\Omega_{01}(\Z))\\
+\Omega_{10}(\Omega_{11}(\barMstar)) &= \Omega_{10}(\Omega_{11}(\Mstar\Z))\quad\\
+                                    &= \Omega_{10}(\Omega_{11}(\Mstar)\Omega_0(\Z)) + \Omega_{10}(\Omega_{10}(\Mstar)\Omega_{01}(\Z)) \\
                                     &= \Omega_{10}(\Omega_{11}(\Mstar))\Omega_\infty(\Omega_0(\Z)) +\\
                                     &+ \textcolor{orange}{\Omega_{10}(\Omega_{10}(\Mstar))\Omega_\infty(\Omega_{01}(\Z))} + \textcolor{green}{\Omega_0(\Omega_{10}(\Mstar))\Omega_{10}(\Omega_{01}(\Z))}\\
                                     &= \Omega_{10}(\Omega_{11}(\M))\M + \textcolor{orange}{\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M} +\\
@@ -957,8 +1548,8 @@ It now remains to define the last term in $\F$, namely $\Omega_{10}(\Omega_{11}(
   \end{aligned}
 \label{eq:mmm_lastterm}
 \end{align}
-Notice that we used facts such as $\Omega_{11}(\Mstar) = \Omega_{11}(\M)$ and $\Omega_{10}(\Mstar)=\Omega_{10}(\M)$. For~\eqref{eq:mmm_lastterm} to be self-contained, we need to define the following set of expressions: $$\B = \{\Omega_{10}(\Omega_{11}(\M)), \Omega_{10}(\Omega_{10}(\M))\}.$$
-We pop the last item and define it below.
+The first three equalities above follow from the definitions of $\barMstar$, $\Omega_{11}$, and $\Omega_{10}$, respectively. The last equality evaluates as many expressions as possible. We used facts from Observation~\ref{mmm_observation}: $\Omega_{11}(\Mstar) = \Omega_{11}(\M)$ and $\Omega_{10}(\Mstar)=\Omega_{10}(\M)$, as well as the definitions of $\Omega_0, \Omega_\infty, \Omega_{01}, \Omega_{10}$ on the base case input $\Z$. However, for~\eqref{eq:mmm_lastterm} to be well-defined, we need to include the following set of expressions in the combinatorial specification: $$\B = \{\Omega_{10}(\Omega_{10}(\M)), \Omega_{10}(\Omega_{11}(\M))\}.$$
+We pop the top item and define it below.
 \begin{align}
   \begin{aligned}
     \Omega_{10}(\Omega_{10}(\M)) &= \Omega_{10}(\M\Z + \textcolor{orange}{\Omega_{10}(\M)\M} + \textcolor{green}{\M\M\Z})\\
@@ -972,16 +1563,9 @@ We pop the last item and define it below.
   \end{aligned}
       \label{eq:mmm_omega1010M}
 \end{align}
-Since everything in~\eqref{eq:mmm_omega1010M} is already known, $\B$ stays as it is: $\B = \{\Omega_{10}(\Omega_{11}(\Mstar))\}.$ However, to define this last term in $\B$, we need to define $\Omega_{11}(\Mstar)$ first. Hence, $$\B = \{\Omega_{10}(\Omega_{11}(\Mstar)), \Omega_{11}(\Mstar)\}.$$ Notice that $\Omega_{11}(\Mstar)$ is identical to $\Omega_{11}(\M)$ as $\M$ is monotone increasing and topmost point is also the rightmost. Therefore, we only define $\Omega_{11}(\M)$.
-\begin{align}
-  \begin{aligned}
-    \Omega_{11}(\M) &= \Omega_{11}(\Z) + \Omega_{11}(\M)\Omega_0(\Z) + \Omega_0(\M)\Omega_{11}(\Z) +\\
-    &+\Omega_{10}(\M)\Omega_{01}(\Z)\\
-    &= \M\Zstar\Z + \Omega_{11}(\M)\Z + \M\M\Zstar\Z + \Omega_{10}(\M)\Mstar\Z
-  \end{aligned}
-      \label{eq:mmm_omega11M}
-\end{align}
-All items on the RHS are known, so $\B$ is a singleton now. $$\B = \{\Omega_{10}(\Omega_{11}(\M))\}$$
+Since everything in~\eqref{eq:mmm_omega1010M} is either already known or in $\B$, which currently contains only one element
+$$\B = \{\Omega_{10}(\Omega_{11}(\M))\}.$$
+Let us now define $\Omega_{10}(\Omega_{11}(\M))$. 
 \begin{align}
   \begin{aligned}
     \Omega_{10}(\Omega_{11}(\M)) &= \Omega_{10}(\M\Zstar\Z) + \textcolor{orange}{\Omega_{10}(\Omega_{11}(\M)\Z)} + \textcolor{green}{\Omega_{10}(\M\M\Zstar\Z)} +\\
@@ -998,24 +1582,34 @@ All items on the RHS are known, so $\B$ is a singleton now. $$\B = \{\Omega_{10}
   \end{aligned}
       \label{eq:mmm_omega1011M}
 \end{align}
-Now everything in~\eqref{eq:mmm_omega1011M} is defined. Before we write down the final version of $\F$, notice that combinatorial specification does not allow ``division''. However, this is easily corrected by rewriting the expression without the division. Therefore, we correct for overcounting (due to the phantom point) through division in the combinatorial specification. While this is illegal, it better captures the origin of the expression and can be readily rewritten into a legal expression. Hence, with the information in~\eqref{eq:mmm_m}--\eqref{eq:mmm_omega1011M}, we transform $\F$ as follows.
-\begin{align*}
-  \F &= \EE + \M + (\M + \EE)\Omega_{10}(\M) +\frac{1}{\Z}\bigg(\Omega_{10}(\Omega_1(\M))\M +\\
+Now, everything in the last line of~\eqref{eq:mmm_omega1011M} has already been defined. Hence, with the information in~\eqref{eq:mmm_m}--\eqref{eq:mmm_omega1011M}, we transform~\eqref{eq:mmm_combspec} into the following expression.
+\begin{align}
+  \begin{aligned}
+  &\EE + \M + (\M + \EE)\Omega_{10}(\M) +\bigg(\Omega_{10}(\Omega_1(\M))\M +\\
      &+\Omega_{10}(\Omega_{11}(\M))\M +\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M + \Omega_{10}(\M)\Omega_{10}(\M)\M\bigg)
-\end{align*}
-
-In the combinatorial specification of $\F$, we need to include the specifications of $\M$~\eqref{eq:mmm_m}, $\Omega_\infty(\M)$~\eqref{eq:mmm_omegainfty}, $\Omega_{10}(\M)$~\eqref{eq:mmm_omega10M}, $\Omega_{10}(\Omega_1(\M))$~\eqref{eq:mmm_omega101M}, $\Omega_{10}(\Omega_{10}(\M))$~\eqref{eq:mmm_omega1010M}, and $\Omega_{10}(\Omega_{11}(\M))$~\eqref{eq:mmm_omega1011M}. The relevant Mathematica script \texttt{exampleMMM.nb} can be found in the \texttt{scripts} folder of the accompanying thesis repository at
+   \end{aligned}
+\label{eq:mmm_combspec_final}
+\end{align}
+From~\eqref{eq:mmm_combspec_final} we see that not all our definitions need to be included in the combinatorial specification~\eqref{eq:mmm_combspec}. It turns out that some can be skipped as we managed to express their content directly through lower-level operators. In particular, we need to include definitions in our combinatorial specification: $\M$~\eqref{eq:mmm_m}, $\Omega_\infty(\M)$~\eqref{eq:mmm_omegainfty}, $\Omega_{10}(\M)$~\eqref{eq:mmm_omega10M}, $\Omega_{10}(\Omega_1(\M))$~\eqref{eq:mmm_omega101M}, $\Omega_{10}(\Omega_{10}(\M))$~\eqref{eq:mmm_omega1010M}, and $\Omega_{10}(\Omega_{11}(\M))$~\eqref{eq:mmm_omega1011M}. However, recall that~\eqref{eq:mmm_combspec} and~\eqref{eq:mmm_combspec_final} do not actually specify the class $\Av(21|21|21)$ as they contain phantom points. The following is not a combinatorial specification, strictly speaking, but its formal meaning is valid and captures the class $\Av(21|21|21)$. Therefore, the generating function of the following class/object stores the counting sequence enumerating $\Av(21|21|21)$.
+\begin{align}
+  \begin{aligned}
+\F &=\EE + \M + (\M + \EE)\Omega_{10}(\M) +\frac{1}{\Z}\bigg(\Omega_{10}(\Omega_1(\M))\M +\\
+     &+\Omega_{10}(\Omega_{11}(\M))\M +\Omega_{10}(\Omega_{10}(\M))\Omega_\infty(\M)\M + \Omega_{10}(\M)\Omega_{10}(\M)\M\bigg)
+   \end{aligned}
+\label{eq:mmm_F_final}
+\end{align}
+The relevant Mathematica script implementing enumeration of $\Av(21|21|21)$ via the process described in this section can be found in \texttt{exampleMMM.nb}. The file resides in the \texttt{scripts} folder of the accompanying thesis repository at
 
 \begin{center}\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis}}.\end{center}
 
-The generating function of $\M|\M|\M$ is
+The generating function of $\Av(21|21|21)$ is
 \begin{align}
   F(z) &= \frac{22x^5-52x^4+56x^3-32x^2+9x-1}{(x-1)^3(2x-1)^2(3x-1)}.
 \end{align}
-The counting sequence that we obtain for the number of permutations in $\M|\M|\M$ of length $k=0,\ldots,12$ is $$1,1,2,6,23,93,360,1312,4541,15111,48854, 154674,482355\ldots$$
-This agrees with Bevan's enumeration of $\M|\M|\M$ in his thesis~\cite{bevan2015thesis}, Part I, Table 3.1.
+The counting sequence that we obtain for the number of permutations in $\Av(21|21|21)$ of length $k=0,\ldots,12$ is $$1, 1, 2, 6, 23, 93, 360, 1312, 4541, 15111, 48854, 154674, 482355\ldots$$
+This agrees with Bevan's enumeration of $\Av(21|21|21)$ in his thesis~\cite{bevan2015thesis}, Part I, Table 3.1. The sequence is not in the OEIS~\cite{oeis}.
 
-\section{Example: Separable next to monotone}
+\subsection{Example: Separable next to monotone}
 \label{sec:example_sepav21}
 The class of separable permutations has finitely many simple permutations and is relatively simple. We still think this example is useful in that it demonstrates that our method can be used to enumerate various juxtapositions exactly. To the best of our knowledge, the juxtaposition class $\S|\M$, where $\M$ is an increasing monotone class, has not been enumerated yet. We juxtapose $\M$ on the right of the class of separable permutations $\S$ and choose to work with the following combinatorial specification of $\S$.
 \begin{align}
@@ -1030,11 +1624,13 @@ The class of separable permutations has finitely many simple permutations and is
 We also know that
 \begin{align}
   \begin{aligned}
-    \M &= \Z + (\M+\EE)\Z\\
-    \Mstar &= \Zstar + (\M+\EE)\Zstar
+    \M &= \Z + \M\Z\\
+    \Mstar &= \Zstar + \M\Zstar
   \end{aligned}
 \end{align}
-To make this example as short as possible, we will not write out the whole derivation of expressions in the combinatorial specification. It is a routine process which could, in principle, be automated. Also, instead of keeping track of a set $\B$ of classes that we need to define, we will determine the whole list of classes that we need and define those in the list.
+Before we proceed with the enumeration, notice that whether $\M$ is a monotone increasing or a monotone decreasing class, $\S|\M$ is enumerated by the same generating function. This is obvious from the chosen combinaorial specification~\eqref{eq:sepav21_sep}. Indeed, if $\M$ is monotone decreasing, we flip the entire juxtaposition around a horizontal axis (so that it is upside down). The main observation is that if $P \in \S$, then a ``flip'' of $P$ around the horizontal axis is also in $\S$. This is easy to verify. Therefore, in case of decreasing $\M$, we enumerate the upside down juxtaposition.
+
+Back to the example with a monotone increasing $\M$. To make this example as short as possible, we will not write out the whole derivation of expressions in the combinatorial specification. It is a routine process which could, in principle, be automated. Also, instead of keeping track of a set $\B$ of classes that we need to define, we will determine the whole list of classes that we need ahead of time. Then we just define the classes in that list.
 
 Notice that we will not need to define $\Sstar_\oplus$ or $\Sstar_\ominus$. This is because $\S_\oplus$ and $\S_\ominus$, the way they are used in~\eqref{eq:sepav21_sep}, can never contain the rightmost point. Refer to the pictorial definition~\eqref{eq:sepstar} of $\S$ for clearer image. Moreover, notice that
 \begin{align*}
@@ -1165,13 +1761,75 @@ The sequence is not on the OEIS~\cite{oeis}. The accompanying Mathematica~\cite{
 
 \begin{center}\href{https://github.com/jsliacan/thesis}{\texttt{https://github.com/jsliacan/thesis/}}.\end{center}
 
+
+\section{Conclusion}
+\label{sec:iterjuxt_conclusion}
+Let us first summarise what the yields of this chapter are and then we point out several obvious and powerful ways to continue exploring the topic. Section~\ref{sec:iterjuxt_intro} outlines what is known about enumerating grid classes. We contribute by describing a way for enumerating any $1\times n$ monotone grid class one of whose cells has been replaced by an arbitrary context-free class (that admits point tracking as described in Section~\ref{sec:iterjuxt_intro}). Apart from the framework for producing exact enumeration results for these classes, we also prove that this general setting is as nice as possible --- that any such class admits a generating function that is algebraic. Recall that context-free classes are often enumerated by counting sequences whose generating functions are algebraic non-rational. Moreover, we give an example of a large family of context-free permutation classes which satisfy the conditions we set in Theorem~\ref{thm:iterjuxt_main} --- the context-free classes with finitely many simple permutations.\\
+
+We demonstrate how to use this general framework for exact enumeration of specific permutation classes. We do this by enumerating three key permutation classes.
+
+The example in Section~\ref{sec:example_Av321Av21} uses our $\Omega$ operators to enumerate $\Av(321|21)$ (also enumerated in Chapter~\ref{chap:catalanjuxt} via other means). What makes this example interesting is that $\Av(321)$ contains infinitely many simples and therefore, in some sense, we require the full strength of Theorem~\ref{thm:iterjuxt_main} to deal with this example.
+
+The next example, in Section~\ref{sec:example_mmm}, illustrates how our framework deals with repeated juxtapositions. This was the whole point of our work from the beginning and this example shows how straightforward the task became with $\Omega$ operators. Additionally, Bevan~\cite{bevan2015thesis} enumerates this class in his thesis and our method covers that case too.
+
+The last example, in Section~\ref{sec:example_sepav21}, demonstrates the enumeration of separable permutations juxtaposed with a monotone increasing class. The class of separable permutations contains finitely many simple permutations (zero, to be exact). The enumeration of this class is of interest for multiple reasons. Firstly, separable permutations are in one-to-one correspondence with Schr\"{o}der paths (lattice paths that stay below diagonal and allow steps $(1,0)$, $(0,1)$, and $(1,1)$) --- generalization of Dyck paths. In other words, juxtaposing monotone class next to the class of separable permutations is the most obvious next step after Catalan juxtapositions in Chapter~\ref{chap:catalanjuxt}. Secondly, separable permutations are the least complex non-degenerate class with finitely many simples, thereby serving as an example for Corollary~\ref{cor:finmanysimples}. Thirdly, to the best of our knowledge, the juxtaposition of separable permutations with a monotone class has not been enumerated before. Therefore, this is an example that is also a new result at the same time.\\
+
+When defining $\Omega$ operators in Section~\ref{sec:iterjuxt_intro}, we present the definitions as recursions in functional form. Assuming that the user constructs on her own the expression $\F$ --- the one which represents the juxtapositio in question as a distjoint union of juxtapositions of non-empty cells, and whose generating function enumerates the desired juxtaposition --- the rest of the task towards obtaining the generating function and the counting sequence of the desired juxtaposition class lends itself to automation. In other words, after parsing the input from the user, the rest is an algorithmic task. Hence implementable on a PC. This would be a very useful tool for enumerating small juxtaposition classes of the form that we described. We do plan to address this in the near future.\\
+
+\begin{figure}[ht!]
+  \begin{center}
+    \begin{tikzpicture}[scale=1]
+      \draw (1,1) rectangle (2,2) node[pos=0.5]{$\C$};
+      \draw (2,1) rectangle (3,2) node[pos=0.5]{$\M_1$};
+      \draw (1,2) rectangle (3,3) node[pos=0.5]{$\M_2$};
+      \draw (3,1) rectangle (4,3) node[pos=0.5]{$\M_3$};
+      \draw (4,1) rectangle (5,3) node[pos=0.5]{$\M_4$};
+      \draw (1,0) rectangle (5,1) node[pos=0.5]{$\M_5$};
+      \draw (0,0) rectangle (1,3) node[pos=0.5]{$\M_6$};
+      \draw (5,0) rectangle (6,3) node[pos=0.5]{$\M_7$};
+      \draw (0,3) rectangle (6,4) node[pos=0.5]{$\M_8$};
+      \draw (0,4) rectangle (6,5) node[pos=0.5]{$\M_9$};
+      \draw (0,-1) rectangle (6,0) node[pos=0.5]{$\M_{10}$};
+      \draw (6,-1) rectangle (7,5) node[pos=0.5]{$\M_{11}$};
+      \draw (0,5) rectangle (7,6) node[pos=0.5]{$\M_{12}$};
+      \draw (-1,-1) rectangle (0,6) node[pos=0.5]{$\M_{13}$};
+    \end{tikzpicture}
+    \caption{An example of unrestricted iterative juxtaposition of thirteen monotone classes $\M_1,\ldots,\M_{13}$ onto a context-free class $\C$.}
+    \label{fig:juxtopia}
+  \end{center}
+\end{figure}
+
+
+The one major direction of research that suggests itself after our work is the generalisation to juxtapositions from all four sides: top, bottom, right, and left. See Figure~\ref{fig:juxtopia}. This would require tracking all four extremal points in the permutation. This in itself is not an easy task, as we would require two mutually dependent combinatorial specifications. One that tracks the vertical position of points and the other one that tracks their horizontal positions. Both horizontal and vertical positions of each point are needed to deal with top and side juxtapositions. Assuming we can deal with that, it still remains to determine how to uniquelly grid any one given permutation (provided that it is griddable into a given class). The problems with gridding arise when two classes meet at a corner in a continuous way. Imagine a two-sided juxtaposition as in Figure~\ref{fig:screwyou}. Clearly, it is a form of the juxtaposition that we would like to treat, but it is unfriendly. On the bright side, one can notice that there are no cycles when juxtaposing from both the top and the side.
+
+\begin{figure}[ht!]
+  \begin{center}
+    \begin{tikzpicture}[scale=1]
+      \draw (1,3) rectangle (3,5);
+      \draw (1,1) rectangle (3,3) node[pos=0.5]{$\C$};
+      \draw (3,1) rectangle (5,3);
+      \foreach \i in {1,...,40}
+      {
+        \filldraw[black] (1+0.1*\i,5-0.1*\i) circle (0.5pt);
+      }
+      % \filldraw[black] (-0.2,14.6) circle (1.5pt) node[right]{$w$};
+      % \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
+    
+    \end{tikzpicture}
+    \caption{An example of a problematic juxtaposition from both the top and the side.}
+    \label{fig:screwyou}
+  \end{center}
+\end{figure}
+
+Finally, we would like to point out that a context-free class $\C$ was chosen because it is a ``nicely behaved'' object to juxtapose monotone classes next to. However, other objects --- maybe more general ones --- could be manageable under favourable circumstances. It remains a direction to pursue. 
+
 \part{Packing}
 \label{part:packing}
 
-%\input{packsmall}
+\input{packsmall}
 
-%\input{permpack}
-
+\input{permpack}
+It does, however, differ in significant ways. For instance, certain tasks are parallelised, it makes use of ``libraries'' to avoid repeated computations, and it requires no installation.
 \phantomsection
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{alpha}

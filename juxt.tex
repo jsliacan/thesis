@@ -1,7 +1,4 @@
-\chapter{Simple juxtapositions}
-\label{chap:catalanjuxt}
-
-This paper enumerates all juxtaposition classes of the form ``$\Av(abc)$ next to $\Av(xy)$'', where $abc$ is a permutation of length three and $xy$ is a permutation of length two. We use Dyck paths decorated by sequences of points to represent elements from such a juxtaposition class. Context free grammars are then used to enumerate these decorated Dyck paths.
+As mentioned earlier, in this chapter we enumerate all juxtaposition classes of the form ``$\Av(abc)$ next to $\Av(xy)$'', where $abc$ is a permutation of length three and $xy$ is a permutation of length two. We use Dyck paths decorated by sequences of points to represent elements from such a juxtaposition class. Context free grammars are then used to enumerate these decorated Dyck paths.
 
 
 \newsavebox{\smlmata}
@@ -11,7 +8,7 @@ This paper enumerates all juxtaposition classes of the form ``$\Av(abc)$ next to
 
 \section{Introduction}
 
-Juxtapositions are a simple special case of permutation grid classes. Grid classes found application mainly as tools to study the structure of other permutation classes. In~\cite{vatter11small}, Vatter used the structural insights that monotone grid classes offer to classify growth rates of small permutation classes. Apart from enumerating permutation classes, several other applications of grid classes exist, among them~\cite{albert2011enumeration, aabrv2013, bevan-new, brignall2012pwo, murphy2003pwo, vatter2011pwo}. For an introduction to grid classes and their further uses, see Bevan's PhD thesis~\cite{bevan2015thesis}.
+Juxtapositions are a simple special case of permutation grid classes. To keep this chapter as self-contained as possible, we define juxtapositions and Catalan classes in a particular way that is beneficial for the work in this chapter. 
 
 \begin{figure}[!ht]
 \begin{center}
@@ -42,7 +39,7 @@ Juxtapositions are a simple special case of permutation grid classes. Grid class
 \end{figure}
 
 
-Each permutation in a \emph{grid class} can be drawn into a grid so that the subpermutation in each box is in the class specified by the corresponding cell in a \emph{gridding matrix}. See Figure~\ref{fig:gridexample}  for an example of permutations from a \emph{monotone grid class} (where each cell in the gridding matrix is a 21-avoider, 12-avoider, or empty). Because of their more general applicability, the study of grid classes in their own right has emerged in a few directions. For instance, it is conjectured that all monotone grid classes are finitely based, but this is only known for a few special cases, most notably those whose row-column graph is acyclic~\cite{aabrv2013}, and a few other special cases (see~\cite{albert-brignall-2times2, atkinson1997restricted, waton, bevan2015thesis}). In another direction, the role of grid classes with respect to partial well-ordering has been explored in e.g.~\cite{brignall2012pwo, murphy2003pwo, vatter2011pwo}. Finally, while the asymptotic enumeration of monotone grid classes was answered completely by Bevan~\cite{bevan:growth-rates:}, exact enumeration is harder, primarily due to the difficulty of handling multiple griddings: that is, enumerating `griddable' objects rather than `gridded' ones. One general result here is that all geometric grid classes have rational generating functions~\cite{aabrv2013}, but the move from `gridded' to `griddable' is nonconstructive, instead relying on properties of regular languages.
+Recall that each permutation in a \emph{grid class} can be drawn into a grid so that the subpermutation in each box is in the class specified by the corresponding cell in a \emph{gridding matrix}. See Figure~\ref{fig:gridexample}  for an example of permutations from a \emph{monotone grid class} (where each cell in the gridding matrix is a 21-avoider, 12-avoider, or empty).
 
 As a first step towards enumerating more general grid classes, in this paper we replace one cell in the gridding matrix $M$ of a monotone grid class by a \emph{Catalan class}, that is, one avoiding a single permutation of length 3. For simplicity, we restrict our attention to $1\times 2$ grids, although the techniques presented here could be used in larger grids. These $1\times 2$ grid classes are also referred to as \emph{juxtapositions} --- in our case a Catalan class in the left cell, and a monotone class in the right one.
 
@@ -59,10 +56,10 @@ $\Av(132|12)$, \underline{\boldmath{$\Av(312|21)$}} & $\overset{\phi}{\longleftr
 
 Let $P_i$ and $S_j$ be permutations, for all $1\leq i\leq k$ and $1 \leq j \leq l$. Also, let $\mathbf{U} = \Av(P_1,\ldots,P_k)$ and $\mathbf{V} = \Av(S_1,\ldots,S_\ell)$ be  classes of permutations that avoid $P_1,\ldots, P_k$ and $S_1,\ldots,S_\ell$, respectively. A \emph{juxtaposition class} $\mathbf{W} = \Av(P_1,\ldots,P_k\mid S_1, \ldots, S_\ell)$ of classes $\mathbf{U}$ and $\mathbf{V}$ is the set of permutations whose form is $AB$ with $A\in \mathbf{U}$ and $B \in \mathbf{V}$. We say that $\mathbf{U}$ is on the left-hand side (LHS) of $\mathbf{W}$ and that $\mathbf{V}$ is on the right-hand side (RHS) of $\mathbf{W}$. The diagram on the right in Figure~\ref{fig:gridexample} shows a permutation 1342 from the juxtaposition class $\Av(21|12)$, together with two possible griddings of 1342. Equipped with the definition of a juxtaposition, we can now refer to Table~\ref{tab:bijections}. It schematizes the relationships between juxtapositions $\Av(P|S)$, where $P$ is of length three and $S$ of length two or vice versa. Out of all these, only twelve are essentially distinct (not symmetries of each other), and all of them have the Catalan class $\Av(abc)$ on the same side in the juxtaposition. So, without loss of generality, we assume a Catalan class to be on the left and a monotone class on the right. By further symmetries, these twelve juxtaposition classes can be coupled into equinumerous pairs. See Table~\ref{tab:bijections}. To the best of our knowledge, only two of the twelve classes in Table~\ref{tab:bijections} have been enumerated --- $\Av(231|12)$ by Bevan~\cite{bevan-new} (and hence $\Av(213|21)$) and $\Av(321|12)$ by Miner~\cite{miner16twobyfour} (and hence $\Av(123|21)$). The goal of this paper is to enumerate the remaining two juxtaposition classes in bold in Table~\ref{tab:bijections} and find bijections between the pairs of underlined classes. This completes the enumeration for all juxtapositions of a Catalan class with a monotone one.
 
-In section~\ref{sec:defs} we introduce the concepts that we need and demonstrate them on an example. Section~\ref{sec:enum} contains enumerations of the boldface classes $\Av(231|12)$, $\Av(321|21)$ and $\Av(312|21)$.  Bijections between the underlined classes are presented in Section~\ref{sec:bijections}. We mention open questions in Section~\ref{sec:conclusion}.
+In section~\ref{sec:catalanjuxt_defs} we introduce the concepts that we need and demonstrate them on an example. Section~\ref{sec:enum} contains enumerations of the boldface classes $\Av(231|12)$, $\Av(321|21)$ and $\Av(312|21)$.  Bijections between the underlined classes are presented in Section~\ref{sec:bijections}. We mention open questions in Section~\ref{sec:conclusion}.
 
 \section{Definitions and overview}
-\label{sec:defs}
+\label{sec:catalanjuxt_defs}
 We assume the reader is familiar with elementary definitions. They are conveniently presented in a note by Bevan~\cite{bevan2015defs}.  We refer to the three juxtaposition classes in bold in Table~\ref{tab:bijections} as $\mathbf{A}, \mathbf{B}$, and $\mathbf{C}$, respectively. We list them below together with their representations in terms of bases, using~\cite{atkinson1997restricted}.
 
 \begin{center}
@@ -428,6 +425,7 @@ The generating function $s_{\mathbf{A}}(z)$ stores terms of \href{http://oeis.or
 
 
 \subsubsection{Class $\mathbf{B} = \Av(321|21)$}
+\label{sec:catalanjuxt_av321av21}
 We represent a 321-avoiding permutation $P$ by a Dyck path $\P$ from the bottom left to the top right corner of the grid, and staying above the diagonal. The sequences of points (each possibly empty) on the RHS, associated with vertical steps (up steps) on the LHS, are always placed directly below the corresponding $\bU$ on the LHS (i.e. below the point in $P$ associated with the $\bU$). Additionally, we need to correct for the points on the RHS which can occur above everything on the LHS. We do this when transcribing the grammar to equations. Below is the alphabet used for our CFG.
 
 \begin{enumerate}
@@ -536,7 +534,7 @@ s_{\mathbf{C}}(z) &= -\frac{(1+\sqrt{1-4z})(1-z+\sqrt{x-1}\sqrt{5x-1})}{4z}
 \end{align*}
 \end{theorem}
 
-The initial twelve coefficients of $s_{\mathbf{C}}(z)$ are 1, 2, 6, 22, 88, 367, 1568, 6810, 29943, 132958, 595227, 2683373. It turns out that this sequence enumerating $\Av(312|21)$ is the sequence \href{http://oeis.org/A165538}{A165538} in \href{http://oeis.org/}{OEIS}. As we mention in Section~\ref{sec:defs}, \href{http://oeis.org/A165538}{A165538} also enumerates the class $\Av(4312,3142)$, see~\cite{albert2012inflations}.
+The initial twelve coefficients of $s_{\mathbf{C}}(z)$ are 1, 2, 6, 22, 88, 367, 1568, 6810, 29943, 132958, 595227, 2683373. It turns out that this sequence enumerating $\Av(312|21)$ is the sequence \href{http://oeis.org/A165538}{A165538} in \href{http://oeis.org/}{OEIS}. As we mention in Section~\ref{sec:catalanjuxt_defs}, \href{http://oeis.org/A165538}{A165538} also enumerates the class $\Av(4312,3142)$, see~\cite{albert2012inflations}.
 
 \section{Bijections}
 \label{sec:bijections}
@@ -624,7 +622,7 @@ By an articulation point of a permutation we mean the articulation point of the 
 There exists a bijective map $\lambda: \Av(231) \to \Av(321)$ that fixes articulation points.
 \end{lemma}
 \begin{proof}
-Given the position of an articulation point $x$, let $\P''$ and $\Q''$ be identical. Then there are unique completions $\P'$ and $\Q'$, of $\P''$ and $\Q''$, that make them into Dyck paths $\P$ and $Q$, respectively. Clearly, this is a bijection, say $\lambda'$, between Dyck paths $\P$ with an articulation point $x$ and Dyck paths $\Q$ with the same articulation point $x$. Given the bijections between 231-avoiders and Dyck paths, and 321-avoiders and Dyck paths from Section~\ref{sec:defs}, we can define $\lambda$ as a composition of these with $\lambda'$. This makes $\lambda$ a bijection as desired.
+Given the position of an articulation point $x$, let $\P''$ and $\Q''$ be identical. Then there are unique completions $\P'$ and $\Q'$, of $\P''$ and $\Q''$, that make them into Dyck paths $\P$ and $Q$, respectively. Clearly, this is a bijection, say $\lambda'$, between Dyck paths $\P$ with an articulation point $x$ and Dyck paths $\Q$ with the same articulation point $x$. Given the bijections between 231-avoiders and Dyck paths, and 321-avoiders and Dyck paths from Section~\ref{sec:catalanjuxt_defs}, we can define $\lambda$ as a composition of these with $\lambda'$. This makes $\lambda$ a bijection as desired.
 \begin{align*}
 \Av(231) \to \text{Dyck}(\Av(231)) \overset{\lambda'}{\to} \text{Dyck}(\Av(321))\to \Av(321).
 \end{align*}
