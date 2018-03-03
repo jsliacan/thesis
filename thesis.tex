@@ -381,13 +381,13 @@ The aim of Part I of this thesis is to make progress on describing permutation g
 
 \chapter{Iterated juxtapositions}
 \label{chap:iterjuxt}
-The goal of this chapter is to make further progress on describing permutation grid classes. In Chapter~\ref{chap:catalanjuxt}, we focus on exact enumeration of a specific set of permutation grid classes of the form $\C|\M$, where $\C$ is a Catalan class and $\M$ is a monotone class. In this chapter, we trade some amount of ``exactness'' for more generality. In particular, we address permutation grid classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|,\ldots|\M_{k+\ell}$, for some $k,\ell \geq 0$, where $\C$ is an arbitrary \emph{context-free} permutation class. ``Context-free'' is significantly more general than ``Catalan''. On the other hand, we cannot enumerate such classes exactly. Instead, we prove that the permutation classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ admit algebraic generating functions.
+The goal of this chapter is to make further progress on describing permutation grid classes. In Chapter~\ref{chap:catalanjuxt}, we focus on exact enumeration of a specific set of permutation grid classes of the form $\C|\M$, where $\C$ is a Catalan class and for the moment $\M$ is a monotone class. In this chapter, we trade some amount of ``exactness'' for more generality. In particular, we address permutation grid classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|,\ldots|\M_{k+\ell}$, for some $k,\ell \geq 0$, where $\C$ is an arbitrary \emph{context-free} permutation class. We define what context-free means in Section~\ref{sec:iterjuxt_intro}. For now, let us note that ``Context-free'' is significantly more general than ``Catalan'', yet well-behaved enough to deal with. As opposed to the Catalan classes, we do not enumerate all these context-free juxtapositions exactly as there are infinitely many of them (compare that to the six Catalan juxtapositions) and they are very disparate. In principle though, our method allows us to enumerate each one of such classes individually. However, exact enumeration is a mere side-product. Instead, we focus on proving that the permutation classes of the form $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ admit algebraic generating functions.
 
-Algebraicity is as ``nice'' as one can hope for given that many generating functions enumerating context-free classes are already algebraic and non-rational. Below is a hierarchy of families of generating functions showing that the family of algebraic Given that a generating function is a formal power series, the hierarchy below captures how special algebraic functions are.
+Algebraicity follows from the context-free property of the class itself. In fact, \emph{context-freeness} is what we work with and exploit. Algebraicity of the generating function is a consequence of it. Still, notice that algebraic generating function and as ``nice'' as one can hope for given that many generating functions enumerating context-free classes are already algebraic and non-rational. Below is a hierarchy of families of generating functions showing that the family of algebraic power series is one of the more special ones.
 
 $$\text{rational} \subset \text{algebraic} \subset \text{$D$-finite} \subset \text{$D$-algebraic} \subset \text{power series}$$
 
-From this viewpoint, our result states that by appending arbitrary but finite number of monotone classes on the right of a context-free class $\C$, the generating function does not get qualitatively worse to the one enumerating $\C$ --- algebraic. A notable corollary of thi sresult is, for instance, that juxtaposition of monotone classes on either side of a context-free permutation class $\C$ with finitely many simple permutations admits an algebraic generating function. Moreover, we work out several examples explicitly to obtain exact generating functions. These are $\Av(321|21)$, $\M|\M|\M$ from~\cite{bevan2015thesis}, and $\S|\M$ (separable next to monotone).
+From this viewpoint, our result states that by appending arbitrary but finite number of monotone classes on either side of a context-free class $\C$, the resulting class does not lose context-freeness and its generating function does not get qualitatively worse compared to the one enumerating $\C$. A notable corollary of this result is, for instance, that juxtaposition of monotone classes on either side of a context-free permutation class $\C$ with finitely many simple permutations admits an algebraic generating function. This is a significant subcase and context-free classes with finitely many simples were studied in e.g.~\cite{}. Moreover, we work out several examples explicitly to obtain exact generating functions. These are $\Av(321|21)$, $\M|\M|\M$ from~\cite{bevan2015thesis}, and $\S|\M$ (separable next to monotone).
 
 %The first example is significant in that it shows that not all context-free classes that meet our requirements have finitely many simple permutations. Therefore, the corollary above is actually weaker than our main result. 
 
@@ -395,7 +395,7 @@ From this viewpoint, our result states that by appending arbitrary but finite nu
 \label{sec:iterjuxt_intro}
 
 To begin, we juxtapose a context-free permutation class $\C$ with a finite row of monotone classes $\M_1|\ldots|\M_k$ on the right. Additionally, we assume for the moment that each
-$\M_i$ is monotone and increasing. We later argue that for decreasing classes, a symmetry of our argument applies and renders the case essentially identical to increasing $\M$. Similarly, Proposition~\ref{prop:leftappend} says that whether we append $\M$ on the left-hand side or the right-hand side does not have any bearing on our arguments. So for now, we append from the right only. As mentioned above, the work in this chapter extends the work in Chapter~\ref{chap:catalanjuxt} in two directions. One, the condition that $\C$ is a Catalan permutation class is replaced by requiring $\C$ to only be context-free. Two, juxtaposition from the right is iterated a finite number of times instead of just once. Before we proceed with the statement of the result, let us set the scene. The following definition is taken from Flajolet and Sedgewick~\cite{analcomb}, Section I.5.4, Definition I.13.
+$\M_i$ is monotone and increasing. We later argue that for decreasing classes, a symmetry of our argument applies and renders the case essentially identical to increasing $\M$. We continue by proving that appending $\M$ on the left-hand side or the right-hand side does not have any bearing on our arguments. So eventually without loss of generality, we append only increasing $\M$ and only from the right --- at least for now. As mentioned above, the work in this chapter extends the work in Chapter~\ref{chap:catalanjuxt} in two directions. One, the condition that $\C$ is a Catalan permutation class is replaced by requiring $\C$ to only be context-free. Two, juxtaposition from the right is iterated a finite number of times instead of just once. Before we proceed with the statement of the result, let us set the scene. The following definition is taken from Flajolet and Sedgewick~\cite{analcomb}, Section I.5.4, Definition I.13.
 \begin{definition}[Context-free specification]
   A class $\C$ is said to be \emph{context-free} if it coincides with the first component $\S_1$ of a system of equations
   \begin{align}
@@ -409,21 +409,29 @@ $\M_i$ is monotone and increasing. We later argue that for decreasing classes, a
   \end{align}
   where each $f_i$ is a constructor that only involves operations of combinatorial sum ($+$) and cartesian product ($\times$), as well as the neutral/empty class $\EE = \{\emptyset\}$.
 \end{definition}
-We say that two classes are the same if there exists a nice bijection between them. The following definition implies this.
+For our purposes, two classes are the same if there exists a bijection between them. The following definition implies this.
 \begin{definition}
   Two combinatorial classes are \emph{combinatorially isomorphic} if and only if their counting sequences are identical. This is equivalent to existence of a size-preserving bijection between the two classes.
 \end{definition}
-We are going to need a modification of the definition of a context-free class that will allow us to decorate context-free permutation classes. 
+
+Before we proceed to modify the definition of a context-free class, we state the key result of Chomsky and Schutzenberger as Theorem~\ref{thm:chomsky}. It relates the character of the class' context-free combinatorial specification to the character of the class' generating function. If the former is ``nice'', then so is the latter. Our work then consists of proving that the juxtaposition classes in question have ``nice'' combinatorial specifications. Once that is known, Theorem~\ref{thm:chomsky} translates the result into the language of generating functions as we state it later.
+
+\begin{theorem}[Chomsky-Schutzenberger, Proposition I.7. in~\cite{analcomb}]
+\label{thm:chomsky}
+A combinatorial class $\C$ that is context-free admits an ordinary generating function that is an algebraic function. In other words, there exists a (non-null) bivariate polynomial $P(z,y) \in \mathbb{C}[z,y]$ such that $$P(z,C(z)) = 0.$$
+\end{theorem}
+
+As mentioned, we are going to need a modification of the definition of a context-free class that will allow us to decorate context-free permutation classes. 
 \begin{definition}[Tracking the left-most and the right-most points]
-  We say that a context-free class specification of $\C$ \emph{tracks the right-most and the left-most point by its vertical position} if it is combinatorialy isomorphic to the context-free class with the specification $\rS$ below and all Cartesian products in $\rS$ are recorded left-to-right as they occur bottom-to-top in $\C$. The asterisk (${}^*$) [circle (${}^\circ$)] in $\rS$ mark the right-most [left-most] point, or the block which contains the right-most [left-most] point inside $\C_i^*$ [$\C_i^\circ$]. Notice that a class can contain both the left-most and the right-most point, $\C^{\circ*}$.
+  We say that a context-free class specification of $\C$ \emph{tracks the right-most and the left-most point by vertical position} if it is combinatorialy isomorphic to the context-free class with the specification $\rS$ below and all Cartesian products in $\rS$ are recorded left-to-right as they occur bottom-to-top in $\C$. The asterisk (${}^*$) [circle (${}^\circ$)] in $\rS$ mark the right-most [left-most] point, or the block which contains the right-most [left-most] point inside $\C_i^*$ [$\C_i^\circ$]. Notice that a class can contain both the left-most and the right-most point, e.g.~$\C^{\circ*}$. Analogously, we use four different atoms to describe permutation points: the usual point $\Z$, the rightmost point $\Zstar$, the leftmost point $\Z^\circ$, and the rightmost point that is also leftmost, $\Z^{\circ*}$. 
   \begin{align}
 \rS &=  \begin{rcases}\begin{dcases}
-  \C_0^* &= f_0^*(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+  \C_0^* &= f_0^*(\Z,\Z^*,\C_i, \C_i^*)\\
        &\vdots\\
-  \C_r^* &= f_r^*(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
-  \C_0^\circ &= f_0^\circ(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+  \C_r^* &= f_r^*(\Z,\Z^*,\C_i, \C_i^*)\\
+  \C_0^\circ &= f_0^\circ(\Z,\Z^\circ,\C_i,\C_i^\circ)\\
        &\vdots\\
-  \C_r^\circ &= f_r^\circ(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
+  \C_r^\circ &= f_r^\circ(\Z,\Z^\circ,\C_i, \C_i^\circ)\\
   \C_0^{\circ*} &= f_0^{\circ*}(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
        &\vdots\\
   \C_r^{\circ*} &= f_r^{\circ*}(\Z,\Z^*,\Z^\circ,\C_i, \C_i^*,\C_i^\circ, \C_i^{\circ *})\\
@@ -437,36 +445,10 @@ We are going to need a modification of the definition of a context-free class th
   where $0 \leq i \leq r$. 
  \end{definition}
 
-If a class $\C^*$ tracks the right-most point as outlined above, we refer to $\C^*$ as a \emph{starred class}. Similarly, $\Z^*$ is a \emph{starred point}, or simply the right-most point. Analogously, we have a \emph{circled class} $\C^\circ$ and a \emph{circled point} $\Z^\circ$. On the other hand, we will also use the terms \emph{starless class} or \emph{starless point} to refer to a class without a star/asterisk. For example, $\C, \C^\circ$ and $\Z, \Z^\circ$. Given the above definition, we assume from now on that every permutation in class $\C$ is context-free and admits a specification that tracks the right-most point. When we need to track the left-most point we declare it explicitly.
-\begin{example}
-  The following is a context-free specification for the class of separable permutations (non-empty):
-  \begin{align*}
-    \S &= \Z + \S_{\oplus}\S + \S_{\ominus}\S\\
-    \S_{\ominus} &= \Z + \S_\oplus\S\\
-    \S_\oplus &= \Z + \S_\ominus\S,
-  \end{align*}
-  where we recall that $\S_\ominus$ and $\S_\oplus$ stand for skew-indecomposable and sum-indecomposable permutation classes. Now, among all context-free specifications of $\S$, we insist on picking the following one:
-  \begin{align}
-    \begin{aligned}
-    \S^* &= \Z^* + \S_{\oplus}\S^* + \S^*\S_{\ominus}\\
-    \S &= \Z + \S_{\oplus}\S + \S\S_{\ominus}\\
-    \S_{\ominus} &= \Z + \S_\oplus\S\\
-    \S_\oplus &= \Z + \S\S_\ominus.
-    \label{eq:sepstarcs}
-  \end{aligned}
-  \end{align}
-  In~\eqref{eq:sepstarcs}, the class of separable permutations is represented according to the decomposition in~\eqref{eq:sepstar}, encoding vertical order as left-to-right. Notice, in particular, that there are multiple combinatorial specifications of $\S$ that track the right-most points. One of them below.
-  \begin{align}
-    \begin{aligned}
-      \S^* &= \Z + \cplusc{\S_\oplus}{\S^*} + \cminusc{\S^*}{\S_\ominus}\\
-      \S &= \Z + \cplusc{\S_\oplus}{\S} + \cminusc{\S}{\S_\ominus}\\
-      \S_\ominus &= \Z + \cplusc{\S_\oplus}{\S}\\
-      \S_\oplus &= \Z + \cminusc{\S}{\S_\ominus}
-    \end{aligned}
-                  \label{eq:sepstar}
-  \end{align}
-\end{example}
-The Cartesian product is naturally non-commutative which conveniently keeps track of vertical positions. Therefore, requiring that the combinatorial specification keeps track of the rightmost point by its value amounts to merely picking a specific combinatorial specification according to how it happens to encode the right-most point in $\C$. 
+ If a class $\C^*$ tracks the right-most point as outlined above, we refer to $\C^*$ as a \emph{starred class}. Similarly, $\Z^*$ is a \emph{starred point}, or simply the right-most point. Analogously, we have a \emph{circled class} $\C^\circ$ and a \emph{circled point} $\Z^\circ$. On the other hand, we will also use the terms \emph{starless class} or \emph{starless point} to refer to a class without a star/asterisk. For example, $\C, \C^\circ$ and $\Z, \Z^\circ$. Given the above definition, we assume from now on that every permutation in class $\C$ is context-free and admits a specification that tracks the right-most point. When we need to track the left-most point we declare it explicitly.
+
+   
+The Cartesian product is naturally non-commutative which conveniently helps us to keep track of vertical positions. Therefore, requiring that the combinatorial specification keeps track of the rightmost point by its value amounts to merely picking a specific combinatorial specification according to how it happens to encode the right-most point in $\C$. 
 
 Let us consider an example of how vertical order translates into left-to-right order in the Cartesian product. For instance, $\Z\C\C\DD$ refers to a term which has a single point at the bottom, then somewhere above it (and to the left or to the right of it) there is an element from $\C$, then another element of $\C$ is further above the previous one, and above all of this there is an element from $\DD$. Schematically, it could look something like the class in Figure~\ref{fig:order}.
 
@@ -483,9 +465,54 @@ Let us consider an example of how vertical order translates into left-to-right o
   \label{fig:order}
 \end{figure}
 
-Let $\V = \{\Z,\Z^*,\C_0,\ldots,\C_r,\C^*_0,\ldots,\C_r^*, \C^\circ_0,\ldots,\C_r^\circ, \C^{\circ*}_0,\ldots,\C_r^{\circ*}\}$ refer to the collection of all variables occurring in the polynomials $f_i/f_i^*/f^\circ/f^{\circ*}$. When we do not care to distinguish between $f_i$ and $f_j$ or $f_i, f_i^*, f^\circ$, and $f^{\circ*}$, we simply write $f$ for a polynomial in variables from $\V$. Similarly, when we do not distinguish between two variables in $\V$, we simply write $X \in \V$. As we just mentioned, each $f$ is a polynomial. We refer to its terms by $\T_h$ as in $f = \sum_{\ell=0}^N\T_h$. Each term $\T_h$ is a product of the variables in $\V$ and for a function $f^*$, each $\T_h$ contains exactly one starred variable (there is exactly one rightmost point in each term). Same holds for $f^\circ$. 
 
-One of the problems of enumberating permutation grid classes is that there often are multiple legal ways to grid a permutation in a given grid class. Therefore, one of the key issues is to choose a particular gridding. We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline} for an illustration. \\
+\begin{example}
+  \label{ex:separable_combspec}
+  The following is a context-free specification for the class of separable permutations (non-empty):
+  \begin{align*}
+    \S &= \Z + \S_{\oplus}\S + \S_{\ominus}\S\\
+    \S_{\ominus} &= \Z + \S_\oplus\S\\
+    \S_\oplus &= \Z + \S_\ominus\S,
+  \end{align*}
+  where we use $\S_\ominus$ and $\S_\oplus$ to denote the skew-indecomposable and sum-indecomposable permutation classes. Now, among all context-free specifications of $\S$, we insist on picking the following one to track the rightmost point:
+  \begin{align}
+    \begin{aligned}
+    \S^* &= \Z^* + \S_{\oplus}\S^* + \S^*\S_{\ominus}\\
+    \S &= \Z + \S_{\oplus}\S + \S\S_{\ominus}\\
+    \S_{\ominus} &= \Z + \S_\oplus\S\\
+    \S_\oplus &= \Z + \S\S_\ominus.
+    \label{eq:sepstarcs}
+  \end{aligned}
+  \end{align}
+  In~\eqref{eq:sepstarcs}, the class of separable permutations is represented according to the decomposition in~\eqref{eq:sepstar}, encoding vertical order as left-to-right. Notice, in particular, that there are multiple combinatorial specifications of $\S$ that track the right-most points. The one that we use is below.
+  \begin{align}
+    \begin{aligned}
+      \S^* &= \Z + \cplusc{\S_\oplus}{\S^*} + \cminusc{\S^*}{\S_\ominus}\\
+      \S &= \Z + \cplusc{\S_\oplus}{\S} + \cminusc{\S}{\S_\ominus}\\
+      \S_\ominus &= \Z + \cplusc{\S_\oplus}{\S}\\
+      \S_\oplus &= \Z + \cminusc{\S}{\S_\ominus}
+    \end{aligned}
+                  \label{eq:sepstar}
+  \end{align}
+
+Another combinatorial specification of $\S$ that tracks the rightmost point is the following one.
+  \begin{align*}
+    \S^* &= \Z^* + \cplusc{\S}{\S_\oplus^*} + \cminusc{\S_\ominus^*}{\S}\\
+    \S_\ominus^* &= \Z^* + \cplusc{\S}{\S_\oplus^*}\\
+    \S_\oplus^* &= \Z^* + \cminusc{\S_\ominus^*}{\S}\\
+    \S &= \Z + \cplusc{\S}{\S_\oplus} + \cminusc{\S_\ominus}{\S}\\
+    \S_\ominus &= \Z + \cplusc{\S}{\S_\oplus}\\
+    \S_\oplus &= \Z + \cminusc{\S_\ominus}{\S}
+  \end{align*}
+  You will have noticed that we needed to define $\S_\ominus^*$ and $\S_\oplus^*$ in order for the specification to be closed. That is why, in Section~\ref{sec:example_sepAv21}, we prefer to work with~\eqref{eq:sepstar} instead.
+\end{example}
+
+
+Moving from Example~\ref{ex:separable_combspec} back to the general setting, let
+$$\V = \{\Z,\Z^*,\C_0,\ldots,\C_r,\C^*_0,\ldots,\C_r^*, \C^\circ_0,\ldots,\C_r^\circ, \C^{\circ*}_0,\ldots,\C_r^{\circ*}\}$$
+be the collection of all variables occurring in the polynomials $f_i,f_i^*,f^\circ$, and $f^{\circ*}$. When we do not care to distinguish between $f_i$ and $f_j$ or $f_i, f_i^*, f^\circ$, and $f^{\circ*}$, we simply write $f$ for a polynomial in variables from $\V$. Similarly, when we do not distinguish between two variables in $\V$, we simply write $X \in \V$. As we just mentioned, each $f$ is a polynomial. We refer to its terms by $\T_h$ as in $f = \sum_{\ell=0}^N\T_h$. Each term $\T_h$ is a product of the variables in $\V$ and for a function $f^*$, each $\T_h$ contains exactly one starred variable (there is exactly one rightmost point in each term). The same holds for $f^\circ$. 
+
+One of the problems of enumerating permutation grid classes is that there are often multiple legal ways to grid a permutation in a given grid class. Therefore, one of the key issues we need to address is to choose a particular gridding. We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline} for an illustration. \\
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=0.2]
@@ -531,9 +558,11 @@ One of the problems of enumberating permutation grid classes is that there often
 
 \noindent\textbf{Convention:} \emph{Let $P$ be a permutation from $\C_1|\C_2$. The gridline in $P$ is chosen to be the left-most possible. I.e. if it was any further left, the sub-permutation to the right of it would not belong to the designated class $\C_2$.} \ \\
 
-Although this will be stated later when needed for Proposition~\ref{prop:leftappend}, dealing with juxtapositions from both sides is quite natural. Given a permutation $P$ from $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$, we first grid $\ell$ monotone classes from the right according to the Convention. Then flip the picture around a vertical axis and grid the $k$ monotone classes from the right (they used to be on the left), again according to the Convention. Of course, after the flip, we need to treat increasing $\M_i$ as a decreasing class, and vice versa. At the end, the leftover middle part is in $\C$. 
+The Convention above is a direct consequence of the leftmost gridding. Indeed, let $\C|\M$ be a juxtaposition of any permutation class $\C$ with a monotone increasing permutation class $\M$. Given that the gridline is pushed as far left as possible, the rightmost point in the left cell must be above the leftmost point in the right cell. Otherwise, the gridline could be shifted one more point further left. Figure~\ref{fig:leftmostgridline} shows this well. The left red point must be above the right left point, otherwise the gridline would not have been between these two red points.
 
-Further remarks about the way we represent permutations in a juxtaposition. Let $x,y$ be two vertically consecutive points on the left-hand side of the juxtaposition $\C_1|\C_2$. An object on the RHS (e.g. a sequence of points if $\C_2 = \M$) is said to be \emph{associated with} $x$ if it is in the horizontal section of the RHS that falls below $x$ and above $y$ on the LHS. If $x$ is the bottom most point on the LHS, then everything below it on the RHS is associated with $x$. See Figure~\ref{fig:xregion} for an example.
+Although this will be stated later when needed for Proposition~\ref{prop:leftappend}, dealing with juxtapositions from both sides is quite natural. Given a permutation $P$ from $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$, we first grid $\ell$ monotone classes from the right according to the Convention. Then flip the picture around a vertical axis and grid the $k$ monotone classes from the right (they used to be on the left), again according to the Convention. Of course, after the flip, we need to treat increasing $\M_i$ as a decreasing class, and vice versa. At the end, the leftover middle part belongs to $\C$. 
+
+We make some further remarks about the way we represent permutations in a juxtaposition. Let $x,y$ be two vertically consecutive points on the left-hand side of the juxtaposition $\C_1|\C_2$. An object on the RHS (e.g. a sequence of points if $\C_2 = \M$) is said to be \emph{associated with} $x$ if it is in the horizontal section of the RHS that falls below $x$ and above $y$. If $x$ is the bottom most point on the LHS, then everything below it on the RHS is associated with $x$. See Figure~\ref{fig:xregion} for an example.
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}
@@ -558,22 +587,32 @@ Further remarks about the way we represent permutations in a juxtaposition. Let 
 
 % Furthermore, to be able to refer to the boxes inside inflations/substitutions by their altitude, we adopt the superscript numbering $\C^j = \C_{\sigma^{-1}(j)}$, meaning that $\C^j$ is inflating the $j$th point of $\sigma$ when counting from bottom to top, i.e. the point $(j,\sigma(j))$ in $\sigma$. Sometimes, we arrange all classes that inflate $\sigma$ in the bottom-to-top order rather than left-to-right. This will be denoted by double square bracket instead of the original single square brackets, i.e. $\sigma\vert{\C^1,\ldots,\C^n}$ means that the order of classes inside bracket is vertical, reading bottom to top. For future use, notice that in left-to-right order, $\C_{|\sigma|}$ refers to the class that inflates the rightmost point of $\sigma$. In vertical order, this class is labelled as $\C^{\sigma(|\sigma|)}$.
 
-Juxtapositions will be expressed via application of operators to context-free classes. Unless stated otherwise, we assume that the class on the right of $\C$ is monotone increasing, denoted by $\M$. We are going to need the following operators: $\Omega_0, \Omega_1, \Omega_{10}, \Omega_{01}, \Omega_{11}, \Omega_\infty$. They represent various forms/stages of juxtaposing a monotone class next to $\C$, in other words, $\Omega_i: \C \mapsto \C'$, where both $\C$ and $\C'$ are context-free permutation classes. It is important that the property of being context-free is invariant under these operators. Furthermore, it is desirable that all $\Omega$ operators respect the rightmost point according to the following rules.
+Juxtapositions will be expressed via application of operators to context-free classes. We are going to need the following operators: $\Omega_0, \Omega_1, \Omega_\infty, \Omega_{10}, \Omega_{01}, \Omega_{11}$. They represent various forms/stages of juxtaposing a monotone class next to $\C$, in other words, $\Omega_i: \C \mapsto \C'$, where both $\C$ and $\C'$ are context-free permutation classes and $\C'$ is $\C$ with some kind of monotone class next to it on the right. It is important that the property of being context-free is invariant under these operators. Before we present the properties of $\Omega$ operators, we give a short conceptual description of each of them. All of them juxtapose some form of a monotone increasing class to the right of an object (whether a class or a point).
+\begin{itemize}
+\item[$\Omega_0:$] juxtaposes an empty permutation to the right of a class or a point
+\item[$\Omega_1:$] juxtaposes a single point to the right of a class or a point
+\item[$\Omega_\infty:$] juxtaposes an increasing sequence (possibly empty) to the right of a class or a point
+\item[$\Omega_{10}:$] juxtaposes an increasing sequence with at least the bottom point, to the right of a class or a point
+\item[$\Omega_{01}:$] juxtaposes an increasing sequence with at least the top point, to the right of a class or a point
+\item[$\Omega_{11}:$] juxtaposes an increasing sequence with distinct top and bottom points, to the right of a class or a point
+\end{itemize}
+
+Furthermore, it is desirable that all $\Omega$ operators respect the rightmost point of the class $\C$ they are acting on according to the following rules.
 \begin{enumerate}
 \item If the operator's code begins with $1$, namely $\Omega_1,\Omega_{10}$, and $\Omega_{11}$, then the operator can only be applied to a starred class, or alternatively, to a starless class occuring before (in left-to-right order) the starred class in the Cartesian product.
 \item If the operator's code ends with $0$ or $\infty$, namely $\Omega_0, \Omega_{10}, \Omega_\infty$, then its output is starless. If the operator's code ends with $1$, namely $\Omega_1, \Omega_{01}, \Omega_{11}$, then every term of the output contains exactly one rightmost point (a starred class or point).
 \end{enumerate}
 Rules 1 and 2 capture the observations that:
 \begin{enumerate}
-\item If we juxtapose a monotone (increasing) class next to any class $\C$ to obtain $\C|\M$, then the leftmost/lowest point on the RHS must be below the rightmost point on the LHS.
-\item Juxtaposing a class on the right sometimes takes over the rightmost point from the class on the left.
+\item If we juxtapose a monotone increasing class next to any class $\C$ to obtain $\C|\M$, then the leftmost/lowest point on the RHS must be below the rightmost point on the LHS. This follows from the Convention as already discussed and even pictured in Figure~\ref{fig:leftmostgridline}.
+\item Juxtaposing a class on the right sometimes takes over the rightmost point from the class on the left. See figures associated with definitions of $\Omega$-operators for examples of when that happens.
 \end{enumerate}
 
 Recall that $X_i$ are variables from $\V$. We view every $f$ as a finite sum of terms $\T_h$, each of which is a product of $X_i$s, i.e. $\T_h = X_1X_2\cdots X_m$ for some $m = m(h)$, with all $X_i \in \V$. Without loss of generality, we let $k \in [m]$ be the index of a starred class, i.e. $X_k^*$. In the forthcoming definitions of $\Omega$ operators, let $\C$ be a permutation class that admits a combinatorial specification (combinatorially) isomorphic to $\rS$ in~\eqref{eq:combspecS}.\\
 
 
 \noindent\textbf{Operator $\Omega_0$}\\
-This operator juxtaposes a class (starred or not) with a sequence (possibly empty) on the right. Notice, in particular, that $\Omega_0$ distributes over both $+$ and $\times$, and that it erases ${}^*$. 
+This operator juxtaposes a class (starred or not) with an empty sequence on the right. Notice, in particular, that $\Omega_0$ distributes over both $+$ and $\times$, and that it erases ${}^*$. 
 \begin{align}
   \begin{aligned}
   \Omega_0(\Z) &= \Z\\
@@ -585,7 +624,7 @@ This operator juxtaposes a class (starred or not) with a sequence (possibly empt
 \end{align}
 
 \noindent\textbf{Operator $\Omega_\infty$}\\
-This operator \emph{recursively} juxtaposes a class (starred or not) with a monotone increasing class -- possibly empty. Again, $\Omega_\infty$ is distributive over operations $+$ and $\times$. As $\Omega_0$, it also erases the ${}^*$. We get the following definition of $\Omega_\infty$. Consult Figure~\ref{fig:omega_infty} with this definition.
+This operator juxtaposes a class (starred or not) with a monotone increasing class -- possibly empty. Again, $\Omega_\infty$ is distributive over operations $+$ and $\times$. As $\Omega_0$, it also erases the ${}^*$. We get the following definition of $\Omega_\infty$. Consult Figure~\ref{fig:omega_infty} with this definition.
 \begin{align}
   \begin{aligned}
   \M &= \Z + \M\Z\\
@@ -830,13 +869,6 @@ This operator juxtaposes a class $\C$, which might and might not track the right
   \caption{$\Omega_{11}$: juxtaposing a monotone sequence with tracked left-most and right-most most points to the right of a single point. The RHS now contains the right-most point whether we started with $\Z,\Zstar,\Z^\circ$ or $\Z^{\circ*}$. The original point was the left-most, this property of it remains unaffected. We denote $\M+\EE$ by $\M^\EE$.}
   \label{fig:omega11}
 \end{figure}
-
-Before we proceed to state and prove our results, we state the key result of Chomsky and Schutzenberger as Theorem~\ref{thm:chomsky}. It relates the character of a context-free combinatorial specification to the character of its generating function. If the former is ``nice'', then so is the latter. Our work then consists of proving that the juxtaposition classes in question have ``nice'' combinatorial specifications. Once that is known, Theorem~\ref{thm:chomsky} translates the result into the language of generating functions as we state it.
-
-\begin{theorem}[Chomsky-Schutzenberger, Proposition I.7. in~\cite{analcomb}]
-\label{thm:chomsky}
-A combinatorial class $\C$ that is context-free admits an ordinary generating function that is an algebraic function. In other words, there exists a (non-null) bivariate polynomial $P(z,y) \in \mathbb{C}[z,y]$ such that $$P(z,C(z)) = 0.$$
-\end{theorem}
 
 To help us with enumeration, we append fictitious points to permutations or permutation classes. \emph{Phantom points} do not count towards the size of elements in a class but offer additional handles when decorating permutations on the right with monotone classes.
 \begin{definition}[Phantom point]
