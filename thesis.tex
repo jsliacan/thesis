@@ -619,7 +619,7 @@ This operator juxtaposes a class (starred or not) with an empty sequence on the 
   \Omega_0(\Z^*) &= \Z\\
   \Omega_0(\Z^\circ) &= \Z^\circ\\
   \Omega_0(\Z^{\circ*}) &= \Z^{\circ}\\
-  \Omega_0(\T_h) &= \Omega_0(X_1)\Omega_0(X_2\cdots X_m)
+  \Omega_0(\T_h) = \Omega_0(X_1\cdots X_m) &= \Omega_0(X_1)\Omega_0(X_2\cdots X_m)
 \end{aligned}
 \end{align}
 
@@ -721,7 +721,7 @@ The base cases ($\Z, \Z^*$ and $\Z^\circ$) are drawn in Figure~\ref{fig:omega_1}
 \end{figure}
 
 \noindent\textbf{Operator $\Omega_{01}$}\\
-This operator juxtaposes a class $\C$ with a monotone sequence that tracks its right-most (top-most) point but not the left-most (bottom-most) point. As usually, $\Omega_{01}$ is linear. It does not distribute over the Cartesian product. Also, $\Omega_{01}$ introduces the right-most point if there was none in $\C/\C^\circ$. Like the rest of the operators, $\Omega_{01}$ does not interact with the left-most point in $\C^\circ/\C^{\circ*}$. See Figure~\ref{fig:omega01}.
+This operator juxtaposes a class $\C$ with a monotone sequence that has a distinguished right-most (top-most) point but not the left-most (bottom-most) point. Here, distinguished simply means that we can isolate it from the rest of the points and treat it separately. Recall that this was not the case for $\Omega_\infty$. As usually, $\Omega_{01}$ is linear. It does not distribute over the Cartesian product. Also, $\Omega_{01}$ introduces the right-most point if there was none in $\C/\C^\circ$. Like the rest of the operators, $\Omega_{01}$ does not interact with the left-most point in $\C^\circ/\C^{\circ*}$. See Figure~\ref{fig:omega01}.
 \begin{align}
   \begin{aligned}
   \Omega_{01}(\Z) &= (\M+\EE)\Zstar\Z\\
@@ -766,7 +766,7 @@ This operator juxtaposes a class $\C$ with a monotone sequence that tracks its r
 \end{figure}
 
 \noindent\textbf{Operator $\Omega_{10}$:}\\
-This operator juxtaposes a class $\C$, which might or might not track the left-most and right-most points, with a monotone sequence on the right and tracks the sequence's left-most (bottom-most) point. Again, $\Omega_{10}$ is linear over $+$. It erases the right-most point from $\Cstar/\C^{\circ*}$ and does not affect the left-most point in $\C^\circ/\C^{\circ*}$. The base cases of the definition below are described in Figures~\ref{fig:omega_10}. 
+This operator juxtaposes a class $\C$, which might or might not track the left-most and right-most points, with a monotone sequence on the right which has a distinguished left-most (bottom-most) point. Again, $\Omega_{10}$ is linear over $+$. It erases the right-most point from $\Cstar/\C^{\circ*}$ and does not affect the left-most point in $\C^\circ/\C^{\circ*}$. The base cases of the definition below are described in Figures~\ref{fig:omega_10}. 
 \begin{align}
   \begin{aligned}
   \Omega_{10}(\Z) &= \Z(\M+\EE)\Z\\
@@ -775,11 +775,14 @@ This operator juxtaposes a class $\C$, which might or might not track the left-m
   \Omega_{10}(\Z^{\circ*}) &= \Z(\M+\EE)\Z^\circ\\
   \Omega_{10}(\T_h) &=
                       \begin{cases}
-                        \Omega_{10}(X_1^*)\Omega_\infty(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
-                        \Omega_{10}(X_1)\Omega_\infty(X_2\cdots X_m) + \Omega_0(X_1)\Omega_{10}(X_2\cdots X_m),\quad &\text{if $k>1$.}
+                        \Omega_{10}(X_1^*)\Omega_\infty(X_2\cdots X_m)  &\text{if $k = 1$}\\
+                        \begin{rcases}
+                          \Omega_{10}(X_1)\Omega_\infty(X_2\cdots X_m)+\\
+                          +\Omega_0(X_1)\Omega_{10}(X_2\cdots X_m)
+                        \end{rcases} \quad &\text{if $k>1$.}
                       \end{cases}
                     \end{aligned}
-                                                                                                                       \label{eq:iterjuxt_def_omega10}
+\label{eq:iterjuxt_def_omega10}
 \end{align}
 
 \begin{figure}[ht]
@@ -817,7 +820,7 @@ This operator juxtaposes a class $\C$, which might or might not track the left-m
   \end{figure}
 
 \noindent\textbf{Operator $\Omega_{11}$:}
-This operator juxtaposes a class $\C$, which might and might not track the right-most and left-most points, on the right with a monotone increasing sequence that tracks both the left-most and the rightmost points. As usual, $\Omega_{11}$ is linear over $+$. Also, $\Omega_{11}$ does not affect the left-most point of $\C^\circ/\C^{\circ*}$ and replaces the right-most point of $\Cstar/\C^{\circ*}$. See Figure~\ref{fig:omega11}.
+This operator juxtaposes a class $\C$, which might and might not track the right-most and left-most points, on the right with a monotone increasing sequence that has both its extremal points distinguished: the left-most point and the rightmost point. As usual, $\Omega_{11}$ is linear over $+$. Also, $\Omega_{11}$ does not affect the left-most point of $\C^\circ/\C^{\circ*}$ and replaces the right-most point of $\Cstar/\C^{\circ*}$. See Figure~\ref{fig:omega11}.
 \begin{align}
   \begin{aligned}
   \Omega_{11}(\Z) &= \Z(\M+\EE)\Z^*\Z\\
@@ -825,13 +828,19 @@ This operator juxtaposes a class $\C$, which might and might not track the right
   \Omega_{11}(\Z^\circ) &= \Z(\M+\EE)\Z^*\Z^\circ\\
   \Omega_{11}(\Z^{\circ*}) &= \Z(\M+\EE)\Z^*\Z^\circ\\
   \Omega_{11}(\T_h) &=
-                      \begin{cases}
-                        \Omega_{11}(X_1^*)\Omega_0(X_2\cdots X_m)+\Omega_{10}(X_1^*)\Omega_{01}(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
-                        \Omega_{11}(X_1)\Omega_0(X_2\cdots X_m) + \Omega_{10}(X_1)\Omega_{01}(X_2\cdots X_m) +\quad &\text{if $k>1$.}\\
-                        \Omega_0(X_1)\Omega_{11}(X_2\cdots X_m)
-                      \end{cases}
-                    \end{aligned}
-  \label{eq:iterjuxt_def_omega11}
+  \begin{cases}
+    \begin{rcases}
+      \Omega_{11}(X_1^*)\Omega_0(X_2\cdots X_m)+\ \ \ \\
+      +\Omega_{10}(X_1^*)\Omega_{01}(X_2\cdots X_m)\ \ 
+    \end{rcases} &\text{if $k = 1$}\\
+    \begin{rcases}
+      \Omega_{11}(X_1)\Omega_0(X_2\cdots X_m) +\\
+      +\Omega_{10}(X_1)\Omega_{01}(X_2\cdots X_m) +\\
+      +\Omega_0(X_1)\Omega_{11}(X_2\cdots X_m)
+    \end{rcases} &\text{if $k>1$.}
+  \end{cases}
+\end{aligned}
+                   \label{eq:iterjuxt_def_omega11}
 \end{align}
 
 \begin{figure}[ht]
@@ -870,14 +879,8 @@ This operator juxtaposes a class $\C$, which might and might not track the right
   \label{fig:omega11}
 \end{figure}
 
-To help us with enumeration, we append fictitious points to permutations or permutation classes. \emph{Phantom points} do not count towards the size of elements in a class but offer additional handles when decorating permutations on the right with monotone classes.
-\begin{definition}[Phantom point]
-Let $P$ be a permutation from $\C$. An \emph{upper phantom point} $p$ of $P$ is a point external to $P$ that has value $|P|+1$ and no position --- the left-to-right position of $p$ is unimportant. One can perceive $p$ as a line above $P$ instead of as a point. We sometimes refer to $P$ as an upper phantom point of $\C$, meaning that every $P$ in $\C$ has $p$ as its upper phantom point. A \emph{lower phantom point} of $P$, usually denoted by $q$, is a point external to $P$ that has value $0$ and no position. If $\C$ is equipped with both phantom points (upper and lower), we refer to it by $\hatC$. If $\C$ is equipped with only one phantom point, it is denoted by $\barC$ (we always specify which phantom point $\barC$ has).
-\end{definition}
-Given that the phantom points have vertical position, they serve as usual points of a permutation $P$ when applying $\Omega$ operators. Recall that $\Omega$ operators work by decorating points on the LHS with various monotone sequences on the RHS. Such a monotone sequence is always associated with a point immediatelly above it on the LHS. Therefore, there is no sequence of points on the RHS above the topmost point on the LHS even though a juxtaposition as we think of it allows points to be there. This is where phantom points come in. We place a phantom point at height $|P|+1$ on the LHS and thereby create another gap (between $p$ and the top-most point of $P$) for a monotone sequence on the RHS. See Figure~\ref{fig:illustrate_phantom_pt}.
-
-
-\begin{figure}[ht]
+To help us with enumeration, we append \emph{phantom} points to permutations or permutation classes. By phantom, we mean a temporary extra point that is not really supposed to be there. The reason we need to do such a thing comes up in the situation portrayed in Figure~\ref{fig:illustrate_phantom_pt}. We said that in a juxtaposition we associate monotone sequences (on the RHS) with points (on the LHS) by placing them into the gaps directly below those points, see Figure~\ref{fig:xregion}. However, in a juxtaposition, the points on the RHS can occur above the top-most point on the LHS as well. So we are one gap short. To remedy this, we add a temporary point to the permutation on the LHS. It is placed above all other points on the LHS and thereby creating the additional gap that we were missing. We then remove this extra point from our counting expression. Next, we offer a formal definition of a phantom point.
+\begin{figure}[ht!]
  \centering
  \begin{tikzpicture}
    \filldraw[black] (0,5) circle (2pt) node[above]{$p$};
@@ -905,13 +908,21 @@ Given that the phantom points have vertical position, they serve as usual points
     \filldraw[black] (6.65,4.9) circle (1.5pt);
 
     \draw [decorate,decoration={brace,amplitude=3pt, mirror},xshift=-4pt,yshift=0pt] (7.5,4) -- (7.5,5) node [black, below right, yshift=-8pt]{\footnotesize \ new gap};
-    
   \end{tikzpicture}
   \caption{Compare with Figure~\ref{fig:xregion}. Phantom point $p$ created an extra gap where we can place a monotone sequence --- above the topmost point $x$ of $P=2413$. When done with enumeration, it is necessary to remove $p$ as it is not part of $P$ and we do not want it to distort the generating function.}
   \label{fig:illustrate_phantom_pt}
 \end{figure}
 
-Before we proceed to state the results in the next section, let us phrase one last observation as a lemma. It will be useful in the forthcoming proofs and examples.
+\begin{definition}[Phantom point]
+  Let $P$ be a permutation from $\C$. An \emph{upper phantom point} $p$ of $P$ is a point temporarily added to $P$ that has value $|P|+1$ and position $0$. In other words, if $P'$ denotes $P$ with an added upper phantom point, then
+  $$P' = p \ominus P.$$
+  We sometimes refer to $P$ as an upper phantom point of $\C$, meaning that every $P$ in $\C$ is treated as $P' = p \ominus P$. A \emph{lower phantom point} of $P$, usually denoted by $q$, is a point external to $P$ that has value $0$ and position $0$. In other words, if $P'$ denotes $P$ with an added lower phantom point, then
+  $$P' = q \oplus P.$$
+We always need only one phantom point at a time and we will always specify which one. If $\C$ is equipped with a phantom point, it is denoted by $\barC$.
+\end{definition}
+Given that phantom points act as usual points of a permutation, they get acted on by $\Omega$ operators. Exactly as intended. It will become clear why we need the lower phantom point when we append decreasing sequences on the right side of context-free classes.
+
+Before we give an example of how to apply $\Omega_{11}$ and how a phantom point behaves in practice, let us phrase one last observation as a lemma. It will be useful in the forthcoming proofs and examples.
 
 \begin{lemma}
   The following operators ``ignore'' the right-most points (stars) in their arguments as indicated below.
@@ -927,61 +938,449 @@ First, notice that any term in any polynomial from a context-free specification 
 \end{proof}
 
 
+Having defined all necessary concepts, let us consider an example of $\Omega_{11}$ acting on a term $\T_h = X_1X_2X_3^*X_4p = X_1X_2X_3^*X_4\Z$, where $p$ is an upper phantom point. For no particular reason we assume that $X_1X_2X_3X_4$ are classes inflating $2413$. See Figure~\ref{fig:iterjuxt_omega11action} for pictorial representation of the juxtapositions as well as their descriptions in terms of $\Omega$ operators in the captions. We use Lemma~\ref{lem:ignorance} to simplify the expressions by omitting $\Omega_0$ operator, e.g. $\Omega_0(\Z)$ reduces to $\Z$. The Figure~\ref{fig:iterjuxt_omega11action1} shows the terms in the recursion which only rely on $\Omega_{11}$ and $\Omega_0$ operators. The remaining terms do not use $\Omega_{11}$, however they additionally employ $\Omega_\infty$, $\Omega_{10}$, and $\Omega_{01}$ operators.
+
+\begin{figure}[!ht]
+  \centering
+  \begin{subfigure}{1\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,8}
+    {
+      \filldraw[black] (4.2+0.1*\i,0+0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,0.1) circle (2pt);
+    \filldraw[black] (5.0,0.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,8}
+    {
+      \filldraw[black] (4.2+0.1*\i,1+0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,1.1) circle (2pt);
+    \filldraw[black] (5.0,1.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,8}
+    {
+      \filldraw[black] (4.2+0.1*\i,2+0.1*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,2.1) circle (2pt);
+    \filldraw[black] (5.0,2.8) circle (2pt);
+  \end{tikzpicture}
+\caption{Left to right: $\Omega_{11}(X_1)X_2X_3X_4\Z$, $X_1\Omega_{11}(X_2)X_3X_4\Z$, and $X_1X_2\Omega_{11}(X_3^*)X_4\Z$.}
+  \label{fig:iterjuxt_omega11action1}
+\end{subfigure}
+\begin{subfigure}{1.0\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,8}
+    {
+      \filldraw[black] (4.2+0.1*\i,0+0.2*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,0.1) circle (2pt);
+    \filldraw[black] (5.1,1.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,14}
+    {
+      \filldraw[black] (4.25+0.05*\i,0.2*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,0.1) circle (2pt);
+    \filldraw[black] (4.9,2.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,17}
+    {
+      \filldraw[black] (4.2+0.05*\i,0.22*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.2,0.1) circle (2pt);
+    \filldraw[black] (5,3.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,15}
+    {
+      \filldraw[black] (4.2+0.05*\i,0.3*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,0.1) circle (2pt);
+    \filldraw[black] (5.0,4.8) circle (2pt);
+  \end{tikzpicture}
+\caption{Left to right: $\Omega_{10}(X_1)\Omega_{01}(X_2)X_3X_4\Z$, $\Omega_{10}(X_1)\Omega_\infty(X_2)\Omega_{01}(X_3^*)X_4\Z$, $\Omega_{10}(X_1)\Omega_\infty(X_2X_3^*)\Omega_{01}(X_4)\Z$, and $\Omega_{10}(X_1)\Omega_\infty(X_2X_3^*X_4)\Omega_{01}(\Z)$.}
+  \label{fig:iterjuxt_omega11action2}
+\end{subfigure}
+\begin{subfigure}{1.0\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,13}
+    {
+      \filldraw[black] (4.25+0.05*\i,1+0.15*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,1.1) circle (2pt);
+    \filldraw[black] (4.85,2.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,14}
+    {
+      \filldraw[black] (4.25+0.05*\i,1+0.2*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,1.1) circle (2pt);
+    \filldraw[black] (4.9,3.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,17}
+    {
+      \filldraw[black] (4.2+0.05*\i,1+0.22*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.2,1.1) circle (2pt);
+    \filldraw[black] (5,4.8) circle (2pt);
+  \end{tikzpicture}
+\caption{Left to right: $X_1\Omega_{10}(X_2)\Omega_{01}(X_3^*)X_4\Z$, $X_1\Omega_{10}(X_2)\Omega_\infty(X_3^*)\Omega_{01}(X_4)\Z$, and $X_1\Omega_{10}(X_2)\Omega_\infty(X_3^*X_4)\Omega_{01}(\Z)$.}
+  \label{fig:iterjuxt_omega11action3}
+\end{subfigure}
+\begin{subfigure}{0.7\textwidth}
+  \begin{center}
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,13}
+    {
+      \filldraw[black] (4.25+0.05*\i,2+0.15*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,2.1) circle (2pt);
+    \filldraw[black] (4.85,3.8) circle (2pt);
+  \end{tikzpicture}\hfill
+  \begin{tikzpicture}[scale=0.55]
+    % dashed lines
+    \draw[dashed] (2,4) -- (5,4);
+    \draw[dashed] (2,3) -- (5,3);
+    \draw[dashed] (1,2) -- (5,2);
+    \draw[dashed] (1,1) -- (5,1);
+    \draw[dashed] (3,0) -- (5,0);
+    \draw[dashed] (-0.5,5) -- (5,5); % p-line
+%    \draw[dashed] (-2,9) -- (10,9); % q-line
+    
+    \filldraw[black] (0,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    
+    \draw[fill=gray!30] (1,3) rectangle (2,4) node[pos=0.5]{$X_4$};
+    \draw[fill=gray!30] (3,2) rectangle (4,3) node[pos=0.5]{$X^*_3$};
+    \draw[fill=gray!30] (0,1) rectangle (1,2) node[pos=0.5]{$X_2$};
+    \draw[fill=gray!30] (2,0) rectangle (3,1) node[pos=0.5]{$X_1$};
+    \draw[-, very thick] (4,-0.5) -- (4,5.5);
+    \filldraw[black] (4,2.3) circle (2pt);
+
+    \foreach \i in {1,...,14}
+    {
+      \filldraw[black] (4.25+0.05*\i,2+0.2*\i) circle (0.5pt);
+    }
+    \filldraw[black] (4.3,2.1) circle (2pt);
+    \filldraw[black] (4.9,4.8) circle (2pt);
+  \end{tikzpicture}
+\end{center}
+\caption{Left to right: $X_1X_2\Omega_{10}(X_3^*)\Omega_{01}(X_4)\Z$ and $X_1X_2\Omega_{10}(X_3^*)\Omega_\infty(X_4)\Omega_{01}(\Z)$.}
+  \label{fig:iterjuxt_omega11action4}
+\end{subfigure}
+\caption{We apply $\Omega_{11}$ to $\T = X_1X_2X_3^*X_4p$. Inflation $2413[X_2,X_4,X_1,X_3]$ represents $X_1X_2X_3^*X_4$. Lowest and top-most points on the RHS are bold (distinguished under $\Omega_{11}$). Lowest point on RHS is below right-most point on LHS.}
+\label{fig:iterjuxt_omega11action}
+\end{figure}
+
+\newpage
 \section{Main results}
 \label{sec:iterjuxt_main}
 
-This section presents results that we are able to obtain with the tools set up in Section~\ref{sec:iterjuxt_intro}. We start by proving Lemma~\ref{lem:induction_step} that we need for the induction step in the proof of Proposition~\ref{prop:onesidedjuxt}. In Proposition~\ref{prop:onesidedjuxt}, we establish that appending monotone increasing classes on the right side of a context-free permutation class which admits a combinatorial specification tracking the rightmost point by value, does not change the character of the original combinatorial specification and hence the generating function of the obtained juxtaposition class is algebraic. Next we prove the main result: by left-right flips and up-down flips, we can rephrase appending a decreasing monotone permutation class into appending an increasing monotone permutation class, and we can do so on either side of $\C$ (left or right). This is established in Propositions~\ref{prop:decrappend} and~\ref{prop:leftappend}. Therefore, it turns out that appending a monotone class (increasing or decreasing) on either side of a context-free permutation class preserves the character of the combinatorial specification and hence the character of the generating function of such a class. This is a textbook situation for mathematical induction. We use it to prove that after finitely many such juxtapositions, the resulting class is still enumerated by a generating function that is an algebraic function, see Theorem~\ref{thm:iterjuxt_main}. Lastly, we show in a Corollary~\ref{cor:finmanysimples} that Theorem~\ref{thm:iterjuxt_main} applies to all context-free permutation classes with finitely many simple permutations. 
+Just briefly in this first paragraph we use context-free to refer to ``context-free admitting a combinatorial specification tracking the right-most point''. This section presents results that we are able to obtain with the tools set up in Section~\ref{sec:iterjuxt_intro}. First, we prove that a juxtaposition of a non-empty context-free cell with a non-empty monotone increasing cell is context free. This invariant is stated as Lemma~\ref{lem:induction_step} and we need it for the proof of the key result, Proposition~\ref{prop:onesidedjuxt}. In Proposition~\ref{prop:onesidedjuxt}, we state that appending monotone increasing classes on the right side of a context-free permutation class does not change the character of the original combinatorial specification and hence the generating function of the obtained juxtaposition class is algebraic. Next we prove that by left-right flips and up-down flips, we can rephrase appending a decreasing monotone permutation class into appending an increasing monotone permutation class, and we can do so on either side of $\C$ (left or right). This is established in Propositions~\ref{prop:decrappend} and~\ref{prop:leftappend}. Therefore, it turns out that appending a monotone class (increasing or decreasing) on either side of a context-free permutation class preserves the character of the combinatorial specification and hence the character of the generating function of such a class. We use induction to prove that after finitely many such juxtapositions, the resulting class is still context-free and is enumerated by an algebraic generating function. This is our main result and is stated as Theorem~\ref{thm:iterjuxt_main}. In addition to this general setting, we show in a Corollary~\ref{cor:finmanysimples} that the same holds for all context-free permutation classes with finitely many simple permutations. These form a large special case.
+
+Let us now state the key lemma expressing the ``context-freeness invariant'' with care.
 
 
-The induction lemma, Lemma~\ref{lem:induction_step}, says that appending a monotone increasing permutation class on the right of a context-free permutation class whose combinatorial specification tracks the rightmost point does not change the character of the class that we started with --- the resulting class is context-free and admits a combinatorial specification that tracks the rightmost point by value.
 \begin{lemma}
   \label{lem:induction_step}
-  Let $\C$ be a context-free permutation class and $\rS$ its combinatorial specification which tracks the rightmost point of $\C$ by its vertical position (value). Let $\M$ be a monotone increasing permutation class. Then the part of $\C|\M$ with both cells non-empty is a context-free permutation class with a combinatorial specification $\rS'$ that tracks the rightmost point by its vertical position.
+  Let $\C$ be a context-free permutation class and let $\rS$ be its combinatorial specification which tracks the rightmost point of $\C$ by vertical position (value). Let $\M$ be a monotone increasing permutation class. Consider a class $\C'$ of permutations $P$ which admit our usual leftmost gridding as $P=P_1|P_2$ where $P_1\in \C$ and $P_2\in \M$ and neither $P_1$ nor $P_2$ is empty. Then $\C'$ is context-free and admits a combinatorial specification $\rS'$ that tracks the rightmost point by vertical position (value).
 \end{lemma}
 \begin{proof}
-In the language of $\Omega$ operators, juxtaposing a context-free $\C$ with  $\Av(21)$ requires installing points $p$ above $\C$ to construct $\barCstar$. We then enumerate all possible juxtapositions: empty (both cells empty), a sole monotone class (LHS cell is empty), and both cells non-empty. In particular, we have ($\M$ denotes a non-empty $\Av(21)$)
-$$\C|\Av(21) = \EE + \M + \frac{\Omega_1(\barCstar) + \Omega_{11}(\barCstar)}{\Z^2}.$$
-The post-correction by $\Z^2$ removes the phantom points from $\barC$. Given that division is not a legal operation in context-free combinatorial specifications, one can think of the division operation as ``removing phantom points''. This formal distinction is acceptable as we could have worked without phantom points in the first place. They are there only for our convenience. Notice that phantom points, once installed, are present until the last layer of $\Omega$ operators is applied. Only then they are removed. Again, this is important in that the ``division'' by $\Z^2$ is done only once regardless of the number of iterations of juxtapositions. Crucially, the post-correction by $\Z^{-2}$ does not render the character of the generating function non-algebraic. Now, since the last term is the one representing the case of two non-empty cells, we only need to show that $\Omega_1(\barCstar)$ and $\Omega_{11}(\barCstar)$ admit context-free combinatorial specifications that track the rightmost points.
+In the language of $\Omega$ operators, expressing $\C'$ requires installing a phantom point $p$ above $\C$ to construct $\barCstar$. Furthermore, we will express $\C'\Z$ instead of $\C'$ as removing the phantom point from each permutation in $\C'\Z$ is simply a matter of removing that trailing $\Z$ from every term (product) $\T$ in its combinatorial specification. Notice that every term $\T$ indeed has such $\Z$ at the end of it as every term has a phantom point on top. This means that if $\C'\Z$ has a context-free specification that tracks the rightmost point by value, then so does $\C'$. Therefore, the expression for $\C'\Z$ is the following one.
+\begin{align}
+  \C'\Z = \Omega_1(\barCstar) + \Omega_{11}(\barCstar),
+  \label{eq:induction_step_expression}
+\end{align}
+It now remains to show two things
+\begin{enumerate}
+\item $\Omega_1(\barCstar) + \Omega_{11}(\barCstar)$ indeed represents $\C'\Z$.
+\item $\Omega_1(\barCstar)$ and $\Omega_{11}(\barCstar)$ admit context-free combinatorial specifications that track the rightmost points.
+\end{enumerate}
+If 1. is true, then we simply know that we are proving the right thing. If also 2. is true, then $\Omega_1(\barCstar) + \Omega_{11}(\barCstar)$ also admits a context-free combinatorial specification that tracks the rightmost point and by 1. we have indeed shown that the conclusion of Lemma~\ref{lem:induction_step} holds.
 
-The case of $\Omega_1$ is simple. It represents the situation with the RHS cell accommodating only a single point. The action of $\Omega_1$ on $\barCstar$ is linear, therefore every term $\T$ from any polynomial in $\rS$ has $\Omega_1$ applied to it exactly once. Recall the definition of $\Omega_1$, see~\eqref{eq:iterjuxt_def_omega1}. If the term $\T$ is a single point (whether $\Z$ or $\Zstar$, ignoring left-most (circled) points for the moment), it becomes $\Omega_1(\Z)$. Of course, $\Omega_1$ is only applied to $\Z$ if $\Z$ is below $\Zstar$ in $\T$ (follows from the recursive step of the definition of $\Omega_1$). Every other class/point in $\T$ is wrapped in $\Omega_0$. Therefore, for every term $\T$, $\Omega_1(\T)$ is a sum of terms of the same form --- respecting right-most points.
+Let us begin by proving 1. This follows from the definitions of $\Omega_1$ and $\Omega_{11}$. We only briefly describe how as it is straightforward yet tedious. One has to accept that $\Omega_1$ represents a cell with a single point juxtaposed on the right of it so that this point is always below the rightmost point of the left cell (to ensure the leftmost possible gridding). We recall the definition of $\Omega_1$.
+\begin{align*}
+    \Omega_1(\Z) &= \Z^*\Z\\
+    \Omega_1(\Z^*) &= \Z^*\Z\\
+  \Omega_1(\T_h) &=
+                      \begin{cases}
+                        \Omega_1(X_1^*)\Omega_0(X_2\cdots X_m) \quad &\text{if $k = 1$}\\
+                        \Omega_1(X_1)\Omega_0(X_2\cdots X_m) + \Omega_0(X_1)\Omega_1(X_2\cdots X_m),\quad &\text{if $k>1$.}
+                      \end{cases}
+\end{align*}
+The base cases clearly do juxtapose a point on the RHS below the point on the LHS. See Figure~\ref{fig:omega_1} and recall that reading the Cartesian product left-to-right reflects the bottom-to-top order in the permutation. As for the recursive step, notice that if the rightmost point is in the bottom-most term of the product, then we do not apply $\Omega_1$ above it at all (and so the leftmost point on the RHS is not above the rightmost point on the LHS). Operator $\Omega_0$ is applied to the rest of the terms in the product, meaning that there is nothing on the RHS next to those terms. If the bottom-most term of the product does not contain the rightmost point, then there are two options. Either the single point on the RHS is next to this term or it is not. These are the two expressions on the second line of the recursive step. Notice that second term involves a recursion on the tail of the product which is strictly shorter in length than $\T_h$, so the procedure terminates. And therefore, $\Omega_1$ indeed represents a juxtapositions of two non-empty cells as desired, provided that its argument is non-empty (which we make sure it is). To show that $\Omega_{11}$ correctly expresses the juxtaposition we want is slightly more complicated. The definition of $\Omega_{11}$ depends on the definitions of $\Omega_{10}, \Omega_{01}, \Omega_\infty$ and requires a more tedious verification which we do not do here. However, in Figure~\ref{fig:iterjuxt_omega11action} we demonstrate the definition of $\Omega_{11}$ on a simple $\T_h$ to make it easier to work through the definition. We conclude that point 1. is valid.
 
-The case of $\Omega_{11}$ is linear over addition the same way $\Omega_1$ is. Therefore, if every $\Omega_{11}(\T)$ is of the admissible form, the entire $\Omega_{11}(\barCstar)$ is. Notice that $\Omega_{11}(\T)$ is a sum of terms, every one of which has one of the forms in the definition of $\Omega_{11}$, see~\eqref{eq:iterjuxt_def_omega11}. All of those are of the admissible form as the base cases return algebraic expressions when they are fed algebraic expressions and recursive step relies on other $\Omega$ operators. Those produce admissible terms as well, which is readily checkable.
+To show that 2. holds, we need to revisit the definitions of $\Omega_1$ and $\Omega_{11}$ again. We work our way through the definition $\Omega_1$ and leave $\Omega_{11}$ to the reader as it is analogous but significantly longer. The goal is to show that $\Omega_1$ preserves the context-freeness of the combinatorial specification of its input and correctly replaces the right-most point in the input with the new right-most point (the single point on the RHS). Looking at the definition above, $\Omega_1$ does two things. One, it replaces $\Z$ with $\Zstar\Z$ or $\Zstar$ with $\Zstar\Z$. Two, it splits a product $\T_h$ into two products: $\Omega_1(X_1)\Omega_0(X_2\cdots X_m)$ and $\Omega_0(X_1)\Omega_1(X_2\cdots X_m)$. Each of these products has $\Omega_1$ applied to a smaller expression than $\T_h$ and by induction those are of the correct form. The rest of each of the two products has $\Omega_0$ applied to it which does not change that part of the expression. Therefore, given that $\Omega_1$ is linear over $+$, it indeed preserves the context-freeness of the combinatorial specification of its input. We argued that the rightmost point gets tracked correctly in 1. This concludes our task for $\Omega_1$. Similarly, one can verify that $\Omega_{11}$ produces a context-free output that tracks the rightmost point, provided the input is of this form.
 
-Hence, $\Omega_1$ and $\Omega_{11}$ produce an output in a valid format --- a combinatorial specification which is of the same form as $\rS$. The only thing that remains to be checked is the correctness of $\Omega$ operators. However, this follows (in an easy but tedious way) from the definition of each operator separately. To verify this claim, one needs to go through definitions and check that the operations represent juxtapositions in the exact ways that we want them to. 
+As shown before, 1. together with 2. imply the statement of Lemma~\ref{lem:induction_step}. 
 \end{proof}
 
 \begin{proposition}
   \label{prop:onesidedjuxt}
-  Let $\C$ be a context-free permutation class and $\rS$ its combinatorial specification which tracks the rightmost point of $\C$ with respect to its vertical position (value). Let $\M_1,\ldots,\M_k$ be a sequence of monotone increasing permutation classes. Then $\C|\M_1|\ldots|\M_k$ admits a generating function that is an algebraic function.
+  Let $\C$ be a context-free permutation class and $\rS$ its combinatorial specification which tracks the rightmost point of $\C$ by vertical position (value). Let $\M_1,\ldots,\M_k$ be a sequence of monotone increasing permutation classes. Then $\C|\M_1|\ldots|\M_k$ admits a context-free combinatorial specification which tracks the rightmost point by value. Consequently, $\C|\M_1|\ldots|\M_k$ admits an algebraic generating function.
 \end{proposition}
 \begin{proof}
-  We prove by induction that for every $k \geq 1$, the class $\C|\M_1|\ldots|M_k$ admits a context-free combinatorial specification which tracks the rightmost point by value. It then follows that there is a combinatorial specification of such class that is context-free. Consequently, it follows by Theorem~\ref{thm:chomsky} that $\C|\M_1|\ldots|\M_k$ admits a generating function that is algebraic.
+  We prove by induction that for every $k \geq 1$, the class $\C|\M_1|\ldots|M_k$ admits a context-free combinatorial specification which tracks the rightmost point by value. It then follows that there also exists a context-free combinatorial specification of such a class, simply by dropping ${}^*$ and ${}^\circ$ decorations. Consequently, it follows by Theorem~\ref{thm:chomsky} that $\C|\M_1|\ldots|\M_k$ admits a generating function that is algebraic.
 
-  First, notice that we can rewrite the original juxtaposition as follows.
+  First, notice that we can rewrite the original juxtaposition as follows to obtain disjoint terms and every cell in each term non-empty.
 \begin{align}
-  \C|\M_1|\ldots|\M_k = \EE + \M' + \M'|\M' + \M'|\M'|\M' + \ldots + \C'|\underbrace{\M'|\ldots|\M'}_{k},
+  \C|\M_1|\ldots|\M_k &= \EE + \M'_k + \ldots + \M'_1|\ldots|\M'_k  + \C'|\M'_1|\ldots|\M'_k,
 \label{eq:rewritten}
 \end{align}
- where, for the moment, $\M'$ and $\C'$ denote the non-empty versions of the respective classes.
+ where, for the moment, $\M'$ and $\C'$ denote the non-empty versions of the respective classes. To see where each term comes from, recall that we grid greedily from the right. So if all $k$ cells are empty, then the cell with $\C$ must also be empty and this is represented by $\EE$. If there is one non-empty cell, then it must be $\M_k$ --- again thanks to the greedy gridding from the right. We continue this way and obtain exactly~\eqref{eq:rewritten}. Furthermore, since all $\M_i$ are identical, it follows that $\M_1'|\ldots|\M_{k-1}' = \M_2'|\ldots|\M_{k}'$. We will use this during induction.\\
 
-  If $k = 1$, then we are done because both $\M'$ and $\C'|\M'$ are context-free classes that admit combinatorial specifications which track the right-most points by value, $M'$ is trivial and $\C'|\M'$ by Lemma~\ref{lem:induction_step}.
+\noindent \textbf{Base case:}\\
+\noindent If $k = 1$, then~\eqref{eq:rewritten} has the following form.
+\begin{align}
+  \C|\M_1 &= \EE + \M'_1 + \C'|\M'_1
+  \label{eq:basecase}
+\end{align}
+Clearly, $\M_1'$ is context-free and admits a combinatorial specification which tracks the rightmost point by value (we saw this in Section~\ref{sec:iterjuxt_intro} as $\Mstar$). By Lemma~\ref{lem:induction_step}, $\C'|\M_1'$ is also context-free and admits a combinatorial specification which tracks the rightmost point by value. Therefore, $\C|\M_1$ is context-free and admits the right combinatorial specification --- we are done.\\
 
-For any $k$ greater than $1$, let $\C_0 = \C'|\M'_1|\ldots|\M'_{k-1}$. By induction assumption, $\C'_0$ admits a combinatorial specification that tracks the right-most point by value and so does $\M'_1|\ldots|\M'_{k-1}$. This is the case as they appear in a rewrite of $\C|\M_1|\ldots|\M_{k-1}$ analogous to~\eqref{eq:rewritten} and the assumption is that $\C|\M_1|\ldots|\M_{k-1}$ admits the combinatorial specification of the correct form.  The extra terms that we need to show are of the correct form are: $\Omega_1(\C'|\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\C'|\M'_1|\ldots|\M'_{k-1})$, together with $\Omega_1(\M'_1|\ldots|\M'_{k-1})$ and $\Omega_{11}(\M'_1|\ldots|\M'_{k-1})$. By Lemma~\ref{lem:induction_step}, all four of these terms do admit combinatorial specifications which track the right-most point by value.
+\noindent \textbf{Induction step:}\\
+\noindent For any $k$ greater than $1$, let $\C_0' = \C'|\M'_1|\ldots|\M'_{k-1}$. By induction assumption, $\C_0'$ is context-free and admits a combinatorial specification that tracks the rightmost point by value. This is the case as $\C_0 = \C|\M_1|\ldots|\M_{k-1}$ is all that by induction assumption and $\C_0'$ is one term of an expression like~\eqref{eq:rewritten} for $\C_0$. Therefore, we need to show that $\C_0'|\M_k'$ is context-free and admits the right combinatorial specification. But $\C_0'$ and $\M_k'$ meet the conditions of Lemma~\ref{lem:induction_step} and hence the claim follows. The only term in~\eqref{eq:rewritten} which does not fall within the induction assumption in an obvious way is $\M_2'|\ldots|\M_k'$. There was no $1\times k-1$ row of non-empty monotone cells in an expression like~\eqref{eq:rewritten} for $\C|\M_1|\ldots|\M_{k-1}$. On the other hand, $\M_2$ is a context-free class that admits a combinatorial specification which tracks the rightmost point by value. Therefore, let $\C_\M = \M_2$, and we get $\M_2'|\ldots|\M_k' = \C_\M'|\M_3'|\ldots|\M_k'$. Now, this juxtaposition of non-empty cells does fall under the induction assumption and we are done. Every term in~\eqref{eq:rewritten} is context-free and admits a combinatorial specification which tracks the rightmost point by value. Therefore, $\C|\M_1|\ldots|\M_k$ is such a context-free class and the Proposition~\ref{prop:onesidedjuxt} follows.
 \end{proof}
+
+The major message in Lemma~\ref{lem:induction_step} is that juxtaposing a monotone increasing class on the right of a context-free class does not qualitatively affect the context-free class that we started with. This turns out to be a key invariant as it lends itself to repeated juxtapositions. That is the other crucial message and we introduced it in Proposition~\ref{prop:onesidedjuxt} as ``repeated juxtaposing is allowed'' for monotone increasing classes on the right side of a context-free class. These two building blocks are going to be used as black boxes when we generalise the increasing monotone classes to any monotone classes and allow the juxtapositions on both sides of the context-free class. 
+
 
 \subsection{Extension to decreasing classes and both sides}
 \label{sec:extensions}
 
+As advertised, this subsection transforms more general juxtapositions into a form that Lemma~\ref{lem:induction_step} and Proposition~\ref{prop:onesidedjuxt} can deal with. The culmination is Theorem~\ref{thm:iterjuxt_main} which concludes that finitely many juxtapositions of any monotone classes on any side of a context-free class form a context-free class, which thereby admits an algebraic generating function.
+
+We begin by proving that it is possible to append decrasing monotone classes on the right side of a context-free class.
 \begin{proposition}
   \label{prop:decrappend}
-  Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification that tracks the right-most point. Then $\C|\DD$ admits a combinatorial specification which tracks the rightmost point.
+  Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification which tracks the right-most point by value. Then $\C|\DD$ admits a combinatorial specification which tracks the rightmost point by value.
 \end{proposition}
 \begin{proof}
-We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We require that if the monotone class on the right is decreasing, we associate points on the RHS \emph{above} the points on the LHS. Also, in effect, we ignore the phantom point $p$ and use phantom point $q$ instead but we make this clear below. The rewrite of the juxtaposition into classes with non-empty cells is below.
+We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\rotatebox[origin=c]{180}{\C}|\M$ (an upside-down $\C|\DD$). However, there are several details that require attention.For instance, in a juxtaposition $\C|\M$, a point $x$ on the LHS is associated with a sequence on the RHS that falls into the gap immediately below $x$, see Figure~\ref{fig:xregion}. If we want this to be the case for the juxtaposition $\rotatebox[origin=c]{180}{\C}|\M$, we must start by associating points on the RHS of $\C|\DD$ \emph{above} the points on the LHS. Similarly, If we want an upper phantom point $p$ to be above and to the left of $\rotatebox[origin=c]{180}{\C}|\M$, we must start with a lower phantom point $q$ as in $q \oplus \C|\DD$. Given this set-up, we write $\C|\DD$ as a sum of disjoint terms. 
 \begin{align}
   \C|\DD = \EE + \DD' + \C'|\DD',
 \label{eq:decrease_objective}
 \end{align}
+where $\C'$ and $\DD'$ are non-empty versions of $\C$ and $\DD'$, respectively.
+
 \begin{figure}[!ht]
   \centering
   \begin{tikzpicture}
@@ -990,10 +1389,10 @@ We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We 
     \draw[dashed] (1,12) -- (10,12);
     \draw[dashed] (1,11) -- (10,11);
     \draw[dashed] (3,10) -- (10,10);
-    \draw[dashed] (-1,15) -- (10,15); % p-line
+%    \draw[dashed] (-1,15) -- (10,15); % p-line
     \draw[dashed] (-2,9) -- (10,9); % q-line
     
-    \filldraw[black] (-1,15) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-1,15) circle (2pt) node[below]{$p$};
     \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
     
     \draw[fill=gray!30] (1,13) rectangle (2,14) node[pos=0.5]{$\C_4$};
@@ -1011,7 +1410,7 @@ We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We 
     \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$y$};
 
     \draw[->] (4,8)--(4,6);
-    \filldraw[black] (4,7) circle (0pt) node[right]{$\Theta$};
+    \filldraw[black] (4,7) circle (0pt) node[right]{$\Theta: {}^* \mapsto {}^*, q \mapsto p$};
 
     \draw[dashed] (2,4) -- (10,4);
     \draw[dashed] (1,3) -- (10,3);
@@ -1019,10 +1418,10 @@ We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We 
     \draw[dashed] (1,1) -- (10,1);
     \draw[dashed] (2,0) -- (10,0);
     \draw[dashed] (-2,5) -- (10,5); % p-line
-    \draw[dashed] (-1,-1) -- (10,-1); % q-line
+ %   \draw[dashed] (-1,-1) -- (10,-1); % q-line
     
-    \filldraw[black] (-2,5) circle (2pt) node[below]{$q$};
-    \filldraw[black] (-1,-1) circle (2pt) node[above]{$p$};
+    \filldraw[black] (-2,5) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-1,-1) circle (2pt) node[above]{$p$};
     
     \filldraw[fill=gray!30] (2,3) rectangle (3,4) node[pos=0.5]{$\HH_4$};
     \draw[fill=gray!30] (0,2) rectangle (1,3) node[pos=0.5]{$\HH_3$};
@@ -1038,25 +1437,19 @@ We reduce the juxtaposition $\C|\DD$ to a juxtaposition of the form $\C|\M$. We 
     \filldraw[black] (4.1,-0.8) circle (1.5pt) node[right]{$v$};
     \filldraw[black] (9.6,4.7) circle (1.5pt) node[right]{$y$};
   \end{tikzpicture}
-\caption{Appending a monotone decreasing class to $\C$ amounts to appending a monotone increasing class to $\C$ upside-down. In the notation of the figure, $\C_1= \HH_4$, $\C_2 =\HH_3$, $\Cstar_3 = \HHstar_2$, and $\C_4 = \HH_1$. Before the flip --- when dealing with a decrease on the RHS --- one needs to associate decorations with gaps above LHS points, not below LHS points. Additionally, there arises need for two phantom points. Called $p,q$ in the figure.}
+\caption{Appending a monotone decreasing class to $\C$ amounts to appending a monotone increasing class to $\C$ upside-down. In the notation of the figure, $\C_1= \HH_4$, $\C_2 =\HH_3$, $\Cstar_3 = \HHstar_2$, and $\C_4 = \HH_1$. Before the flip one needs to associate decorations with gaps above LHS points, not below LHS points. Additionally, the lower phantom point which is transformed to the upper phantom point by the upside-down flip.}
 \label{fig:horizontal_flip}
 \end{figure}
 
-Given the set-up above, we transform $\C|\DD$ to $\C|\M$ by flip along the horizontal axis. The rightmost point stays right-most after the flip. The phantom point $q$ assumes the usual position of the phantom point $p$, i.e. $\Theta(q) = p$ and $\Theta(p) = q$, a mere renaming in practice.  The points on the RHS now appear below the ones on the LHS that they are associated with. The entire situation is analogous to the one in Lemma~\ref{lem:induction_step}. Therefore, let $\Theta$ be the operator that flips the setting upside down. The only term we need to worry about is when both $\C$ and $\DD$ are non-empty. It follows that
-$$\C'|\DD' = \Theta^{-1}(\Omega_1(\Theta(\hatCstar))) + \Theta^{-1}(\Omega_{11}(\Theta(\hatCstar))).$$ 
-In other words, we can use all infrastructure that is in place for monotone increasing classes to append monotone decreasing classes. Since $\Theta$ is bijective, we transform the decreasing setting into increasing, apply the operators we need to apply, and then bring the situation back by $\Theta^{-1}$. Figure~\ref{fig:horizontal_flip} gives an instance of a horizontal flip transformation.
+We transform $q\oplus\C^*|\DD$ into $p\ominus\rotatebox[origin=c]{180}{\C}^*|\M$ by a flip along the horizontal axis --- otherwise known as complementation. We call the operator that does this job $\Theta$. The rightmost point stays right-most after the flip, i.e. $\Theta({}^*) = {}^*$. The phantom point $q$ assumes the usual position of the phantom point $p$, i.e. $\Theta(q) = p$, a mere renaming. The points on the RHS now appear below the ones on the LHS that they are associated with. It goes without saying that a bottom-to-top specification can be simply reversed into a top-to-bottom specification in order to facilitate the upside-down flip. The entire situation is analogous to the one in Lemma~\ref{lem:induction_step}. The only term we need to worry about is when both $\C$ and $\DD$ are non-empty. Writing the juxtpaosition of two non-empty cells in terms of $\Omega$ operators gives the following expression.
+$$\C'|\DD' = \Theta^{-1}(\Omega_1(\Theta(q\oplus \Cstar))) + \Theta^{-1}(\Omega_{11}(\Theta(q \oplus \Cstar))).$$ 
+In other words, we can use all the infrastructure that is in place for monotone increasing classes to append monotone decreasing classes. Since $\Theta$ is bijective, we transform the decreasing setting into increasing, apply the operators we need to apply, and then bring the situation back by $\Theta^{-1}$. Figure~\ref{fig:horizontal_flip} gives an instance of the upside-down flip transformation.
 \end{proof}
 
 \begin{proposition}
   \label{prop:leftappend}
-Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification that tracks the left-most points. Then $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
+Let $\DD$ be a monotone decreasing permutation class and $\C$ a context-free permutation class that admits a combinatorial specification which tracks the leftmost point. Then $\DD|\C$ is context-free and admits a combinatorial specification which tracks the leftmost.
 \end{proposition}
-\begin{proof}
-The proof follows by transformation of $\C$ by a left-to-right flip $\Phi$, then applying $\Omega$ operators, and undoing the flip. For this purpose, we need to keep track of the left-most point of $\C$. First, we require that the combinatorial specification of $\C$ tracks the leftmost point of $\C$. We denote the objects containing the leftmost point by $\C^\circ$ or $\Z^\circ$. Every $\C$ that admits a combinatorial specification that tracks the rightmost point also admits a combinatorial specification that tracks the leftmost point (we can just enumerate it flipped left-to-right). As before, enumerating $\DD|\C$ amounts to enumerating the juxtaposition of two non-empty cells where the one on the left-hand side is $\DD$ and on the right side is $\C$. If $\Phi$ is the left-to-right flip operator, then 
-$$\DD'|\C' = \Phi^{-1}(\Omega_1(\Phi(\barC^\circ))) + \Phi^{-1}(\Omega_{11}(\Phi(\barC^\circ))).$$
-Of course, we keep associating the points in $\DD$ on the LHS below the points in $\C$ on the RHS so that we can apply $\Omega$ operators after the flip. The flip $\Phi$ also ``transforms'' the left-most point to rightmost point: $\Phi({}^\circ) = {}^*$ and $\Phi({}^*) = {}^\circ$. Therefore, $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
-
-Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We keep both phantom points in the figure for completeness.
 \begin{figure}[!ht]
   \centering
   \begin{tikzpicture}[scale=0.8]
@@ -1067,10 +1460,10 @@ Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We kee
     \draw[dashed] (-6,11) -- (10,11);
     \draw[dashed] (-6,10) -- (10,10);
     \draw[dashed] (-6,15) -- (10,15); % p-line
-    \draw[dashed] (-6,9) -- (10,9); % q-line
+%    \draw[dashed] (-6,9) -- (10,9); % q-line
     
-    \filldraw[black] (-1.3,15) circle (2pt) node[below]{$p$};
-    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    \filldraw[black] (6.3,15) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
     
     \draw[fill=gray!30] (1,13) rectangle (2,14) node[pos=0.5]{$\C_4$};
     \draw[fill=gray!30] (3,12) rectangle (4,13) node[pos=0.5]{$\Cstar_3$};
@@ -1082,24 +1475,24 @@ Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We kee
     \filldraw[black] (0,11.6) circle (2pt) node[left]{$b$};
     
     % RHS
-    \foreach \i in {1,...,55}
-    {
-      \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
-    }
-    \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$u$};
-    \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$v$};
+    % \foreach \i in {1,...,55}
+    % {
+    %   \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
+    % }
+    % \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$u$};
+    % \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$v$};
 
     % LHS
     \foreach \i in {1,...,53}
     {
-      \filldraw[black] (-0.1-0.1*\i,14.7-0.1*\i) circle (0.5pt);
+      \filldraw[black] (-5.5+0.1*\i,14.7-0.1*\i) circle (0.5pt);
     }
-    \filldraw[black] (-0.2,14.6) circle (1.5pt) node[left]{$w$};
-    \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
+    \filldraw[black] (-0.2,9.4) circle (1.5pt) node[left]{$w$};
+    \filldraw[black] (-5.4,14.6) circle (1.5pt) node[right]{$z$};
     \end{scope}
 
     \draw[->] (1.5,8)--(1.5,6.5);
-    \filldraw[black] (1.5,7.25) circle (0pt) node[right]{$\Phi$};
+    \filldraw[black] (1.5,7.25) circle (0pt) node[right]{$\Phi: {}^*\mapsto{}^\circ$};
 
 
     %==================== reflection ======================
@@ -1110,10 +1503,10 @@ Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We kee
     \draw[dashed] (-6,11) -- (10,11);
     \draw[dashed] (-6,10) -- (10,10);
     \draw[dashed] (-6,15) -- (10,15); % p-line
-    \draw[dashed] (-6,9) -- (10,9); % q-line
+%    \draw[dashed] (-6,9) -- (10,9); % q-line
     
-    \filldraw[black] (-1.3,15) circle (2pt) node[below]{$p$};
-    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
+    \filldraw[black] (6.3,15) circle (2pt) node[below]{$p$};
+%    \filldraw[black] (-2,9) circle (2pt) node[above]{$q$};
     
     \draw[fill=gray!30] (1,13) rectangle (2,14) node[pos=0.5]{$\C_4$};
     \draw[fill=gray!30] (3,12) rectangle (4,13) node[pos=0.5]{$\Cstar_3$};
@@ -1123,36 +1516,43 @@ Figure~\ref{fig:phi_flip} demonstrates the flip around the vertical axis. We kee
     \draw[-, very thick] (0,8.5) -- (0,15.5);
     \filldraw[black] (4,12.3) circle (2pt) node[left]{$a$};
     \filldraw[black] (0,11.6) circle (2pt) node[right]{$b$};
-
-    \foreach \i in {1,...,55}
-    {
-      \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
-    }
-    \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$u$};
-    \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$v$};   
+    
+    % RHS
+    % \foreach \i in {1,...,55}
+    % {
+    %   \filldraw[black] (4.1+0.1*\i,14.8-0.1*\i) circle (0.5pt);
+    % }
+    % \filldraw[black] (4.1,14.8) circle (1.5pt) node[right]{$u$};
+    % \filldraw[black] (9.6,9.3) circle (1.5pt) node[right]{$v$};
 
     % LHS
     \foreach \i in {1,...,53}
     {
-      \filldraw[black] (-0.1-0.1*\i,14.7-0.1*\i) circle (0.5pt);
+      \filldraw[black] (-5.5+0.1*\i,14.7-0.1*\i) circle (0.5pt);
     }
-    \filldraw[black] (-0.2,14.6) circle (1.5pt) node[right]{$w$};
-    \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
+    \filldraw[black] (-0.2,9.4) circle (1.5pt) node[right]{$w$};
+    \filldraw[black] (-5.4,14.6) circle (1.5pt) node[left]{$z$};
     \end{scope}
   \end{tikzpicture}
-  \caption{East side in orange, west side in green. Points $p,q$ define lines $\ell_p$ and $\ell_q$.}
+  \caption{Left-to-right flip swaps starred and circled points (or classes) and causes the monotone class to change from decreasing to increasing or vice versa. We also begin with a point $p$ which is not a phantom point as it is to the right of $\C$. It becomes a phantom point after $\Phi$ is applied to the set-up. The bottom picture is the arrangement representing the action of $\Omega$ operators.}
   \label{fig:phi_flip}
 \end{figure}
-
+\begin{proof}
+Similar to the upside-down flip in Proposition~\ref{prop:decrappend}, the proof proceeds by transformation of $\C$ via a left-to-right flip $\Phi$, then applying $\Omega$ operators, and undoing the flip. In the process, we need to make sure that the left-most and the rightmost points are treated correctly, and that the phantom points work as expected. For this purpose, we need to keep track of the left-most point of $\C$. First, we require that the combinatorial specification of $\C$ tracks the leftmost point of $\C$. Recall that we denote the objects containing the leftmost point by $\C^\circ$ or $\Z^\circ$. As before, enumerating $\DD|\C$ amounts to enumerating the juxtaposition of two non-empty cells where the one on the left-hand side is $\DD'$ and the one on the right-hand side is $\C'$. If $\Phi$ is the left-to-right flip operator, then enumerating $\DD|\C$ is the same as enumerating $\reflectbox{\C}|\M$, where $\M$ stands for monotone increasing class, if we remember to keep track of the details (critical points). In particular, $\Phi(\Z^\circ) = \Phi(\Z^*)$ and $\Phi(\Z^*) = \Phi(\Z^\circ)$. In contrast to the upside-down flip operator $\Theta$, we begin with appending an invalid phantom point to $\C$, which becomes valid after the flip, and is removed afterwards when $\Phi$ is undone. Please refer to Figure~\ref{fig:phi_flip} for a visual guide. 
+$$\DD'|\C' = \Phi^{-1}(\Omega_1(\Phi(C^\circ\oplus p))) + \Phi^{-1}(\Omega_{11}(\Phi(C^\circ\oplus p))).$$
+It is clear that after the transformation by $\Phi$, the arrangement is suitable for application of $\Omega$ operators. The correctness follows from Lemma~\ref{lem:induction_step} and Proposition~\ref{prop:onesidedjuxt}. Therefore, $\DD|\C$ admits a combinatorial specification which tracks the rightmost point.
 \end{proof}
+Notice that by Proposition~\ref{prop:decrappend} and Proposition~\ref{prop:leftappend}, appending increasing classes on the left-hand side also becomes possible. We wrap up our efforts in the following theorem, Theorem~\ref{thm:iterjuxt_main}.
 
 
 \begin{theorem}
   \label{thm:iterjuxt_main}
-  Let $\C$ be a context-free permutation class that tracks both the right-most and the left-most points. Let $\M_1,\ldots,M_{k+\ell}$ be a sequence of monotone, increasing or decreasing, permutation classes. Then $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ is a context-free permutation class that admits a generating function that is an algebraic function.
+  Let $\C$ be a context-free permutation class that admits a combinatorial specification which tracks both the right-most and the left-most points. Let $\M_1,\ldots,\M_{k+\ell}$ be a sequence of monotone, increasing or decreasing, permutation classes. Then $\M_1|\ldots|\M_k|\C|\M_{k+1}|\ldots|\M_{k+\ell}$ is a context-free permutation class that admits an algebraic generating function.
 \end{theorem}
 \begin{proof}
-  The claim follows from Propositions~\ref{prop:onesidedjuxt}, \ref{prop:decrappend}, \ref{prop:leftappend} and Lemma~\ref{lem:induction_step}. Indeed, Lemma~\ref{lem:induction_step} states that juxtaposing a monotone increasing class from the right of $\C$ preserves context-free character of $\C$. Proposition~\ref{prop:onesidedjuxt} makes sure that repeated application of Lemma~\ref{lem:induction_step} preserves context-free character of the class as well. Therefore, appending a monotone increasing class on the right keeps the invariant intact. Furthermore, these results together with Proposition~\ref{prop:decrappend} imply that the invariant is preserved when appending decreasing classes on the right as well. Lastly, Proposition~\ref{prop:leftappend} guarantees that we can in fact append on both sides of $\C$ and the resulting class is same in nature as $\C$. The only remaining issues is to fix any order in which the gridding is done. We choose to first grid all monotone classes from the right and then all the monotone classes from the left. The gridding is now unique for every griddable permutation. Finally, Theorem~\ref{thm:chomsky} then implies that the generating function is in fact algebraic.
+  Once we decide which gridding (from the left side or from the right side) gets priority, the claim follows by repeated applications of Proposition~\ref{prop:onesidedjuxt}, Proposition~\ref{prop:decrappend}, and Proposition~\ref{prop:leftappend}. Recall that the $\Omega$ operators only use the right-most point and ignore the presence of the left-most point (not deleting the circle, simply leaving it unchanged). Having both decorations (${}^*$ and ${}^\circ$) present in $\C$ at the same time does not negatively affect nor gets negatively affected by $\Omega$ operators.
+
+  In short, Lemma~\ref{lem:induction_step} together with Proposition~\ref{prop:onesidedjuxt} guarantee that whatever we start with before the next juxtaposition is context-free and tracks the desired points correctly. Additionally, Proposition~\ref{prop:onesidedjuxt} also deals with the case when we append an increasing class on the right. The remaining cases are covered by first manipulating the situation via Proposition~\ref{prop:decrappend} and Proposition~\ref{prop:leftappend} into the arrangement when Proposition~\ref{prop:onesidedjuxt} applies again. Therefore, juxtaposing finitely many monotone classes on both sides of a context-free $\C$ leads to just another context-free class. Therefore, Theorem~\ref{thm:chomsky} then implies that the generating function of the resulting class is in fact algebraic.
 \end{proof}
 
 \begin{corollary}
