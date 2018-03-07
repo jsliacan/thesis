@@ -46,13 +46,13 @@ Our work on enumeration consists of two campaigns. First, we enumerate all juxta
 In our work on packing, we consolidate what is currently known about packing densities of 4-point permutations and in the process improve the lower bounds for the packing densities of 1324 and 1342. We also provide rigorous upper bounds for the packing densities of 1324, 1342, and 2413. All our bounds are within $10^{-4}$ of the true packing densities. Together with the known bounds, this gives us a fairly complete picture of all 4-point packing densities. We also list a number of lower bounds and upper bounds for small permutations of length at least five. Our main tool for the upper bounds is the framework of flag algebras introduced by Razborov in 2007. We also present Permpack --- a flag algebra package for permutations. 
 
 \chapter{Acknowledgements}
-I would like to thank my supervisor Robert Brignall for finding the right balance between guidance and freedom. I especially value the opportunity to pursue side projects with little or no relationship to my thesis without the pressure of producing measurable results. It made mathematics more enjoyable. Thank you.\\
+I would like to thank my supervisor Robert Brignall for finding nice balance between guidance and freedom. I especially valued the opportunity to pursue side projects with little or no relationship to my thesis without the pressure of producing measurable results. It made mathematics more enjoyable. Thank you.\\
 
 My acknowledgements go to the Department of Mathematics and Statistics at The Open University for funding my PhD and providing support in various forms throughout the past three years.\\
 
 Special thanks go to my office mates who tolerated my smelly running clothes as well as my constant chewing in our office: Grahame Erskine, Michael Ewetola, Jay Fraser, and Olivia Jeans. I am grateful to David Bevan for advice and welcome when I first came to the department and for maths conversations. Thanks also go to Lax Chan, Argyris Christodoulou, Ioannis Dourekas, Vasso Evdoridou, Matthew Jacques, Robert Lewis, Alison Maidment, David Marchant, Maha Moustafa, David Mart\'{i}-Pete, Tony Royle, Margaret Stanier, Brigitte Stenhouse, and James Tuite.\\
 
-Additionally, I would like to thank to my co-authors, collaborators, and influences outside of my department: Dan Kr\'a\v{l}, Oleg Pikhurko, Jozef Skokan, Kostas Tyros, Walter Stromquist, and Michael Albert.\\
+Additionally, I would like to thank my co-authors, collaborators, and influences outside of my department: Dan Kr\'a\v{l}, Oleg Pikhurko, Jozef Skokan, Kostas Tyros, Walter Stromquist, and Michael Albert.\\
 
 Thanks also go to my parents and Veronika for being supportive throughout.\\
 
@@ -2237,26 +2237,30 @@ When defining $\Omega$ operators in Section~\ref{sec:iterjuxt_intro}, we present
 \end{figure}
 
 
-The one major direction of research that suggests itself after our work is the generalisation to juxtapositions from all four sides: top, bottom, right, and left. See Figure~\ref{fig:juxtopia}. This would require tracking all four extremal points in the permutation. This in itself is not an easy task, as it would require two mutually dependent combinatorial specifications. One that tracks the vertical position of points and the other one that tracks their horizontal positions. Both horizontal and vertical positions of each point are needed to deal with top and side juxtapositions. Assuming we can deal with that, it still remains to determine how to uniquely grid any one given permutation (provided that it is griddable into a given class). The problems with gridding arise when two classes meet at a corner in a continuous way. Imagine a two-sided juxtaposition as in Figure~\ref{fig:screwyou}. Clearly, it is a form of the juxtaposition that we would like to treat, but it is unfriendly. On the bright side, one can notice that there are no cycles when juxtaposing from both the top and the side.
+The one major direction of research that suggests itself after our work is the generalisation to juxtapositions from all four sides: top, bottom, right, and left. See Figure~\ref{fig:juxtopia}. This would require tracking all four extremal points in the permutation. This in itself is not an easy task, as it would require two mutually dependent combinatorial specifications. One that tracks the vertical position of points and the other one that tracks their horizontal positions. Both horizontal and vertical positions of each point are needed to deal with top and side juxtapositions. Assuming we can deal with that, it still remains to determine how to uniquely grid any one given permutation (provided that it is griddable into a given class).
 
-\begin{figure}[ht!]
-  \begin{center}
-    \begin{tikzpicture}[scale=1]
-      \draw (1,3) rectangle (3,5);
-      \draw (1,1) rectangle (3,3) node[pos=0.5]{$\C$};
-      \draw (3,1) rectangle (5,3);
-      \foreach \i in {1,...,40}
-      {
-        \filldraw[black] (1+0.1*\i,5-0.1*\i) circle (0.5pt);
-      }
-      % \filldraw[black] (-0.2,14.6) circle (1.5pt) node[right]{$w$};
-      % \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
+% The problems with gridding arise, for instance, when two classes meet at a corner in a continuous way. Imagine a two-sided juxtaposition as in Figure~\ref{fig:screwyou}. It is of the form shown in Figure~\ref{fig:juxtopia}, but no matter how we do the gridding (first from the side, then from the top; or vice versa), it is not straightforward how to phrase the overlap of two points at the boundary (think along the lines of the rightmost point in the left cell being above the leftmost point in the right cell). This would not be the case in Figure~\ref{fig:screwyou}. On the bright side, one can notice that there are no cycles when juxtaposing from both the top and the side.
+
+% \begin{figure}[ht!]
+%   \begin{center}
+%     \begin{tikzpicture}[scale=1]
+%       \draw (1,3) rectangle (3,5);
+%       \draw (1,1) rectangle (3,3) node[pos=0.5]{$\C$};
+%       \draw (3,1) rectangle (5,3);
+%       \foreach \i in {1,...,40}
+%       {
+%         \filldraw[black] (1+0.1*\i,5-0.1*\i) circle (0.5pt);
+%       }
+%       % \filldraw[black] (-0.2,14.6) circle (1.5pt) node[right]{$w$};
+%       % \filldraw[black] (-5.4,9.4) circle (1.5pt) node[right]{$z$};
     
-    \end{tikzpicture}
-    \caption{An example of a problematic juxtaposition from both the top and the side.}
-    \label{fig:screwyou}
-  \end{center}
-\end{figure}
+%     \end{tikzpicture}
+%     \caption{An example of a problematic juxtaposition from both the top and the side.}
+%     \label{fig:screwyou}
+%   \end{center}
+% \end{figure}
+
+Notice that the grid classes like the one in Figure~\ref{fig:juxtopia} contain all acyclic grid classes with one context-free cell. Therefore, a result along the lines of Theorem~\ref{thm:iterjuxt_main} about these acyclic classes is among the goals of our continued work in this area. Another natural question is whether the respective results translate to regular class $\C$ juxtaposed with monotone classes, i.e. are such juxtapositions regular? Do they have rational generating functions?
 
 Finally, we would like to point out that a context-free class $\C$ was chosen because it is a ``nicely behaved'' object to juxtapose monotone classes next to. However, other objects --- maybe more general ones --- could be manageable under favourable circumstances. It remains a direction to pursue. 
 
