@@ -197,10 +197,9 @@ Before using any of the module, it is necessary to load it. This is done by the 
 \begin{lstlisting}
 sage: from permpack.all import *
 \end{lstlisting}
-Once the module is loaded, the user can access all the methods and features that we used in Chapter~\ref{chap:packsmall} and that are described in further sections of this Appendix.
 
-\subsection{Structure of the module}
-\label{sec:permpack:module_structure}
+\subsection{Entering the problem into Permpack}
+
 Assuming that the permpack module is loaded, the user is concerned with only one class: \texttt{PermProblem}. Everything is done in terms of solving this permutation problem. It is easily created (and assigned to a variable through which it is accessed later) as in Listing~\ref{lst:createproblem}. 
 \lstsetsage \lstset{caption={Creating a permutation problem to solve.}, label={lst:createproblem}}
 \begin{lstlisting}
@@ -251,13 +250,13 @@ Notice, in particular, the lines 10-11:
 /path/to/Github/permpack/pkg/../store/FP-N3.txt
 Loading flag_products from file... OK.
 \end{lstlisting}
-Permpack does not recompute flag products if the problem (requiring the same flag products) was already encountered before. This is to save time. Read more about these speed-ups in Section~\ref{sec:permpack-misc}.
+Permpack does not recompute flag products if the problem (requiring the same flag products) was already encountered before. This is to save time. We briefly mention this in Section~\ref{sec:permpack-misc}.
 
 Let us now comment on the format of the input to the \texttt{PermProblem} constructor. 
 \begin{itemize}
 \item \texttt{N}: Permpack only accepts integers. When \texttt{N} gets too large (say 9), the computations become very slow already when computing flag products. It is very likely that even if you manage to wait long enough to compute these, the SDP problem will be so large that you will run out of memory (for instance).
 \item \texttt{forbid}: Permpack accepts a list of permutations. Do make sure that each of them has length at most \texttt{N}. Otherwise it is impossible to exclude them from the computations.
-\item \texttt{density\_pattern}: Permpack accepts a few different inputs. Firstly, a solo permutation either as a list of integers, \texttt{[1,3,2]}, or as a string,\texttt{"132"}, is fine. However, it's possible to want to maximize the density of, say, $1/2\cdot 132 + 1/2\cdot 231$. This can also be done. Permpack takes such input as a list of tuples, each touple of length two with the first entry a permutation (either as a list of integers or as a string) and the second entry a coefficient (as a fraction or a floating point number). For example, the following inputs are all equivalent (although the last one is scaled differently -- the problem has the same maximizer(s), just different packing density of the \texttt{density\_pattern}):
+\item \texttt{density\_pattern}: Permpack accepts a few different inputs. Firstly, a solo permutation either as a list of integers, \texttt{[1,3,2]}, or as a string,\texttt{"132"}, is fine. However, it is possible to want to maximize the density of, say, $1/2\cdot 132 + 1/2\cdot 231$. This can also be done. Permpack takes such input as a list of tuples, each touple of length two with the first entry a permutation (either as a list of integers or as a string) and the second entry a coefficient (as a fraction or a floating point number). For example, the following inputs are all equivalent (although the last one is scaled differently -- the problem has the same maximizer(s), just different packing density of the \texttt{density\_pattern}):
 \begin{itemize}
 \item[$\star$] \texttt{density\_pattern=[([1,3,2],1/2),([2,1,3],1/2)]}
 \item[$\star$] \texttt{density\_pattern=[("132",0.5),("213",0.5)]}
@@ -265,6 +264,7 @@ Let us now comment on the format of the input to the \texttt{PermProblem} constr
 \end{itemize}
 \end{itemize}
 
+\subsection{Solving SDP}
 The next method one needs to call on the \texttt{PermProblem} is \texttt{solve\_sdp()}. As usual, it is possible to call this method without any arguments. In such case, the solver defaults to CSDP. If one wants a double precision solver SDPA-DD, argument needs to be passed with that option: \texttt{solve\_sdp(solver="sdpa\_dd")}. First, the method \texttt{solve\_sdp()} writes and input file to the SDP solver. The default input filename is \texttt{sdp.dat-s}. If you wish for a different name pass an additional argument to the \texttt{solve\_sdp()} method specifying the filename, e.g. \texttt{input\_file="myfile.dat-s"}. Make sure that the filename ends with \texttt{.dat-s} suffix to be recognized as a sparse data file by the solver. The \texttt{solve\_sdp()} method then passes the information to the SDP solver together with the output filename, where the solution to the semidefinite problem will be stored. The default output filename is \texttt{sdp.out}. If you wish this file to be named differently, you need to pass an additional argument to the \texttt{solve\_sdp()} method specifying your preferred filename: \texttt{output\_file="myfile.out"}, where the \texttt{.out} extension is just a convention. All these files are stored in the current working directory to be easily accessible if one wants to peruse them manually. Once the method passes everything to the solver, it can take a long time before a solution is found by the solver. You will see the progress on your screen as the output from the solver is not suppressed. Once the solver finished, you'll be able to see the floating point bound that was found. The next step is rounding the floating point solution matrices to have exact entries such that they stay positive semidefinite and the new exact bound is as good as possible. An example call to \texttt{solve\_sdp()} is in Listing~\ref{lst:permpack:solvesdp}.
 
 \lstsetsage \lstset{caption={Packing 132. Code up to calling the SDP solver. You should see \texttt{myfile.dat-s} and \texttt{myfile.out} in your current working directory after executing the following code.}, label={lst:permpack:solvesdp}}
@@ -276,12 +276,94 @@ sage: p.solve_sdp(solver="csdp",
                   output_file="myfile.out")
 \end{lstlisting}
 
+\subsection{Assumptions}
+A feature of Permpack that is worth mentioning, albeit briefly, are assumptions. Imagine one wants to add additional density assumptions on various pattern densities. There are various natural examples, but a small and easily checkable one is the following. Imagine that you want to find the packing density of $12$ in $123$-free permutations. However, you insist that the density of $312$ is at least $1/5$ (notice that its density would be $0$ in the maximiser of $12$ in $123$-free permutations). Therefore, you are essentially forcing the problem away from the usual optimum. It is not immediately obvious what the answer is, and the number that Permpack gives will probably not make you wiser. It was an arbitrarily chosen problem to illustrate a feature. However, you can certainly see that the value Permpack gives you is smaller than $1/2$, which would be the packing density of $12$ in $123$-free permutations. See the code snippet in Listing~\ref{lst:permpack:assumption_in} that asks Permpack to compute this example for us. The structure of the command is the following. Use the \texttt{add\_assumption} method of the \texttt{PermProblem} class. It takes two arguments: a list of pairs $(\sigma,c_\sigma)$ and a bound $b$. The idea is to bound a linear combination of permutation densities, such as $c_{123}p(123,P) + c_{321}p(321,P) \geq b$, where the inequality holds for every admissible $P$. Clearly, this can be encoded as a vector of pairs $(\sigma,c_\sigma)$ and an additional bound $b$. In our example, $\sigma = 312$, $c_{312} = 1$, and $b = 1/5$. 
+
+\lstsetsage \lstset{caption={Forbid $123$, maximise $12$ under the constraint that $p(312) \geq 1/5$.}, label={lst:permpack:assumption_in}}
+\begin{lstlisting}
+sage: from permpack.all import *
+sage: p = PermProblem(3, forbid=["123"], density_pattern="12")
+sage: p.add_assumption([("312",1)], 1/5)
+sage: p.solve_sdp()
+\end{lstlisting}
+
+The critical excerpt from the output is provided below, in Listing~\ref{lst:permpack:assumption_out}.
+
+\lstset{caption={The interesing part of Permpack's output for the problem in Listing~\ref{lst:permpack:assumption_in}.}, label={lst:permpack:assumption_out}}
+\begin{lstlisting}
+Success: SDP solved
+Primal objective value: -3.4261685e-01 
+Dual objective value: -3.4261686e-01 
+Relative primal infeasibility: 9.25e-15 
+Relative dual infeasibility: 6.65e-09 
+Real Relative Gap: -1.16e-08 
+XZ Relative Gap: 7.77e-09 
+DIMACS error msrs: 9.25e-15 0.00e+00 1.39e-08 0.00e+00 -1.16e-08 7.77e-09
+Finished. OK.
+\end{lstlisting}
+
+\subsection{Rounding}
+The next aspect to discuss is the rounding procedure. As is obvious from above, a SDP solver returns matrices whose entries are floating point values. They are inexact and do not prove anything. Therefore, we need to convert these matrices to other matrices, preserving positive semi-definiteness and ideally stay as close to the desired bound on our problem as possible. We call the procedure of converting floating-point matrices to ``exact'' matrices, \emph{rounding} and is done by \texttt{exactify()} method in Permpack. It is quite basic at this point. We only worry about preserving the positive-semidefiniteness and hope that if the rounded matrix is entry-wise close to the original one, then the bound will not be off by too much. In practice, this works reasonably well. The method \texttt{exactify} takes several optional arguments which can fine-tune the ``precision'' with thich the rounding is done, e.g. eigenvalues close to zero are rounded to zero if they are close enough (this is the parameter \texttt{recognition\_precision} passed to \texttt{exactify}; another parameter is \texttt{rounding\_precision} and it specifies the denominator when rounding the entries of $L'$ in the Cholesky decomposition of a floating-point $Q'$ to rational quantities). We give a shared example for rounding and issuing certificates in Subsection~\ref{subsec:certificates}, see Listing~\ref{lst:permpack:exactify_in} and~\ref{lst:permpack:exactify_out} for input and output, respectively.
+
+\subsection{Certificates}
+\label{subsec:certificates}
+The last critical part of Permpack that the user should be aware of are certificates. These are human readable files that store information necessary to verify the results obtained by Permpack. The key idea being that it is significantly easier to check if given matrices solve a SDP problem than finding those matrices in the first place. Therefore, the class \texttt{PermProblem} has a method \texttt{write\_certificate} which takes filename you want your certificate to have. It will be written into the current directory (so make sure you have writing permissions there). The certificate is a JSON file and is easy to read in and process. It contains the following information:
+\begin{enumerate}
+\item admissible permutations
+\item flags
+\item types
+\item matrices $L$
+\item bound (rational)
+\end{enumerate}
+Notice that as things currently stand, rounding (recall \texttt{exactify()} method) is done via Cholesky decomposition of the SDP $Q$ matrices. Therefore, every floating-point $Q' = L'L'^T$ is stored as the rounded version of $L'$ from which a rounded version of $Q'$ can be recovered. The example below shows how to round the SDP matrices and issue a certificate for your problem.
+
+\lstsetsage \lstset{caption={We want eigenvalues smaller than $10^{-6}$ to be rounded to $0$ and the denominator for rounding to be $10^{10}$.}, label={lst:permpack:exactify_in}}
+\begin{lstlisting}
+sage: from permpack.all import *
+sage: p = PermProblem(3, forbid=["123"], density_pattern="12")
+sage: p.solve_sdp()
+sage: p.exactify(recognition_precision=10e-6, rounding_precision=10e10)
+sage: p.write_certificate("babyproblem.cert")
+\end{lstlisting}
+
+\lstset{caption={The interesing part of Permpack's output for the problem in Listing~\ref{lst:permpack:exactify_in}.}, label={lst:permpack:exactify_out}}
+\begin{lstlisting}
+...
+Success: SDP solved
+Primal objective value: -5.0000001e-01 
+Dual objective value: -5.0000001e-01 
+Relative primal infeasibility: 9.44e-16 
+Relative dual infeasibility: 6.32e-09 
+Real Relative Gap: -9.94e-10 
+XZ Relative Gap: 6.94e-09 
+DIMACS error msrs: 9.44e-16 0.00e+00 1.19e-08 0.00e+00 -9.94e-10 6.94e-09
+...
+Transforming floating-point matrices to rational matrices...
+Reading output of the CSDP solver... OK.
+Rounding Q matrices... OK.
+Computing exact bound...
+[OK]   Done. Exact bound is roughly 0.5000000043. Access it from
+self._exact_bound.
+Writing certificate into file... 
+[OK]   Certificate written successfully to babyproblem.cert.
+\end{lstlisting}
 
 
 \section{Miscellaneous}
 \label{sec:permpack-misc}
+Here are a couple of remarks about Permpack to help you understand mysteriously looking output or behaviour of the package.
 
+First, Permpack stores your computations if they are new. Indeed, when you clone the repository, it comes with some clumsily big files containing flag products for particular problems. Flag products are expensive to compute and at some point it becomes useful to store them and next time only load them from file. We intentionally did not choose any database storage in order for the files to be human readable. They are plain text files. 
 
+Second, Permpack does make small use of multiprocessing when computing flag products. Maybe it would be better to use multiple threads instead, but this is something to consider at a later point in time if Permpack ever gets rewritten. The parallelization offers a modest speed-up if the machine has several cores. No miracles.
+
+\section{Conclusion}
+
+There are several hidden features of Permpack that would require longer discussion of the underlying Flag Algebras method. For instance, one can access slack variables of an SDP problem and, provided the bound is tight, obtain information about which admissible permutations do not asymptotically appear in any extremal construction for the problem. Additionally, there are hidden variables starting with an underscore (\texttt{\_}) that give the user access to intermediate computations and auxiliary variables. These can be useful in certain circumstances. The Flag Algebras method offers various insights into the problem through the computations that are performed on the way to obtaining a sharp bound. For discussion about these, follow the references in Section~\ref{sec:FA}. 
+
+Permpack's functionality could be extended in many directions. From more general assumptions (I have implemented theses in Flagmatic for hypergraphs), through supply of extremal constructions that help with rounding (see the original Flagmatic~\cite{flagmatic}), to a more complete rounding procedure. Also, it is quite possible that, as in case of graphs, there are automated ways to determine various levels of stability of extremal constructions --- see a recent preprint~\cite{olegmekostas}. 
+
+Finally, I would like to invite programmers to take a look at Permpack. There are areas which require no knowledge of Flag Algebras. For instance, at the end, solutions need to be rounded -- by this we mean converted from floating-point matrices to either matrices with rational entries or entries from some particular extension of rationals. These computations are not at all trivial, but do not depend on the idea of Flag Algebras. One only needs to understand the format of the SDP (see Section~\ref{sec:FA}, towards the end). Given an efficient rounding procedure, many problems would be automated from the input line all the way to the certificate stage. A good example of a worthy contribution is by Eric Zhang who simply wrote a more efficient \texttt{normalize} function which is used inside loops in critical computations. There must be many such inefficiencies and removing them often requires no knowledge of Flag Algebras. 
 
 
 \phantomsection
