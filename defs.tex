@@ -1,13 +1,13 @@
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}{Proposition}[section]
-\newtheorem{corollary}{Corollary}[section]
-\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{example}{Example}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
 \newtheorem*{note}{Note}
-\newtheorem{remark}{Remark}[section]
-\newtheorem{observation}{Observation}[section]
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observation}[theorem]{Observation}
 
 \definecolor{keywords}{RGB}{255,0,90}
 \definecolor{comments}{RGB}{0,0,113}
@@ -63,6 +63,7 @@
 \newcommand{\seq}[1]{\text{\textsc{Seq}}[#1]}
 \newcommand{\D}[1]{\ensuremath{\mathrm{\textbf{D}}}}
 \renewcommand{\P}{\ensuremath{\mathcal{P}}}
+\newcommand{\PP}{\ensuremath{\textsf{P}}}
 \newcommand{\T}{\ensuremath{\mathcal{T}}}
 \newcommand{\V}{\ensuremath{\mathcal{V}}}
 \newcommand{\B}{\ensuremath{\mathcal{B}}}
@@ -81,12 +82,14 @@
 \newcommand{\barC}{\ensuremath{\overline{\mathcal{C}}}}
 \newcommand{\barCstar}{\ensuremath{\overline{\mathcal{C}}^*}}
 \newcommand{\Q}{\ensuremath{\mathcal{Q}}}
+\newcommand{\QQ}{\ensuremath{\textsf{Q}}}
 \newcommand{\F}{\ensuremath{\mathcal{F}}}
 \renewcommand{\S}{\ensuremath{\mathcal{S}}}
 \newcommand{\Sstar}{\ensuremath{\mathcal{S}^*}}
 \renewcommand{\SS}{\ensuremath{\mathbb{S}}}
 \newcommand{\rS}{\ensuremath{\mathscr{S}}}
 \newcommand{\DD}{\ensuremath{\mathcal{D}}}
+\newcommand{\DDD}{\ensuremath{\textsf{D}}}
 \newcommand{\DDstar}{\ensuremath{\mathcal{D}^*}}
 \newcommand{\RR}{\ensuremath{\mathbb{R}}}
 
