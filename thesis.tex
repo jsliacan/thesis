@@ -29,6 +29,8 @@
 \usepackage{mathdots}
 \usepackage{afterpage}
 
+\setlength{\parskip}{1em}
+
 \renewcommand*{\backref}[1]{}
 \renewcommand*{\backrefalt}[4]{[{
     \ifcase #1 Not cited.%
@@ -47,23 +49,23 @@
 
 \setcounter{secnumdepth}{-3}% default for "report" is 2
 \chapter{Abstract}
-A permutation class is a set of permutations closed under taking subpermutations. We study two aspects of permutation classes. Enumeration and packing.
+A permutation class is a set of permutations closed under taking subpermutations. We study two aspects of permutation classes: enumeration and packing.
 
-Our work on enumeration consists of two campaigns. First, we enumerate all juxtaposition classes of the form ``$\Av(abc)$ next to $\Av(xy)$'', where $abc$ is a permutation of length three and $xy$ is a permutation of length two. We choose to represent elements from such a juxtaposition class by Dyck paths decorated with sequences of points. Context free grammars are then used to enumerate these decorated Dyck paths. Second, we classify the generating functions of $1\times m$ permutation grid classes, where one cell is context-free and the remaining cells are monotone, as algebraic. We rely on properties of combinatorial specifications of context-free classes and use operators to capture juxtapositions. Repeated application of operators resolves $1\times m$ grid classes for $m>2$. We provide several examples and corollaries to both re-prove known results and yield new ones. Our methods are algorithmic and as such could be implemented on a PC.
+Our work on enumeration consists of two campaigns. First, we enumerate all juxtaposition classes of the form ``$\Av(abc)$ next to $\Av(xy)$'', where $abc$ and $xy$ are permutations of lengths three and two, respectively. We choose to represent elements from such a juxtaposition class by Dyck paths decorated with sequences of points. Context-free grammars are then used to enumerate these decorated Dyck paths. Second, we classify the generating functions of $1\times m$ permutation grid classes where one cell is context-free and the remaining cells are monotone. We rely on properties of combinatorial specifications of context-free classes and use operators to express juxtapositions. Repeated application of operators resolves cases for $m>2$. We provide examples to re-prove known results and give new ones. Our methods are algorithmic and could be implemented on a PC.
 
-In our work on packing, we consolidate what is currently known about packing densities of 4-point permutations and in the process improve the lower bounds for the packing densities of 1324 and 1342. We also provide rigorous upper bounds for the packing densities of 1324, 1342, and 2413. All our bounds are within $10^{-4}$ of the true packing densities. Together with the known bounds, this gives us a fairly complete picture of all 4-point packing densities. We also list a number of lower bounds and upper bounds for small permutations of length at least five. Our main tool for the upper bounds is the framework of flag algebras introduced by Razborov in 2007. We also present Permpack --- a flag algebra package for permutations. 
+Our work on packing consolidates current knowledge about packing densities of 4-point permutations. We also improve the lower bounds for the packing densities of 1324 and 1342 and provide rigorous upper bounds for the packing densities of 1324, 1342, and 2413. All our bounds are within $10^{-4}$ of the true packing densities. Together with the known bounds, we have a fairly complete picture of 4-point packing densities. Additionally, we obtain several bounds (lower and upper) for permutations of length at least five. Our main tool for the upper bounds is the framework of flag algebras introduced by Razborov in 2007. We also present Permpack --- a flag algebra package for permutations. 
 \afterpage{\null\newpage}
 
 \chapter{Acknowledgements}
-I would like to thank my supervisor Robert Brignall for finding nice balance between guidance and freedom. I especially valued the opportunity to pursue side projects with little or no relationship to my thesis without the pressure of producing measurable results. It made mathematics more enjoyable. Thank you.\\
+I would like to thank my supervisor Robert Brignall for finding nice balance between guidance and freedom. I especially valued the opportunity to pursue side projects with little or no relationship to my thesis without the pressure of producing measurable results. It made mathematics more enjoyable. Thank you.
 
-My acknowledgements go to the Department of Mathematics and Statistics at The Open University for funding my PhD and providing support in various forms throughout the past three years.\\
+My acknowledgements go to the Department of Mathematics and Statistics at The Open University for funding my PhD and providing support in various forms throughout the past three years.
 
-Special thanks go to my office mates who tolerated my smelly running clothes as well as my constant chewing in our office: Grahame Erskine, Michael Ewetola, Jay Fraser, and Olivia Jeans. I am grateful to David Bevan for advice and welcome when I first came to the department and for maths conversations. Thanks also go to Lax Chan, Argyris Christodoulou, Ioannis Dourekas, Vasso Evdoridou, Matthew Jacques, Robert Lewis, Alison Maidment, David Marchant, Maha Moustafa, David Mart\'{i}-Pete, Tony Royle, Margaret Stanier, Brigitte Stenhouse, and James Tuite.\\
+Special thanks go to my office mates who tolerated my smelly running clothes as well as my constant chewing in our office: Grahame Erskine, Michael Ewetola, Jay Fraser, and Olivia Jeans. I am grateful to David Bevan for advice and welcome when I first came to the department and for maths conversations. Thanks also go to Lax Chan, Argyris Christodoulou, Ioannis Dourekas, Vasso Evdoridou, Matthew Jacques, Robert Lewis, Alison Maidment, David Marchant, Maha Moustafa, David Mart\'{i}-Pete, Tony Royle, Margaret Stanier, Brigitte Stenhouse, and James Tuite.
 
-Additionally, I would like to thank my co-authors, collaborators, and influences outside of my department: Dan Kr\'a\v{l}, Oleg Pikhurko, Jozef Skokan, Kostas Tyros, Walter Stromquist, and Michael Albert.\\
+Additionally, I would like to thank my co-authors, collaborators, and influences outside of my department: Dan Kr\'a\v{l}, Oleg Pikhurko, Jozef Skokan, Kostas Tyros, Walter Stromquist, and Michael Albert.
 
-Thanks also go to my parents and Veronika for being supportive throughout.\\
+Thanks also go to my parents and Veronika for being supportive throughout.
 
 Lastly, I thank Fiona who helps me stay mathematically curious.
 \afterpage{\null\newpage}
@@ -74,16 +76,17 @@ There are five chapters in this thesis.
 \item Chapter~\ref{chap:general_intro} consists of a general exposition of the area of permutation patterns and the two viewpoints of the area that we take in this thesis: enumeration and packing. Most of the text in this chapter follows parts of the comprehensive exposition in Bevan's thesis~\cite{bevan2015thesis}.
 \item Chapter~\ref{chap:catalanjuxt} consists of joint work with Robert Brignall. The corresponding paper~\cite{brignallsliacanjuxt} is published in \emph{Electronic Journal of Combinatorics}. We use PermLab~\cite{albertpermlab}, Mathematica~\cite{mathematica} and Sage~\cite{sagemath} for computations.
 \item Chapter~\ref{chap:iterjuxt} consists of joint work with Robert Brignall. We use PermLab~\cite{albertpermlab} and Mathematica~\cite{mathematica} for our computations.
-\item Chapter~\ref{chap:packsmall} consists of joint work with Walter Stromquist. The corresponding paper~\cite{sliacanstromquistpacking} is published in \emph{Discrete Mathematics and Theoretical Computer Science} in \emph{Permutation Patterns 2016} special issue. We make extensive use of software: Flagmatic package~\cite{flagmatic}, Mathematica~\cite{mathematica}, Sage~\cite{sagemath}, and our own Permpack~\cite{permpack}.
-\item Chapter~\ref{chap:permpack} consists of a description of Permpack that the author wrote for the work in Chapter~\ref{chap:packsmall}. Permpack was written to resemble Flagmatic in order to make it easier to use alongside Flagmatic. However, no Flagmatic code was used, nor were any algorithms taken into Permpack. Permpack is a Sage~\cite{sagemath} package.
+\item Chapter~\ref{chap:packsmall} consists of joint work with Walter Stromquist. The corresponding paper~\cite{sliacanstromquistpacking} is published in \emph{Discrete Mathematics and Theoretical Computer Science} in \emph{Permutation Patterns 2016} special issue. We make use of: Flagmatic package~\cite{flagmatic}, Mathematica~\cite{mathematica}, Sage~\cite{sagemath}, and Permpack~\cite{permpack}.
+\item Chapter~\ref{chap:permpack} consists of a description of Permpack that the author wrote for the work in Chapter~\ref{chap:packsmall}. It was written to resemble Flagmatic to make it easier to use alongside Flagmatic. No Flagmatic code was used, nor were any algorithms taken into Permpack. Permpack is a Sage~\cite{sagemath} package.
 \end{enumerate}
 None of the results appear in any other thesis and all co-authors have agreed with inclusion of joint work in this thesis.
 \afterpage{\null\newpage}
 
 
+\setlength{\parskip}{0em}
 \setcounter{secnumdepth}{3}
 \tableofcontents
-
+\setlength{\parskip}{1em}
 \chapter{General Introduction}
 \label{chap:general_intro}
 %\input{genintro}
@@ -171,7 +174,7 @@ Naturally, if the above limit does not exist despite being conjectured to always
 
 \chapter{Introduction to Enumeration}
 \label{chap:enumintro}
-This part contains results on enumeration of permutation grid classes. They are useful given that one of the approaches to enumerating permutation classes is through permutation \emph{grid classes}. These are permutation classes themselves but offer additional insight into structure of the permutations in them. For instance, if a permutation $\sigma$ can be split by a vertical line into a left part and a right part so that the left part (as a subpermutation of $\sigma$) avoids 21 and the right part avoids 12, then $\sigma$ belongs to $\C = \Av(21|12)$, a $1\times 2$ grid class with the left cell being $\Av(21)$ and the right cell being $\Av(12)$. All permutations in $\C$ can be split this way, and all permutations that admit such gridding belong to $\C$. \\
+This part contains results on enumeration of permutation grid classes. They are useful given that one of the approaches to enumerating permutation classes is through permutation \emph{grid classes}. These are permutation classes themselves but offer additional insight into structure of the permutations in them. For instance, if a permutation $\sigma$ can be split by a vertical line into a left part and a right part so that the left part (as a subpermutation of $\sigma$) avoids 21 and the right part avoids 12, then $\sigma$ belongs to $\C = \Av(21|12)$, a $1\times 2$ grid class with the left cell being $\Av(21)$ and the right cell being $\Av(12)$. All permutations in $\C$ can be split this way, and all permutations that admit such gridding belong to $\C$.
 
 The grid class that we just described, in our notation $\Av(21)|\Av(12)$, was enumerated by Atkinson~\cite{atkinson1998incrdecr}. In~\cite{atkinson1997restricted}, Atkinson used grid classes to enumerate other classes such as $\Av(132,4321)$, $\Av(321,2134)$, and $\Av(321,1324)$ (Bevan calls these ``skinny grid classes'' in his thesis~\cite{bevan2015thesis}). In recent years, grid classes were critical to enumeration of two-by-four classes with two basis elements of length four. See Pantone~\cite{pantone2by4} for enumeration of $\Av(3124,4312)$. Albert, Atkinson, and Brignall used grid classes to enumerate $\Av(2143,4231)$ in~\cite{albert2011enumeration} and three other two-by-four classes in~\cite{albert2012gridclasses}. Albert, Atkinson, and Vatter~\cite{albert2012inflations} use a special kind of grid classes to enumerate three specific permutation classes. Another paper making use of grid classes to enumerate $\Av(4231, 35142, 42513, 351624)$ is by Albert and Brignall~\cite{albert2014schubert}. We also mention Bevan's enumeration of $\Av(4213,2143)$ in~\cite{bevan-new} which utilizes permutation grid classes. 
 
@@ -384,7 +387,7 @@ The current state of affairs is much more grim. We cannot even enumerate grid cl
 
 Approaching the topic from another angle, Albert, Atkinson, Bouvel, Ru\v{s}kuc and Vatter~\cite{aabrv2013} proved that geometric monotone grid classes are enumerated by \emph{rational} generating functions. Notice that this result is different from the exact enumeration type of results. And that along two dimensions. First, the authors do exact enumeration in the usual constructive fashion. Second, they assume certain niceness of the grid class --- the monotone classes are geometric and therefore the grid avoids cycles. Still, their result is important and goes to show how unreasonable it is at this point to ask for exact enumeration of arbitrary grid classes.
 
-Lastly, Bevan~\cite{bevan2015thesis} conjectured the generating functions of monotone increasing grid classes of dimension $1\times k$ for some $k$. He also provides a method for enumerating $1\times k$ monotone grid classes in the sense that for any fixed $1\times k$ monotone grid class, he gives a finite procedure that enumerates it.\\
+Lastly, Bevan~\cite{bevan2015thesis} conjectured the generating functions of monotone increasing grid classes of dimension $1\times k$ for some $k$. He also provides a method for enumerating $1\times k$ monotone grid classes in the sense that for any fixed $1\times k$ monotone grid class, he gives a finite procedure that enumerates it.
 
 The aim of Part I of this thesis is to make progress on describing permutation grid classes along the lines of previous research. In Chapter~\ref{chap:catalanjuxt} we pick the simplest possible non-trivial grid classes of the form shown in Figure~\ref{fig:oneC} and enumerate them exactly. They are $1\times 2$ grid classes, also referred to as juxtapositions, of a Catalan class $\C$ with a a monotone class $\M$. In Chapter~\ref{chap:iterjuxt} we choose to prove a result similar in character to that of~\cite{aabrv2013}. We show that all $1\times m$ monotone grid classes with one cell substituted for a context-free class $\C$ admit algebraic generating functions. Our methods allow us to enumerate several new grid classes exactly.
 
@@ -1204,7 +1207,7 @@ Moving from Example~\ref{ex:separable_combspec} back to the general setting, let
 $$\V = \{\Z,\Z^*,\C_0,\ldots,\C_r,\C^*_0,\ldots,\C_r^*, \C^\circ_0,\ldots,\C_r^\circ, \C^{\circ*}_0,\ldots,\C_r^{\circ*}\}$$
 be the collection of all variables occurring in the polynomials $f_i,f_i^*,f_i^\circ$, and $f_i^{\circ*}$. When we do not care to distinguish between $f_i$ and $f_j$ or $f_i, f_i^*, f_i^\circ$, and $f_i^{\circ*}$, we simply write $f$ for a polynomial in variables from $\V$. Similarly, when we do not distinguish between two variables in $\V$, we simply write $X \in \V$. As we just mentioned, each $f$ is a polynomial. We refer to its terms by $\T_h$ as in $f = \sum_{\ell=0}^N\T_h$. Each term $\T_h$ is a product of the variables in $\V$ and for a function $f^*$, each $\T_h$ contains exactly one starred variable (there is exactly one rightmost point in each term). The same holds for $f^\circ$. 
 
-One of the problems of enumerating permutation grid classes is that there are often multiple legal ways to grid a permutation in a given grid class. Therefore, one of the key issues we need to address is to choose a particular gridding. We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. Note that this is a diversion from Chapter~\ref{chap:catalanjuxt}. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline} for an illustration. \\
+One of the problems of enumerating permutation grid classes is that there are often multiple legal ways to grid a permutation in a given grid class. Therefore, one of the key issues we need to address is to choose a particular gridding. We represent every griddable permutation from a juxtaposition by a unique gridded version of it. We pick the gridded version that maximises the element on the right-hand side (RHS) of the juxtaposition. Note that this is a diversion from Chapter~\ref{chap:catalanjuxt}. The following convention makes this concept explicit. See also Figure~\ref{fig:leftmostgridline} for an illustration.
 \begin{figure}[ht]
   \centering
   \begin{tikzpicture}[scale=0.2]
@@ -1248,7 +1251,7 @@ One of the problems of enumerating permutation grid classes is that there are of
 \label{fig:leftmostgridline}
 \end{figure}
 
-\noindent\textbf{Convention:} \emph{Let $P$ be a permutation from $\C_1|\C_2$. The gridline in $P$ is chosen to be the left-most possible. I.e. if it was any further left, the sub-permutation to the right of it would not belong to the designated class $\C_2$.} \ \\
+\noindent\textbf{Convention:} \emph{Let $P$ be a permutation from $\C_1|\C_2$. The gridline in $P$ is chosen to be the left-most possible. I.e. if it was any further left, the sub-permutation to the right of it would not belong to the designated class $\C_2$.}
 
 The Convention above is a direct consequence of the leftmost gridding. Indeed, let $\C|\M$ be a juxtaposition of any permutation class $\C$ with a monotone increasing permutation class $\M$. Given that the gridline is pushed as far left as possible, the rightmost point in the left cell must be above the leftmost point in the right cell. Otherwise, the gridline could be shifted one more point further left. Figure~\ref{fig:leftmostgridline} shows this well. The left red point must be above the right left point, otherwise the gridline would not have been between these two red points.
 
@@ -1300,7 +1303,7 @@ Rules 1 and 2 capture the observations that:
 \item Juxtaposing a class on the right sometimes takes over the rightmost point from the class on the left and it always removes the star from the class on the left. See figures associated with definitions of $\Omega$-operators for examples of when that happens.
 \end{enumerate}
 
-Recall that $X_i$ are variables from $\V$. We view every $f$ as a finite sum of terms $\T_h$, each of which is a product of $X_i$s, i.e. $\T_h = X_1X_2\cdots X_m$ for some $m = m(h)$, with all $X_i \in \V$. Without loss of generality, we let $k \in [m]$ be the index of a starred class, i.e. $X_k^*$. In the forthcoming definitions of $\Omega$ operators, let $\C$ be a permutation class that admits a combinatorial specification (combinatorially) isomorphic to $\rS$ in~\eqref{eq:combspecS}. Of course, after applying the $\Omega$-operators, $\rS$ changes its details but not the form. For example, the set of variables $\V$ will change as it must now include $\Omega_i(X)$ for some $X$ in the original $\V$.\\
+Recall that $X_i$ are variables from $\V$. We view every $f$ as a finite sum of terms $\T_h$, each of which is a product of $X_i$s, i.e. $\T_h = X_1X_2\cdots X_m$ for some $m = m(h)$, with all $X_i \in \V$. Without loss of generality, we let $k \in [m]$ be the index of a starred class, i.e. $X_k^*$. In the forthcoming definitions of $\Omega$ operators, let $\C$ be a permutation class that admits a combinatorial specification (combinatorially) isomorphic to $\rS$ in~\eqref{eq:combspecS}. Of course, after applying the $\Omega$-operators, $\rS$ changes its details but not the form. For example, the set of variables $\V$ will change as it must now include $\Omega_i(X)$ for some $X$ in the original $\V$.
 
 
 \noindent\textbf{Operator $\Omega_0$}\\
@@ -2043,7 +2046,7 @@ As shown before, 1. together with 2. imply the statement of Lemma~\ref{lem:induc
   \C|\M_1|\ldots|\M_k &= \EE + \M'_k + \ldots + \M'_1|\ldots|\M'_k  + \C'|\M'_1|\ldots|\M'_k,
 \label{eq:rewritten}
 \end{align}
- where, for the moment, $\M'$ and $\C'$ denote the non-empty versions of the respective classes. To see where each term comes from, recall that we grid greedily from the right. So if all $k$ cells are empty, then the cell with $\C$ must also be empty and this is represented by $\EE$. If there is one non-empty cell, then it must be $\M_k$ --- again thanks to the greedy gridding from the right. We continue this way and obtain exactly~\eqref{eq:rewritten}. Furthermore, since all $\M_i$ are identical, it follows that $\M_1'|\ldots|\M_{k-1}' = \M_2'|\ldots|\M_{k}'$. We will use this during induction.\\
+ where, for the moment, $\M'$ and $\C'$ denote the non-empty versions of the respective classes. To see where each term comes from, recall that we grid greedily from the right. So if all $k$ cells are empty, then the cell with $\C$ must also be empty and this is represented by $\EE$. If there is one non-empty cell, then it must be $\M_k$ --- again thanks to the greedy gridding from the right. We continue this way and obtain exactly~\eqref{eq:rewritten}. Furthermore, since all $\M_i$ are identical, it follows that $\M_1'|\ldots|\M_{k-1}' = \M_2'|\ldots|\M_{k}'$. We will use this during induction.
 
 \noindent \textbf{Base case:}\\
 \noindent If $k = 1$, then~\eqref{eq:rewritten} has the following form.
@@ -2051,7 +2054,7 @@ As shown before, 1. together with 2. imply the statement of Lemma~\ref{lem:induc
   \C|\M_1 &= \EE + \M'_1 + \C'|\M'_1
   \label{eq:basecase}
 \end{align}
-Clearly, $\M_1'$ is context-free and admits a combinatorial specification which tracks the rightmost point by value (we saw this in Section~\ref{sec:iterjuxt_intro} as $\Mstar$). By Lemma~\ref{lem:induction_step}, $\C'|\M_1'$ is also context-free and admits a combinatorial specification which tracks the rightmost point by value. Therefore, $\C|\M_1$ is context-free and admits the right combinatorial specification --- we are done.\\
+Clearly, $\M_1'$ is context-free and admits a combinatorial specification which tracks the rightmost point by value (we saw this in Section~\ref{sec:iterjuxt_intro} as $\Mstar$). By Lemma~\ref{lem:induction_step}, $\C'|\M_1'$ is also context-free and admits a combinatorial specification which tracks the rightmost point by value. Therefore, $\C|\M_1$ is context-free and admits the right combinatorial specification --- we are done.
 
 \noindent \textbf{Induction step:}\\
 \noindent For any $k$ greater than $1$, let $\C_0' = \C'|\M'_1|\ldots|\M'_{k-1}$. By induction assumption, $\C_0'$ is context-free and admits a combinatorial specification that tracks the rightmost point by value. This is the case as $\C_0 = \C|\M_1|\ldots|\M_{k-1}$ is all that by induction assumption and $\C_0'$ is one term of an expression like~\eqref{eq:rewritten} for $\C_0$. Therefore, we need to show that $\C_0'|\M_k'$ is context-free and admits the right combinatorial specification. But $\C_0'$ and $\M_k'$ meet the conditions of Lemma~\ref{lem:induction_step} and hence the claim follows. The only term in~\eqref{eq:rewritten} which does not fall within the induction assumption in an obvious way is $\M_2'|\ldots|\M_k'$. There was no $1\times k-1$ row of non-empty monotone cells in an expression like~\eqref{eq:rewritten} for $\C|\M_1|\ldots|\M_{k-1}$. On the other hand, $\M_2$ is a context-free class that admits a combinatorial specification which tracks the rightmost point by value. Therefore, let $\C_\M = \M_2$, and we get $\M_2'|\ldots|\M_k' = \C_\M'|\M_3'|\ldots|\M_k'$. Now, this juxtaposition of non-empty cells does fall under the induction assumption and we are done. Every term in~\eqref{eq:rewritten} is context-free and admits a combinatorial specification which tracks the rightmost point by value. Therefore, $\C|\M_1|\ldots|\M_k$ is such a context-free class and the Proposition~\ref{prop:onesidedjuxt} follows.
@@ -2286,7 +2289,7 @@ In Section~\ref{sec:example_mmm}, we enumerate exactly a repeated juxtaposition 
 \subsection{Example: $\Av(321|21)$}
 \label{sec:example_Av321Av21}
 
-In Chapter~\ref{chap:catalanjuxt} we deal with the juxtaposition of a Catalan class with a monotone class by enumerating all such juxtapositions. Here, we re-enumerate one of these cases, which also serves to illustrate that the method applies to classes other than those with finitely many simples. This demonstrates the gap between the Corollary~\ref{cor:finmanysimples} and Theorem~\ref{thm:iterjuxt_main}. \\
+In Chapter~\ref{chap:catalanjuxt} we deal with the juxtaposition of a Catalan class with a monotone class by enumerating all such juxtapositions. Here, we re-enumerate one of these cases, which also serves to illustrate that the method applies to classes other than those with finitely many simples. This demonstrates the gap between the Corollary~\ref{cor:finmanysimples} and Theorem~\ref{thm:iterjuxt_main}.
 
 We represent permutations in $\Av(321)$ by Dyck paths below the diagonal, starting in the bottom left corner and going to the top right corner of the grid. An exact definition of Dyck path can be found in Section~\ref{sec:catalanjuxt_defs}, including Figure~\ref{fig:dyckexample}. Also, below we replicate Figure~\ref{fig:bij321dyck} that demonstrates how we associate permutations from $\Av(321)$ with Dyck paths.
 
@@ -2893,7 +2896,7 @@ The sequence is not on the OEIS~\cite{oeis}. The accompanying Mathematica~\cite{
 
 \section{Conclusion}
 \label{sec:iterjuxt_conclusion}
-Let us first summarise what the yields of this chapter are and then we point out several obvious and powerful ways to continue exploring the topic. Section~\ref{sec:iterjuxt_intro} outlines what is known about enumerating grid classes. We contribute by describing a way for enumerating any $1\times n$ monotone grid class one of whose cells has been replaced by an arbitrary context-free class (that admits point tracking as described in Section~\ref{sec:iterjuxt_intro}). Apart from the framework for producing exact enumeration results for these classes, we also prove that this general setting is as nice as possible --- that any such class admits a generating function that is algebraic. Recall that context-free classes are often enumerated by counting sequences whose generating functions are algebraic non-rational. Moreover, we give an example of a large family of context-free permutation classes which satisfy the conditions we set in Theorem~\ref{thm:iterjuxt_main} --- the context-free classes with finitely many simple permutations.\\
+Let us first summarise what the yields of this chapter are and then we point out several obvious and powerful ways to continue exploring the topic. Section~\ref{sec:iterjuxt_intro} outlines what is known about enumerating grid classes. We contribute by describing a way for enumerating any $1\times n$ monotone grid class one of whose cells has been replaced by an arbitrary context-free class (that admits point tracking as described in Section~\ref{sec:iterjuxt_intro}). Apart from the framework for producing exact enumeration results for these classes, we also prove that this general setting is as nice as possible --- that any such class admits a generating function that is algebraic. Recall that context-free classes are often enumerated by counting sequences whose generating functions are algebraic non-rational. Moreover, we give an example of a large family of context-free permutation classes which satisfy the conditions we set in Theorem~\ref{thm:iterjuxt_main} --- the context-free classes with finitely many simple permutations.
 
 We demonstrate how to use this general framework for exact enumeration of specific permutation classes. We do this by enumerating three key permutation classes.
 
@@ -2903,10 +2906,10 @@ The next example, in Section~\ref{sec:example_mmm}, illustrates how our framewor
 
 The last example, in Section~\ref{sec:example_sepav21}, demonstrates the enumeration of separable permutations juxtaposed with a monotone increasing class. The class of separable permutations contains finitely many simple permutations (zero, to be exact). The enumeration of this class is of interest for multiple reasons. Firstly, separable permutations are in one-to-one correspondence with Schr\"{o}der paths (lattice paths that stay below the diagonal and allows steps $(1,0)$, $(0,1)$, and $(1,1)$) --- a generalization of Dyck paths. In other words, juxtaposing a monotone class next to the class of separable permutations is a natural next step after Catalan juxtapositions in Chapter~\ref{chap:catalanjuxt}. Secondly, separable permutations are the least complex non-degenerate class with finitely many simples, thereby serving as an example for Corollary~\ref{cor:finmanysimples}. Thirdly, to the best of our knowledge, the juxtaposition of separable permutations with a monotone class has not been enumerated before. Therefore, this is an example that is also a new result at the same time.
 
-Even though the three examples above were chosen carefully to fit well with the existing work, their main purpose is to illustrate the practical side of the machinery leading to Theorem~\ref{thm:iterjuxt_main} --- the main result of this chapter.\\
+Even though the three examples above were chosen carefully to fit well with the existing work, their main purpose is to illustrate the practical side of the machinery leading to Theorem~\ref{thm:iterjuxt_main} --- the main result of this chapter.
 
 
-When defining $\Omega$ operators in Section~\ref{sec:iterjuxt_intro}, we present the definitions as recursions in functional form. Assuming that the user constructs on her own the expression $\F$ --- the one which represents the juxtaposition in question as a disjoint union of juxtapositions of non-empty cells, and whose generating function enumerates the desired juxtaposition --- the rest of the task towards obtaining the generating function and the counting sequence of the desired juxtaposition class lends itself to automation. In other words, after parsing the input from the user, the rest is an algorithmic task, and hence implementable on a PC. This would be a very useful tool for enumerating small juxtaposition classes of the form that we described. We do plan to address this in the near future.\\
+When defining $\Omega$ operators in Section~\ref{sec:iterjuxt_intro}, we present the definitions as recursions in functional form. Assuming that the user constructs on her own the expression $\F$ --- the one which represents the juxtaposition in question as a disjoint union of juxtapositions of non-empty cells, and whose generating function enumerates the desired juxtaposition --- the rest of the task towards obtaining the generating function and the counting sequence of the desired juxtaposition class lends itself to automation. In other words, after parsing the input from the user, the rest is an algorithmic task, and hence implementable on a PC. This would be a very useful tool for enumerating small juxtaposition classes of the form that we described. We do plan to address this in the near future.
 
 \begin{figure}[ht!]
   \begin{center}
@@ -2966,7 +2969,7 @@ Finally, we would like to point out that a context-free class $\C$ was chosen be
 \part{Packing} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{part:packing}
 
-Whenever we deal with structures and the notion of a substructure is available to us, we can talk about densities. Even without formal definitions, the concept of density in permutations is so intuitive, that we can start thinking about it right away. It is easy to identify the ``problem'' of maximising the number of copies of a small fixed subpermutation in a larger permutation. Clearly, if we are trying to maximise the number of inversions (patterns $21$) in a permutation, we will not choose an increasing permutation for the job as it contains no inversions at all. Consider the spectrum of densities that is hinted at by Figure~\ref{fig:densities_spectrum}.
+Whenever we deal with structures and the notion of a substructure is available to us, we can talk about densities of substructures within some larger structures. Even without formal definitions, the concept of density in permutations is so intuitive, that we can start thinking about it right away. It is easy to identify the ``problem'' of maximising the number of copies of a small fixed subpermutation in a larger permutation. Clearly, if we are trying to maximise the number of inversions (patterns $21$) in a permutation, we will not choose an increasing permutation for the job as it contains no inversions at all. We hint at the spectrum of densities for $123$ in Figure~\ref{fig:densities_spectrum}.
 
 \begin{figure}[!ht]
 \centering
@@ -3068,9 +3071,9 @@ The study of permutation packing densities began with Wilf's 1992 SIAM address. 
 
 For 4-point permutations and their packing densities, it is useful to consult Table~\ref{tab:overview}. First results for 4-point permutations, including $1324$, $1432$, and $2143$, came as part of the investigation of various \emph{layered patterns} by Price~\cite{price1997packing}. Later, Albert, Atkinson, Handley, Holton, and Stromquist~\cite{albert2002packing} proved a tight upper bound for 1243, and upper bounds of $2/9$ for both 2413 and 1342. The current lower bound for the packing density of 2413 was given by~\cite{presutti2010packing}. The upper bounds of 0.1047805 and 0.1988373 for 2413 and 1342, respectively, are mentioned in passing by Balogh, Hu, Litidk\'y, Pikhurko, Udvari, and Volec~\cite{balogh2015minimum}. They do not discuss them any further.
 
-Balogh et al.~\cite{balogh2015minimum} used flag algebras to attack the packing density problem for monotone sequences of length 4. To the best of our knowledge, the only other application --- although indirect --- of flag algebras to permutation packing is by Falgas-Ravry and Vaughan~\cite{falgas2013applications}. They obtained the inducibility (as packing density is refered to in graph theory) of a 2-star directed graph $\outstar$. Their result implies the known upper bound for the packing density of 132. Later, Huang~\cite{huang2014stars} used an argument exploiting equivalence classes of vertices to extend this result to all directed $k$-stars. This argument was known in the permutations setting since Price~\cite{price1997packing} used it to establish the packing densities $p(1k\ldots 2)$ for all $k$. Similarly, although flag algebra software package Flagmatic, written by Vaughan~\cite{flagmatic}, it has not previously been used to obtain an upper bound on the packing density of 1324, although it has been available since 2013.
+Balogh et al.~\cite{balogh2015minimum} used flag algebras to attack the packing density problem for monotone sequences of length 4. To the best of our knowledge, the only other application --- although indirect --- of flag algebras to permutation packing is by Falgas-Ravry and Vaughan~\cite{falgas2013applications}. They obtained the inducibility (as packing density is refered to in graph theory) of a 2-star directed graph $\outstar$. Their result implies the known upper bound for the packing density of 132. Later, Huang~\cite{huang2014stars} used an argument exploiting equivalence classes of vertices to extend this result to all directed $k$-stars. This argument was known in the permutations setting since Price~\cite{price1997packing} used it to establish the packing densities $p(1k\ldots 2)$ for all $k$. Similarly, flag algebra software package Flagmatic, written by Vaughan~\cite{flagmatic}, has not previously been used to obtain an upper bound on the packing density of 1324, although it has been available since 2013.
 
-Therefore, we decided to use the flag algebras method to collect and improve results in permutation packing densities. In addition to the mathematical content, we make available a flag algebras package for permutations, \href{http://jsliacan.github.io/permpack/}{Permpack}, written as a \href{http://sagemath.org}{Sage} script. For more information about the software, follow SageMath~\cite{sagemath}. It does all our computations and can be used for further research. Permpack uses syntax similar to Flagmatic, but requires no installation. This should make it more user friendly.
+Therefore, we decided to use the flag algebras method to collect and improve results in permutation packing densities. In addition to the mathematical content, we make available a flag algebras package for permutations, \href{http://jsliacan.github.io/permpack/}{Permpack}~\cite{permpack}, written as a \href{http://sagemath.org}{Sage} script. We provide all the necessary information about Permpack and on how to use it in Chapter~\ref{chap:permpack}. For more information about SageMath, see~\cite{sagemath}. Permpack does all our computations and can be used for further research. It uses syntax similar to Flagmatic, but requires no installation. This should make it more user friendly.
 
 The rest of this chapter is structured as follows. The aim of Section~\ref{sec:defs} is to introduce notation and concepts, including the part of flag algebras that we need. While Razborov~\cite{razborov2007original} presented flag algebras in the general setting of a universal model theory without constants and function symbols, we choose permutations as the structures on which we base our exposition. Section~\ref{sec:mainresults} presents the main results of this chapter. We use flag algebras to provide upper bounds for the packing densities of 4-point permutations 1324, 1342, and 2413. We learnt belatedly about the existence of the latter two bounds from Balogh et al.~\cite{balogh2015minimum}. Regarding lower bounds, we give a new lower bound construction for the packing density of 1342 that meets our upper bound to within $10^{-5}$. In case of 1324, we provide a lower bound that agrees with the upper bound on the first five decimal places. Section~\ref{sec:packingsmall} gives a list of selected upper bounds to illustrate the potential of the flag algebras method in the area of permutation packing. These results can be obtained effortlessly by using our flag algebras package Permpack. They are not best possible though.
 
@@ -3254,61 +3257,143 @@ Averaging over $\sigma$ gives the expression~\eqref{eq:delta} that makes the non
 \end{align}
 Therefore, we proved that $p(132) \leq 2\sqrt{3}-3$. 
 
-\subsection{Implementation}
-Flagmatic 2.0 was written by Emil R. Vaughan and is currently the only general implementation of Razborov's flag algebra framework which is freely available to use and modify. See Flagmatic~\cite{flagmatic} for more information. The project is hosted at \url{http://github.com/jsliacan/flagmatic}. Unfortunatelly, Flagmatic does not support permutations. For this reason, we wrote Permpack, a lightweight implementation of flag algebras on top of SageMath's Sage 7.4 (see SageMath~\cite{sagemath}). It does not have all the functionality of Flagmatic but it is sufficient for basic tasks. For more information, code, and installation instructions, see \url{https://github.com/jsliacan/permpack}. 
-
-Let us consider an example of how Permpack can be used on the above example of 132-packing. It will be clear from Permpack's output where the $Q$ matrix above comes from. In Permpack, one needs to specify the complexity in terms of $N$, the length of the admissible permutations in terms of which all computations are expressed. The \texttt{density\_pattern} argument specifies the permutation whose packing density we want to determine. Once permutations, types, flags, and flag products are computed, we can delegate the rest of the tasks to the solver of our choice (currently supported solvers are \texttt{csdp} and \texttt{sdpa\_dd}). The answer is a numerical upper bound on $p(132)$. It can be rounded automatically to a rational bound by the \texttt{exactify()} method of the \texttt{PermProblem} class. The certificate contains admissible permutations, flags, types, matrices $Q$ (as $L$ matrices in the Cholesky decomposition of $Q$) and the actual bound as a rational number (fraction). These are suficient to verify the bound. Below is the script used to obtain the numerical $Q'$ matrix for the packing density of 132 with Permpack.
-
-\lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{keywords}, commentstyle=\color{comments}, stringstyle=\color{myred}, showstringspaces=false, identifierstyle=\color{green}, procnamekeys={def,class}, frame=single, caption={Packing 132 with Permpack.}}
-\begin{lstlisting}
-p = PermProblem(3, density_pattern="132")
-p.solve_sdp()
-\end{lstlisting}
-\lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{black}, commentstyle=\color{black}, stringstyle=\color{black}, showstringspaces=false, identifierstyle=\color{black}, procnamekeys={def,class}, frame=single, caption={Output.}}
-\begin{lstlisting}
-...
-Success: SDP solved
-Primal objective value: -4.6410162e-01 
-Dual objective value: -4.6410162e-01 
-Relative primal infeasibility: 5.90e-14 
-Relative dual infeasibility: 1.67e-10 
-Real Relative Gap: 3.68e-10 
-XZ Relative Gap: 6.14e-10 
-\end{lstlisting}
-
-It is not difficult to guess the entries of $Q$ from the numerical matrix below, which is part of the output of the SDP solver. The resulting exact matrix $Q$ is shown in~\eqref{eq:Q}.
-\lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{black}, commentstyle=\color{black}, stringstyle=\color{black}, showstringspaces=false, identifierstyle=\color{black}, procnamekeys={def,class}, frame=single, caption={Floating point $Q'$ matrix.}}
-\begin{figure}[ht]
-\begin{lstlisting}
-  [ 4.55854035127455e-10  6.806084489120e-12  6.8060845047452e-12 -1.032045390820e-10]
-  [ 6.80608448912001e-12  0.4641016162301893  0.464101613919741   -0.8038475767936814]
-  [ 6.80608450474521e-12  0.464101613919741   0.4641016162301782  -0.8038475767936717]
-  [-1.03204539082084e-10 -0.803847576793681  -0.8038475767936717   1.3923048450288649]
-\end{lstlisting}
-\end{figure}
-
 \section{Results}
 \label{sec:mainresults}
 
-The following theorem will be needed later. There are further variations of it, e.g.~Proposition~2.1 and Theorem~2.2 in~\cite{albert2002packing}. However, we only need the original version.
+Before we delve into the mathematics of this section, we refer the reader to Chapter~\ref{chap:permpack} for information related to the certificates (files that witness the flag algebras solutions we refer to in our proofs). Chapter~\ref{chap:permpack} contains information on what the certificates are, how we obtained them, and how they facilitate verification of our results. Moreover, Chapter~\ref{chap:permpack} contains information on how to use Permpack (to e.g. reproduce our results or obtain new ones), and all information about software.
+
+The following theorem will be needed later. While there are further variations of it, e.g.~Proposition~2.1 and Theorem~2.2 in~\cite{albert2002packing}, we only need the original version. The proof of Theorem~\ref{thm:layered} is very different from flag algebraic methods that we rely on throughout this chapter (it represents the classic combinatorial style prevalent in the area of permutation packing). We decided to present Reid Barton's version of the proof. It should highlight the contrast between the two approaches. See~\cite{barton2004packing} for the original proof in a more general setting.
 
 \begin{theorem}[Stromquist~\cite{stromquist1993unpublished}]
 \label{thm:layered}
 Let $S$ be a layered permutation. Then for every $n$, extremal value of $p(S,n)$ is achieved by a layered permutation. Moreover, if $S$ has no layer of size 1, every maximiser of $p(S,n)$ is layered.
 \end{theorem}
+\begin{proof}
+Recall that $\#(S,P)$ is the number of copies of $S$ in $P$. Let $P$ be any maximizer of length $n$ for $S$. We present two transformations, $\theta$ and $\phi$, that take $P$ as an argument and return permutations $\theta(P)$ and $\phi(P)$ such that $\#(S,P) \leq \#(S,\theta(P))$ and $\#(S,P) \leq \#(S,\phi(P))$, respectively. The key to these transformations is that they, after repeated application to $P$, eventually transform $P$ to layered permutations. Thus showing that there indeed is a layered maximizer of $S$.
 
-\noindent The scripts used to obtain results in this section can be found at\\
+Consider two points $x,y$ of $P$ such that $x$ is immediatelly to the left of $y$ (they have consecutive positions --- indices) and $x$ is above $y$. The action of $\theta$ results in shifting $y$ vertically to the position immediatelly below $x$. Therefore, if in $P$ we have $x = (i,P(i))$ and $y = (i+1,P(i+1))$, then in $\theta(P)$, $x$ stays in its original position and $y$ gets lifted to the position $(i+1, P(i)-1)$. Similarly, under $\phi$, point $x$ in $P$ is moved downward to immediatelly above $y$. Consult Figure~\ref{fig:updownshift} for pictorial representation of the actions of $\theta$ and $\phi$. 
 
-\url{https://github.com/jsliacan/permpack/tree/master/scripts}.\\
+\begin{figure}[!ht]
+\centering
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.3]
+    \draw[gray, very thin] (0,0) grid (10,10);
+    \filldraw[black] (-0.5+1,-0.5+1) circle (5pt);
+    \filldraw[black] (-0.5+2,-0.5+3) circle (5pt);
+    \filldraw[black] (-0.5+3,-0.5+7) circle (5pt);
+    \filldraw[black] (-0.5+4,-0.5+6) circle (5pt);
+    \filldraw[black] (-0.5+5,-0.5+5) circle (5pt);
+    \filldraw[black] (-0.5+6,-0.5+4) circle (5pt);
+    \draw (-0.5+7,-0.5+9) node[above left]{\footnotesize $x$};
+    \filldraw[black] (-0.5+7,-0.5+9) circle (5pt);
+    \draw (-0.5+8,-0.5+2) node[above right]{\footnotesize $y$};
+    \filldraw[black] (-0.5+8,-0.5+2) circle (5pt);
+    \filldraw[black] (-0.5+9,-0.5+10) circle (5pt);
+    \filldraw[black] (-0.5+10,-0.5+8) circle (5pt);
+  \end{tikzpicture}
+\caption{Maximizer $P$.}
+\end{subfigure}
+\begin{subfigure}[t]{0.3\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.3]
+    \draw[gray, very thin] (0,0) grid (10,10);
+    \filldraw[black] (-0.5+1,-0.5+1) circle (5pt);
+    \filldraw[black] (-0.5+2,-0.5+2) circle (5pt);
+    \draw[->, green] (-0.5+2,-0.5+3) -- (-0.5+2,-0.5+2);
+    \filldraw[black] (-0.5+3,-0.5+6) circle (5pt);
+    \draw[->, green] (-0.5+3,-0.5+7) -- (-0.5+3,-0.5+6);
+    \filldraw[black] (-0.5+4,-0.5+5) circle (5pt);
+    \draw[->, green] (-0.5+4,-0.5+6) -- (-0.5+4,-0.5+5);
+    \filldraw[black] (-0.5+5,-0.5+4) circle (5pt);
+    \draw[->, green] (-0.5+5,-0.5+5) -- (-0.5+5,-0.5+4);
+    \filldraw[black] (-0.5+6,-0.5+3) circle (5pt);
+    \draw[->, green] (-0.5+6,-0.5+4) -- (-0.5+6,-0.5+3);
+    \draw (-0.5+7,-0.5+9) node[above left]{\footnotesize $x$};
+    \filldraw[black] (-0.5+7,-0.5+9) circle (5pt);
+    \draw (-0.5+8,-0.5+8) node[below right]{\footnotesize \textcolor{red}{$y$}};
+    \filldraw[red] (-0.5+8,-0.5+8) circle (5pt);
+    \draw[->, red] (-0.5+8,-0.5+2) -- (-0.5+8,-0.5+7.8);
+    \filldraw[black] (-0.5+9,-0.5+10) circle (5pt);
+    \filldraw[black] (-0.5+10,-0.5+7) circle (5pt);
+    \draw[->, green] (-0.5+10,-0.5+8) -- (-0.5+10,-0.5+7);
+  \end{tikzpicture}
+  \caption{Pattern $\theta(P)$.}
+\end{subfigure}
+\begin{subfigure}[t]{0.3\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.3]
+    \draw[gray, very thin] (0,0) grid (10,10);
+    \filldraw[black] (-0.5+1,-0.5+1) circle (5pt);
+    \filldraw[black] (-0.5+2,-0.5+4) circle (5pt);
+    \draw[->, green] (-0.5+2,-0.5+3) -- (-0.5+2,-0.5+4);
+    \filldraw[black] (-0.5+3,-0.5+8) circle (5pt);
+    \draw[->, green] (-0.5+3,-0.5+7) -- (-0.5+3,-0.5+8);
+    \filldraw[black] (-0.5+4,-0.5+7) circle (5pt);
+    \draw[->, green] (-0.5+4,-0.5+6) -- (-0.5+4,-0.5+7);
+    \filldraw[black] (-0.5+5,-0.5+6) circle (5pt);
+    \draw[->, green] (-0.5+5,-0.5+5) -- (-0.5+5,-0.5+6);
+    \filldraw[black] (-0.5+6,-0.5+5) circle (5pt);
+    \draw[->, green] (-0.5+6,-0.5+4) -- (-0.5+6,-0.5+5);
+    \draw (-0.5+7,-0.5+3) node[below left]{\footnotesize \textcolor{red}{$x$}};
+    \filldraw[red] (-0.5+7,-0.5+3) circle (5pt);
+    \draw[->, red] (-0.5+7,-0.5+9) -- (-0.5+7,-0.5+3.1);
+    \draw (-0.5+8,-0.5+2) node[below right]{\footnotesize $y$};
+    \filldraw[black] (-0.5+8,-0.5+2) circle (5pt);
+    \filldraw[black] (-0.5+9,-0.5+10) circle (5pt);
+    \filldraw[black] (-0.5+10,-0.5+9) circle (5pt);
+    \draw[->, green] (-0.5+10,-0.5+8) -- (-0.5+10,-0.5+9);
+  \end{tikzpicture}
+  \caption{Pattern $\phi(P)$.}
+\end{subfigure}
+\caption{Producing layeres in a maximizer without losing copies of the layered pattern that we are packing. Red arrows indicate the shift of $x$ and $y$. Green arrows indicate the shift of the affected points. Notice that the positions of black points relative to each other do not change under $\theta$ or $\phi$.}
+\label{fig:updownshift}
+\end{figure}
 
-\noindent The certificates in support of the upper bounds in this section can be found at the address below. With each result, we provide the name of the certificate file that witnesses it, e.g. \texttt{cert1324.js} witnesses the upper bound for $p(1324)$.\\
+It remains to prove that $\theta$ and $\phi$ do not decrease the number of copies of $S$ when passing from $P$ to $\theta(P)$ and $\phi(P)$, respectively. Before we proceed, we need to introduce four quantities. Let $\#(S,P,x)$ denote the number of copies of $S$ in $P$ such that each copy contains $x$ (a point of $P$). Conversely, let $\#(S,P,\overline{x})$ denote the number of copies of $S$ in $P$ such that each copy avoids $x$. Observe the following identity.
+\begin{align}
+  \#(S,P) &= \#(S,P,x,y) + \#(S,P,\overline{x},y) + \#(S,P,x,\overline{y}) + \#(S,P,\overline{x},\overline{y})
+\end{align}
+Consider $\theta(P)$ first. Clearly, $\#(S,\theta(P), \overline{x}, \overline{y}) = \#(S,P,\overline{x},\overline{y})$ because the positions of points other than $y$ remain unaffected relative to each other under the action of $\theta$. The same argument implies that $\#(S,\theta(P),x,\overline{y}) = \#(S,P,x,\overline{y})$. Also, notice that $y$ in $\theta(P)$ occurs in the exact same copies of $S$ as $x$ does in $\theta(P)$, and those are the exact same copies that $x$ occurs in $P$. Therefore, $\#(S,\theta(P),\overline{x},y) = \#(S,\theta(P),x, \overline{y}) = \#(S,P,x,\overline{y})$. Finally, we show that $\#(S,\theta(P), x, y) \geq  \#(S,P, x, y)$. Consider an occurrence of $S$ in $P$ that contains both $x$ and $y$. Call it $S_0$. Since $x,y$ occupy two consecutive positions in $P$, they must occupy the consecutive positions in $S_0$. Therefore, they are two consecutive points in the same layer of $S_0$ --- because $S_0$ is layered and $x$ is above $y$, they cannot be in different layers. In other words, no point of $P$ with value between $x$ and $y$ belongs to $S_0$. Thus shifting $y$ upwards to just below $x$ did not lose us any copy of $S$. We obtain the following inequality.
+\begin{align}
+  \begin{aligned}
+  \#(S,\theta(P)) &\geq \#(S,P,x,y) + \#(S,P,\overline{x},y) +\\
+                  &\quad+ \#(S,P,x,\overline{y}) + \#(S,P,\overline{x},\overline{y})
+                \end{aligned}
+\label{eq:theta_ineq}
+\end{align}
+By arguments analogous to those about $\theta$, we obtain the inequality below for $\phi$.
+\begin{align}
+  \begin{aligned}
+  \#(S,\phi(P)) &\geq \#(S,P,x,y) + \#(S,P,\overline{x},y) + \\
+                &\quad+\#(S,P,x,\overline{y}) + \#(S,P,\overline{x},\overline{y})
+              \end{aligned}
+    \label{eq:phi_ineq}
+\end{align}
+Now observe that if both inequalities~\eqref{eq:theta_ineq} and~\eqref{eq:phi_ineq} hold, then they both must be equalities. Indeed:
+\begin{align}
+  \begin{aligned}
+    \#(S,\theta(P)) + \#(S,\phi(P)) &\geq  2\#(S,P,x,y) + 2\#(S,P,\overline{x},y) + \\
+                &\quad+2\#(S,P,x,\overline{y}) + 2\#(S,P,\overline{x},\overline{y})\\
+                &= 2\#(S,P)
+  \end{aligned}
+      \label{eq:infactequality}
+\end{align}
+However, $P$ was chosen to be a maximizer for $S$ and therefore the strict inequality cannot happen. This proves that $\theta$ and $\phi$ return maximizers. That, in turn, implies the statement of the theorem.
+\end{proof}
+
+Most of the results in this section rely on Permpack or Flagmatic. In both cases, solutions are witnessed by certificates and can be reproduced by re-running the scripts that we provide. The scripts can be found at
+
+\url{https://github.com/jsliacan/permpack/tree/master/scripts}.
+
+\noindent The certificates in support of the upper bounds in this section can be found at the address below. With each result, we provide the name of the certificate file that witnesses it, e.g. \texttt{cert1324.js} witnesses the upper bound for $p(1324)$.
 
 \url{https://github.com/jsliacan/permpack/tree/master/certificates}.
 
 
 
 \subsection{Packing 1324}
-Layered permutations have been studied in depth by Price in~\cite{price1997packing}. He came up with an approximation algorithm that, at $m$-th iteration, assumes that the extremal construction has $m$ layers (see Theorem~\ref{thm:layered}) and optimises over their sizes. The algorithm then proceeds to increase $m$ and halts when increasing $m$ does not improve the estimate. In that case, an optimal construction has been found (up to numerical noise from the optimization, if any). In reality, the procedure is stopped manually when approximation is fine enough or the problem becomes too large. Therefore, for every $m$, the value that Price's algorithm gives is a lower-bound for the packing density in question. \\
+Layered permutations have been studied in depth by Price in~\cite{price1997packing}. He came up with an approximation algorithm that, at $m$-th iteration, assumes that the extremal construction has $m$ layers (see Theorem~\ref{thm:layered}) and optimises over their sizes. The algorithm then proceeds to increase $m$ and halts when increasing $m$ does not improve the estimate. In that case, an optimal construction has been found (up to numerical noise from the optimization, if any). In reality, the procedure is stopped manually when approximation is fine enough or the problem becomes too large. Therefore, for every $m$, the value that Price's algorithm gives is a lower-bound for the packing density in question.
 
 It is known that the extremal construction for the packing density of 1324 is layered with an infinite number of layers. See, for instance, Albert et al.~\cite{albert2002packing} and Price~\cite{price1997packing}. The main theorem of this section is the following: 
 \begin{theorem}
@@ -3357,7 +3442,7 @@ This proves the lower bound in Theorem~\ref{thm:pack1324}, because $0.244054321 
 \label{fig:gamma_constr}
 \end{figure}
 
-We use Flagmatic to prove the upper bound. Since 1324 is layered, there is a 1324-maximiser that is layered as well. Therefore, we can limit the search space to the layered permutations. Since Flagmatic does not work with permutations, we transformed the problem to an equivalent problem in directed graphs -- which Flagmatic can handle. 
+We use Flagmatic to prove the upper bound even though Permpack can be used to do this (and it gives a negligibly better bound). However, Flagmatic has been available for a long time and we would like to show how it could have been used to prove this result. Since 1324 is layered, there is a 1324-maximiser that is layered as well. Therefore, we can limit the search space to the layered permutations. Since Flagmatic does not work with permutations, we transformed the problem to an equivalent problem in directed graphs -- which Flagmatic can handle. 
 \begin{lemma}
 \label{lem:permstographs}
 Let $\F = \{\dicycle, \twochain, \orcocherry\}$ be the set of forbidden digraphs.  The packing density of 1324 equals the Tur\'an $\digraphacbd$-density of $\F$. In other words, $$p(1324)= p(\digraphacbd, \F).$$
@@ -3371,7 +3456,7 @@ Given Lemma~\ref{lem:permstographs}, we use flag algebra method on directed grap
 \item Certificate: \texttt{cert1324flagmatic.js}
 \item Script: \texttt{pack1324flagmatic.sage}
 \end{itemize}
-Note that this is a Flagmatic certificate and can be verified using the \texttt{inspect\_certificate.py} script that comes with Flagmatic.
+Note that this is a Flagmatic certificate and can be verified using verification script \texttt{inspect\_certificate.py} that comes with Flagmatic.
 
 % \lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{keywords}, commentstyle=\color{comments}, stringstyle=\color{myred}, showstringspaces=false, identifierstyle=\color{green}, procnamekeys={def,class}, frame=single, caption={Packing 1324 in Flagmatic.}, label=lst:flagmaticdigraphs}
 % \begin{lstlisting}
@@ -3385,12 +3470,12 @@ Note that this is a Flagmatic certificate and can be verified using the \texttt{
 % \end{lstlisting}
 \end{proof}
 
-A similar bound can be achieved by Permpack. In particular, we can show that $p(1324)< 0.244054540$.
+A slightly better bound can be achieved by Permpack. In particular, we can show that $p(1324)< 0.244054540$.
 \begin{itemize}
 \item Certificate: \texttt{cert1324permpack.js}
 \item Script: \texttt{pack1324permpack.sage}
 \end{itemize}
-Despite Permpack being able to prove a good bound, we used Flagmatic in the proof above to emphasise that this result had been available before Permpack was written. 
+We have stated this before: despite Permpack being able to prove a (tiny bit) superior bound, we used Flagmatic in the proof above to emphasise that this result had been available before Permpack was written. 
 
 
 \subsection{Packing 1342}
@@ -3494,35 +3579,35 @@ The flag algebras method will yield upper bounds for many problems. In some case
 In the list below we choose to represent the permutations by their drawings in the grid. This is more transparent as the permutations became larger. The extremal constructions (permutons) on the left-hand side of the Table~\ref{tab:otherperms} are represented by their drawings as well. The lower bounds are given on the left-hand side of the table and upper bounds on the right-hand side of the table. This is a sample of the results obtained with Permpack via flag algebras.
 \begin{table}[ht]
   \centering
-  \begin{tabular}{c | l c}
+  \begin{tabular}{c | c l c}
     &$\sigma$ & bounds \\
     \hline\\[-2pt]
-    1. & 23154 & $5!\frac{(2/5)^2}{2!}\frac{(3/5)^3}{3!}(2\sqrt{3}-3) = p\left(\bcaoba\ ,\ \Amax\right) \leq p\left(\bcaoba\right) \leq 0.16039\ldots$\\
+    1. & 23154 & $0.16039\ldots \sim p\left(\bcaoba\ ,\ \Amax\right) \leq p\left(\bcaoba\right) \leq 0.16039\ldots$\\
     \\[-2pt]
     2. & 14523 & $0.153649\ldots \sim p\left(\aobamba\ ,\ \Bmax\right) \leq p\left(\aobamba\right) \leq 0.153649\ldots$\\
     \\[-2pt]
     3. & 21354 & $0.16515\ldots \sim p\left(\baoaoba\ ,\ \Cmax\right) \leq p\left(\baoaoba\right) \leq 0.16515\ldots$\\
     \\[-2pt]
-    4. & 231654 & $6!\frac{(1/2)^6}{3!^2}(2\sqrt{3}-3) = p\left(\bcaocba\ ,\ \AAmax\right) \leq p\left(\bcaocba\right) \leq 0.145031\ldots$\\
+    4. & 231654 & $0.145031\ldots \sim p\left(\bcaocba\ ,\ \AAmax\right) \leq p\left(\bcaocba\right) \leq 0.145031\ldots$\\
     \\[-2pt]
-    5. & 231564 & $(2\sqrt{3}-3)^2\frac{6!}{48^2} = p\left(\bcaobca\ ,\ \Dmax\right) \leq p\left(\bcaobca\right) \leq 0.0673094$\\
+    5. & 231564 & $0.0673094\ldots \sim p\left(\bcaobca\ ,\ \Dmax\right) \leq p\left(\bcaobca\right) \leq 0.0673094$\\
     \\[-2pt]
-    6. & 231645 & $(2\sqrt{3}-3)^2\frac{6!}{48^2} = p\left(\bcaocab\ ,\ \Dmaxr\right) \leq p\left(\bcaocab\right) \leq 0.0673094$\\
+    6. & 231645 & $0.0673094\ldots \sim p\left(\bcaocab\ ,\ \Dmaxr\right) \leq p\left(\bcaocab\right) \leq 0.0673094$\\
     \\[-2pt]
-    7. & 215634 & $\frac{6!}{9^32^3} = p\left(\baoabmab\ ,\ \Emax\right) \leq p\left(\baoabmab\right) \leq 0.123456\ldots$
+    7. & 215634 & $0.123456\ldots \sim p\left(\baoabmab\ ,\ \Emax\right) \leq p\left(\baoabmab\right) \leq 0.123456\ldots$
 \end{tabular}
-\caption{\small Exact values are known for all densities on the left-hand side. They are described in the text as they are not easy to write down.}
+\caption{\small Exact values are known for all densities on the left-hand side and are stated explicitly in the text of Section~\ref{sec:packingsmall} to save space in this table.}
 \label{tab:otherperms}
 \end{table}
 
 We now give the descriptions of the lower bound constructions.
 \begin{enumerate}
-\item For $23154 = \bcaoba$, the construction is a sum of two parts in ratio $2:3$ top to bottom. The bottom part is a 231-maximiser while the top part is a simple decreasing segment.
+\item For $23154 = \bcaoba$, the exact value of the lower bound is $5!\frac{(2/5)^2}{2!}\frac{(3/5)^3}{3!}(2\sqrt{3}-3)$. The construction is a sum of two parts in ratio $2:3$ top to bottom. The bottom part is a 231-maximiser while the top part is a simple decreasing segment.
   \begin{itemize}
   \item Certificate: \texttt{cert23154.js}
   \item Script: \texttt{pack23154.sage}
   \end{itemize}
-\item For $14523 = \aobamba$, the construction is designed as follows. Let $\alpha$ be the maximiser of $5(1-x)^4/(1-x^5)$ such that $\alpha \in [0,1]$. The topmost sum-indecomposable part of the $\aobamba$-maximiser has length $\alpha$ and the remainder of the maximiser has length $(1-\alpha)$. The construction is iterated inside the part of length $(1-\alpha)$. The part of length $\alpha$ is a skew-sum of two balanced increasing segments. The exact value of the density on the left-hand side of Table~\ref{tab:otherperms} is too complicated to fit in.
+\item For $14523 = \aobamba$, the construction is designed as follows. Let $\alpha$ be the maximiser of $5(1-x)^4/(1-x^5)$ such that $\alpha \in [0,1]$. The topmost sum-indecomposable part of the $\aobamba$-maximiser has length $\alpha$ and the remainder of the maximiser has length $(1-\alpha)$. The construction is iterated inside the part of length $(1-\alpha)$. The part of length $\alpha$ is a skew-sum of two balanced increasing segments.
   \begin{itemize}
   \item Certificate: \texttt{cert14523.js}
   \item Script: \texttt{pack14523.sage}
@@ -3532,22 +3617,22 @@ We now give the descriptions of the lower bound constructions.
   \item Certificate: \texttt{cert21354.js}
   \item Script: \texttt{pack21354.sage}
   \end{itemize}
-\item For $231654 = \bcaocba$, the construction is identical in structure to the construction for $\bcaoba$, except the ratios of the two parts in the sum are $1:1$.
+\item For $231654 = \bcaocba$, the exact value of the lower bound is $6!\frac{(1/2)^6}{3!^2}(2\sqrt{3}-3)$. The construction is identical in structure to the construction for $\bcaoba$, except the ratios of the two parts in the sum are $1:1$.
   \begin{itemize}
   \item Certificate: \texttt{cert231654.js}
   \item Script: \texttt{pack231654.sage}
   \end{itemize}
-\item For $231564 = \bcaobca$, the construction is the sum of two 231-maximisers of equal size.
+\item For $231564 = \bcaobca$, the exact value of the lower bound is $(2\sqrt{3}-3)^2\frac{6!}{48^2}$. The construction is the sum of two 231-maximisers of equal size.
   \begin{itemize}
   \item Certificate: \texttt{cert231564.js}
   \item Script: \texttt{pack231564.js}
   \end{itemize}
-\item For $231645 = \bcaocab$, the construction resembles that of $231564$ except the top 231-maximiser is flipped accordingly.
+\item For $231645 = \bcaocab$, the exact value of the lower bound is the same as the lower bound for $231564$: $(2\sqrt{3}-3)^2\frac{6!}{48^2}$. The construction resembles that of $231564$ except the top 231-maximiser is flipped accordingly.
   \begin{itemize}
   \item \texttt{cert231645.js}
   \item Scripts \texttt{pack231645.js}
   \end{itemize}
-\item For $215634 = \baoabmab$, the construction has three segments of equal length arranged as portrayed in Table~\ref{tab:otherperms}.
+\item For $215634 = \baoabmab$, the exact value of the lower bound is $\frac{6!}{9^32^3}$. The construction has three segments of equal length arranged as portrayed in Table~\ref{tab:otherperms}.
   \begin{itemize}
   \item Certificate: \texttt{cert215634.js}
   \item Script: \texttt{pack215634.sage}
@@ -3596,16 +3681,49 @@ Next, an interesting line of enquiry was made precise as Conjecture 9 in Albert 
 \label{chap:permpack}
 % \input{permpack}
 
-In Chapter~\ref{chap:packsmall}, we used the flag algebras method when bounding packing densities of small permutations. The method transforms a combinatorial problem to a semidefinite one. See Section~\ref{sec:FA} for details about the flag algebras framework. Since flag algebras are algorithmic and syntax-based, they are suitable for a computer implementation.
 
-Permpack~\cite{permpack} is a lightweight implementation of flag algebras as a package on top of Sage~\cite{sagemath}. Permpack is exclusively for flag algebras computations on permutations. The syntax is supposed to resemble that of Flagmatic as much as possible, where Flagmatic is a flag algebras software for graphs, 3-uniform hypergraphs, directed graphs, and multigraphs developed by Vaughan~\cite{flagmatic}. A version of Flagmatic in its original form with minimal updates (by me) to maintain compatibility with new versions of Sage is available from \url{https://github.com/jsliacan/flagmatic}. Similarly, the source code of Permpack can be found in its Github repository \url{https://github.com/jsliacan/permpack}. 
+Despite this chapter being about Permpack, let us start by stating that Flagmatic 2.0 was written by Emil R. Vaughan and until our work was the only general implementation of Razborov's flag algebra framework. Flagmatic is freely available to use and modify, see Flagmatic~\cite{flagmatic} for more information. In short, Flagmatic is a software package automating flag algebras computations for graphs, $3$-graphs, multi-graphs, and directed graphs. The project is hosted at \url{http://github.com/jsliacan/flagmatic-2.0} and contains a version of original Flagmatic with minimal modifications (by me) to be compatible with current version of Sage. Unfortunatelly, Flagmatic does not support permutations. For this reason, we wrote Permpack~\cite{permpack}, a lightweight implementation of flag algebras on top of SageMath's Sage 7.4 (see SageMath~\cite{sagemath}). It does not have all the functionality of Flagmatic but it is sufficient for basic tasks. For more information, code, and installation instructions, see \url{https://github.com/jsliacan/permpack}. 
+
+Throughout this chapter, we assume that the reader is familiar with flag algebras at least to the extent presented in Chapter~\ref{chap:packsmall}. Especially illustrative is Example~\ref{sec:example}. For the general yet minimalistic introduction to flag algebras (only the part that we need), see Section~\ref{sec:FA}. For further references and reading material, refer to Section~\ref{sec:intro} and the beginning of Section~\ref{sec:FA}.
+
+% Let us consider an example of how Permpack can be used in Example~\ref{sec:example} of 132-packing. It will be clear from Permpack's output where the $Q$ matrix above comes from. In Permpack, one needs to specify the complexity in terms of $N$, the length of the admissible permutations in terms of which all computations are expressed. The \texttt{density\_pattern} argument specifies the permutation whose packing density we want to determine. Once permutations, types, flags, and flag products are computed, we can delegate the rest of the tasks to the solver of our choice (currently supported solvers are \texttt{csdp} and \texttt{sdpa\_dd}). The answer is a numerical upper bound on $p(132)$. It can be rounded automatically to a rational bound by the \texttt{exactify()} method of the \texttt{PermProblem} class. The certificate contains admissible permutations, flags, types, matrices $Q$ (as $L$ matrices in the Cholesky decomposition of $Q$) and the actual bound as a rational number (fraction). These are suficient to verify the bound. Below is the script used to obtain the numerical $Q'$ matrix for the packing density of 132 with Permpack.
+
+% \lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{keywords}, commentstyle=\color{comments}, stringstyle=\color{myred}, showstringspaces=false, identifierstyle=\color{green}, procnamekeys={def,class}, frame=single, caption={Packing 132 with Permpack.}}
+% \begin{lstlisting}
+% p = PermProblem(3, density_pattern="132")
+% p.solve_sdp()
+% \end{lstlisting}
+% \lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{black}, commentstyle=\color{black}, stringstyle=\color{black}, showstringspaces=false, identifierstyle=\color{black}, procnamekeys={def,class}, frame=single, caption={Output.}}
+% \begin{lstlisting}
+% ...
+% Success: SDP solved
+% Primal objective value: -4.6410162e-01 
+% Dual objective value: -4.6410162e-01 
+% Relative primal infeasibility: 5.90e-14 
+% Relative dual infeasibility: 1.67e-10 
+% Real Relative Gap: 3.68e-10 
+% XZ Relative Gap: 6.14e-10 
+% \end{lstlisting}
+
+% It is not difficult to guess the entries of $Q$ from the numerical matrix below, which is part of the output of the SDP solver. The resulting exact matrix $Q$ is shown in~\eqref{eq:Q}.
+% \lstset{language=Python, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{black}, commentstyle=\color{black}, stringstyle=\color{black}, showstringspaces=false, identifierstyle=\color{black}, procnamekeys={def,class}, frame=single, caption={Floating point $Q'$ matrix.}}
+% \begin{figure}[ht]
+% \begin{lstlisting}
+%   [ 4.55854035127455e-10  6.806084489120e-12  6.8060845047452e-12 -1.032045390820e-10]
+%   [ 6.80608448912001e-12  0.4641016162301893  0.464101613919741   -0.8038475767936814]
+%   [ 6.80608450474521e-12  0.464101613919741   0.4641016162301782  -0.8038475767936717]
+%   [-1.03204539082084e-10 -0.803847576793681  -0.8038475767936717   1.3923048450288649]
+% \end{lstlisting}
+% \end{figure}
+
+
 
 \section{Set-up}
 \label{sec:permpack-setup}
 
-To use Permpack, you will need a UNIX machine (a flavour of Linux or a Mac) with a recent (7.5+) Sage installed on it (note that Sage has its own list of dependencies). Additionally, one also needs a semidefinite solver to which Permpack passes the constructed semidefinite problem.
+To use Permpack, you will need a UNIX machine (a flavour of Linux or a Mac) with a recent (7.5+) Sage installed on it (note that Sage has its own list of dependencies). Additionally, one also needs a semidefinite solver to which Permpack passes the constructed semidefinite problem, see Section~\ref{sec:permpack-solvers}.
 
-Installing Sage from source is recommended if speed is an issue, which it is in most interesting cases. This can take up to a day on a regular consumer laptop! Instructions can be found here: \url{http://doc.sagemath.org/html/en/installation/source.html}. It is useful to specify the number of jobs to run in parallel when making Sage. This can be done with the following command:\\ \shellcmd{MAKE=`make -jNUM' make}, where \texttt{NUM} is the number of jobs you can afford simultaneously. Once Sage is up and running, you will need to place the solver's binary file in the \texttt{\$PATH}, so that Sage can find it when needed. Usually \texttt{/user/local/bin} works. At this point, the set-up should be complete.
+Installing Sage from source is recommended if speed is an issue, which it is in most interesting cases. This can take up to a day on a regular consumer laptop. Instructions can be found here: \url{http://doc.sagemath.org/html/en/installation/source.html}. It is useful to specify the number of jobs to run in parallel when making Sage. This can be done with the following command:\\ \shellcmd{MAKE=`make -jNUM' make}, where \texttt{NUM} is the number of jobs you can afford simultaneously. Once Sage is up and running, you will need to place the solver's binary file in the \texttt{\$PATH}, so that Sage can find it when needed. Usually \texttt{/user/local/bin} works. At this point, the set-up should be complete.
 
 
 \subsection{Solvers}
@@ -3631,6 +3749,12 @@ It is ideal to start Permpack from \texttt{/path/to/permpack/pkg/} directory. On
 | Type "help()" for help.                                       |
 -----------------------------------------------------------------
 sage:
+\end{lstlisting}
+
+Before using any of the module, it is necessary to load it. This is done by the command in Sage interpreter given in Listing~\ref{lst:loadpermpack}.
+\lstsetsage \lstset{caption={Loading permpack module.}, label={lst:loadpermpack}}
+\begin{lstlisting}
+sage: from permpack.all import *
 \end{lstlisting}
 
 You can test that things were loaded and that Sage can see your SDP solver by running a small example as in Listing~\ref{lst:ex132}.
@@ -3679,12 +3803,6 @@ Real Relative Gap: 3.68e-10
 XZ Relative Gap: 6.14e-10 
 DIMACS error measures: 4.65e-14 0.0e+00 3.10e-10 0.0e+00 3.68e-10 6.14e-10
 Finished. OK.
-\end{lstlisting}
-
-Before using any of the module, it is necessary to load it. This is done by the command in Sage interpreter given in Listing~\ref{lst:loadpermpack}.
-\lstsetsage \lstset{caption={Loading permpack module.}, label={lst:loadpermpack}}
-\begin{lstlisting}
-sage: from permpack.all import *
 \end{lstlisting}
 
 \subsection{Entering the problem into Permpack}
@@ -3745,7 +3863,7 @@ Let us now comment on the format of the input to the \texttt{PermProblem} constr
 \begin{itemize}
 \item \texttt{N}: Permpack only accepts integers. When \texttt{N} gets too large (say 9), the computations become very slow already when computing flag products. It is very likely that even if you manage to wait long enough to compute these, the SDP problem will be so large that you will run out of memory (for instance).
 \item \texttt{forbid}: Permpack accepts a list of permutations. Do make sure that each of them has length at most \texttt{N}. Otherwise it is impossible to exclude them from the computations.
-\item \texttt{density\_pattern}: Permpack accepts a few different inputs. Firstly, a solo permutation either as a list of integers, \texttt{[1,3,2]}, or as a string,\texttt{"132"}, is fine. However, it is possible to want to maximize the density of, say, $1/2\cdot 132 + 1/2\cdot 231$. This can also be done. Permpack takes such input as a list of tuples, each touple of length two with the first entry a permutation (either as a list of integers or as a string) and the second entry a coefficient (as a fraction or a floating point number). For example, the following inputs are all equivalent (although the last one is scaled differently -- the problem has the same maximizer(s), just different packing density of the \texttt{density\_pattern}):
+\item \texttt{density\_pattern}: Permpack accepts a few different inputs. Firstly, a solo permutation either as a list of integers, \texttt{[1,3,2]}, or as a string,\texttt{"132"}, is fine. However, it is possible to want to maximize the density of, say, $1/2\cdot p(132,P) + 1/2\cdot p(231,P)$ over all admissible $P$. This can also be done. Permpack takes such input as a list of tuples, each tuple of length two with the first entry a permutation (either as a list of integers or as a string) and the second entry a coefficient (as a fraction or a floating point number). For example, the following inputs are all equivalent (although the last one is scaled differently -- the problem has the same maximizer(s), just different packing density of the \texttt{density\_pattern}):
 \begin{itemize}
 \item[$\star$] \texttt{density\_pattern=[([1,3,2],1/2),([2,1,3],1/2)]}
 \item[$\star$] \texttt{density\_pattern=[("132",0.5),("213",0.5)]}
@@ -3754,7 +3872,7 @@ Let us now comment on the format of the input to the \texttt{PermProblem} constr
 \end{itemize}
 
 \subsection{Solving SDP}
-The next method one needs to call on the \texttt{PermProblem} is \texttt{solve\_sdp()}. As usual, it is possible to call this method without any arguments. In such case, the solver defaults to CSDP. If one wants a double precision solver SDPA-DD, argument needs to be passed with that option: \texttt{solve\_sdp(solver="sdpa\_dd")}. First, the method \texttt{solve\_sdp()} writes and input file to the SDP solver. The default input filename is \texttt{sdp.dat-s}. If you wish for a different name pass an additional argument to the \texttt{solve\_sdp()} method specifying the filename, e.g. \texttt{input\_file="myfile.dat-s"}. Make sure that the filename ends with \texttt{.dat-s} suffix to be recognized as a sparse data file by the solver. The \texttt{solve\_sdp()} method then passes the information to the SDP solver together with the output filename, where the solution to the semidefinite problem will be stored. The default output filename is \texttt{sdp.out}. If you wish this file to be named differently, you need to pass an additional argument to the \texttt{solve\_sdp()} method specifying your preferred filename: \texttt{output\_file="myfile.out"}, where the \texttt{.out} extension is just a convention. All these files are stored in the current working directory to be easily accessible if one wants to peruse them manually. Once the method passes everything to the solver, it can take a long time before a solution is found by the solver. You will see the progress on your screen as the output from the solver is not suppressed. Once the solver finished, you'll be able to see the floating point bound that was found. The next step is rounding the floating point solution matrices to have exact entries such that they stay positive semidefinite and the new exact bound is as good as possible. An example call to \texttt{solve\_sdp()} is in Listing~\ref{lst:permpack:solvesdp}.
+The next method one needs to call on the \texttt{PermProblem} is \texttt{solve\_sdp()}. As usual, it is possible to call this method without any arguments. In such case, the solver defaults to CSDP. If one wants a double precision solver SDPA-DD, argument needs to be passed with that option: \texttt{solve\_sdp(solver="sdpa\_dd")}. First, the method \texttt{solve\_sdp()} writes an input file to the SDP solver. The default input filename is \texttt{sdp.dat-s}. If you wish for a different name pass an additional argument to the \texttt{solve\_sdp()} method specifying the filename, e.g. \texttt{input\_file="myfile.dat-s"}. Make sure that the filename ends with \texttt{.dat-s} suffix to be recognized as a sparse data file by the solver. The \texttt{solve\_sdp()} method then passes the information to the SDP solver together with the output filename, where the solution to the semidefinite problem will be stored. The default output filename is \texttt{sdp.out}. If you wish this file to be named differently, you need to pass an additional argument to the \texttt{solve\_sdp()} method specifying your preferred filename: \texttt{output\_file="myfile.out"}, where the \texttt{.out} extension is just a convention. All these files are stored in the current working directory to be easily accessible if one wants to peruse them manually. Once the method passes everything to the solver, it can take a long time before a solution is found by the solver. You will see the progress on your screen as the output from the solver is not suppressed. Once the solver finished, you'll be able to see the floating point bound that was found. The next step is rounding the floating point solution matrices to have exact entries such that they stay positive semidefinite and the new exact bound is as good as possible. An example call to \texttt{solve\_sdp()} is in Listing~\ref{lst:permpack:solvesdp}.
 
 \lstsetsage \lstset{caption={Packing 132. Code up to calling the SDP solver. You should see \texttt{myfile.dat-s} and \texttt{myfile.out} in your current working directory after executing the following code.}, label={lst:permpack:solvesdp}}
 \begin{lstlisting}
@@ -3792,11 +3910,11 @@ Finished. OK.
 \end{lstlisting}
 
 \subsection{Rounding}
-The next aspect to discuss is the rounding procedure. As is obvious from above, a SDP solver returns matrices whose entries are floating point values. They are inexact and do not prove anything. Therefore, we need to convert these matrices to other matrices, preserving positive semi-definiteness and ideally stay as close to the desired bound on our problem as possible. We call the procedure of converting floating-point matrices to ``exact'' matrices, \emph{rounding} and is done by \texttt{exactify()} method in Permpack. It is quite basic at this point. We only worry about preserving the positive-semidefiniteness and hope that if the rounded matrix is entry-wise close to the original one, then the bound will not be off by too much. In practice, this works reasonably well. The method \texttt{exactify} takes several optional arguments which can fine-tune the ``precision'' with thich the rounding is done, e.g. eigenvalues close to zero are rounded to zero if they are close enough (this is the parameter \texttt{recognition\_precision} passed to \texttt{exactify}; another parameter is \texttt{rounding\_precision} and it specifies the denominator when rounding the entries of $L'$ in the Cholesky decomposition of a floating-point $Q'$ to rational quantities). We give a shared example for rounding and issuing certificates in Subsection~\ref{subsec:certificates}, see Listing~\ref{lst:permpack:exactify_in} and~\ref{lst:permpack:exactify_out} for input and output, respectively.
+The next aspect to discuss is the rounding procedure. As is obvious from above, an SDP solver returns matrices whose entries are floating point values. They are inexact and do not prove anything. Therefore, we need to convert these matrices to other (e.g. rational) matrices, preserving positive semi-definiteness and ideally staying as close to the desired bound on our problem as possible. See Example~\ref{sec:example} for an example of converting a floating-point matrix to an ``exact'' matrix. We call the procedure of converting floating-point matrices to \emph{exact} matrices, \emph{rounding} and is done by \texttt{exactify()} method in Permpack. It is quite basic at this point. We only worry about preserving the positive-semidefiniteness and hope that if the rounded matrix is entry-wise close to the original one, then the bound will not be off by too much. In practice, this works reasonably well. The method \texttt{exactify} takes several optional arguments which can fine-tune the ``precision'' with which the rounding is done, e.g. eigenvalues close to zero are rounded to zero if they are close enough (this is the parameter \texttt{recognition\_precision} passed to \texttt{exactify}; another parameter is \texttt{rounding\_precision} and it specifies the denominator when rounding the entries of $L'$ in the Cholesky decomposition of a floating-point $Q'$ to rational quantities). We give a shared example for rounding and issuing certificates in Subsection~\ref{subsec:certificates}, see Listing~\ref{lst:permpack:exactify_in} and~\ref{lst:permpack:exactify_out} for input and output, respectively.
 
 \subsection{Certificates}
 \label{subsec:certificates}
-The last critical part of Permpack that the user should be aware of are certificates. These are human readable files that store information necessary to verify the results obtained by Permpack. The key idea being that it is significantly easier to check if given matrices solve a SDP problem than finding those matrices in the first place. Therefore, the class \texttt{PermProblem} has a method \texttt{write\_certificate} which takes filename you want your certificate to have. It will be written into the current directory (so make sure you have writing permissions there). The certificate is a JSON file and is easy to read in and process. It contains the following information:
+The last critical part of Permpack that the user should be aware of are certificates. These are human readable files that store information necessary to verify the results obtained by Permpack. The key idea being that it is significantly easier to check if given matrices solve an SDP problem than it is to find those matrices in the first place. Therefore, the class \texttt{PermProblem} has a method \texttt{write\_certificate} which takes the filename you want your certificate to have. It will be written into the current directory (so make sure you have writing permissions there). The certificate is a JSON file and is easy to read in and process. It contains the following information:
 \begin{enumerate}
 \item admissible permutations
 \item flags
@@ -3840,7 +3958,7 @@ Writing certificate into file...
 
 \section{Miscellaneous}
 \label{sec:permpack-misc}
-Here are a couple of remarks about Permpack to help you understand mysteriously looking output or behaviour of the package.
+Here are a couple of remarks about Permpack to help you understand mysterious looking output or behaviour of the package.
 
 First, Permpack stores your computations if they are new. Indeed, when you clone the repository, it comes with some clumsily big files containing flag products for particular problems. Flag products are expensive to compute and at some point it becomes useful to store them and next time only load them from file. We intentionally did not choose any database storage in order for the files to be human readable. They are plain text files. 
 
