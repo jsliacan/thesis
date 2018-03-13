@@ -11,62 +11,64 @@
 \backcite {sagemath}{{6}{4}{Item.4}}
 \backcite {permpack}{{6}{4}{Item.4}}
 \backcite {sagemath}{{6}{5}{Item.5}}
-\backcite {vatterhandbook}{{11}{1}{chapter.1}}
-\backcite {lintonruskucvatter}{{11}{1}{chapter.1}}
-\backcite {brignallsimple}{{11}{1}{chapter.1}}
-\backcite {albertstructural}{{11}{1}{chapter.1}}
-\backcite {klazargeneral}{{11}{1}{chapter.1}}
-\backcite {einar2012openproblems}{{11}{1}{chapter.1}}
-\backcite {analcomb}{{11}{1}{chapter.1}}
-\backcite {albert2002packing}{{11}{1}{chapter.1}}
-\backcite {albertatkinsonrestricted}{{12}{1.1.1}{subsection.1.1.1}}
-\backcite {marcus04growthrate}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {arratia1999}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {arratia1999}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {albert2006wilf}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {bona2005wilf}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {albert2006wilf}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {fox2013wilf}{{14}{1.1.2}{subsection.1.1.2}}
-\backcite {atkinson1998incrdecr}{{17}{2}{chapter.2}}
-\backcite {atkinson1997restricted}{{17}{2}{chapter.2}}
-\backcite {bevan2015thesis}{{17}{2}{chapter.2}}
-\backcite {pantone2by4}{{17}{2}{chapter.2}}
-\backcite {albert2011enumeration}{{17}{2}{chapter.2}}
-\backcite {albert2012gridclasses}{{17}{2}{chapter.2}}
-\backcite {albert2012inflations}{{17}{2}{chapter.2}}
-\backcite {albert2014schubert}{{18}{2}{chapter.2}}
-\backcite {bevan-new}{{18}{2}{chapter.2}}
-\backcite {vatter11small}{{18}{2}{chapter.2}}
-\backcite {vattercountableuncountable}{{18}{2}{chapter.2}}
-\backcite {pantonevatter16categorize}{{18}{2}{chapter.2}}
-\backcite {albert2011enumeration}{{18}{2}{chapter.2}}
-\backcite {bevan-new}{{18}{2}{chapter.2}}
+\backcite {vatterhandbook}{{12}{1}{chapter.1}}
+\backcite {lintonruskucvatter}{{12}{1}{chapter.1}}
+\backcite {brignallsimple}{{12}{1}{chapter.1}}
+\backcite {albertstructural}{{12}{1}{chapter.1}}
+\backcite {klazargeneral}{{12}{1}{chapter.1}}
+\backcite {einar2012openproblems}{{12}{1}{chapter.1}}
+\backcite {analcomb}{{12}{1}{chapter.1}}
+\backcite {albert2002packing}{{12}{1}{chapter.1}}
+\backcite {barton2004packing}{{12}{1}{chapter.1}}
+\backcite {presutti2010packing}{{12}{1}{chapter.1}}
+\backcite {albertatkinsonrestricted}{{13}{1.1.1}{subsection.1.1.1}}
+\backcite {marcus04growthrate}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {arratia1999}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {arratia1999}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {albert2006wilf}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {bona2005wilf}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {albert2006wilf}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {fox2013wilf}{{15}{1.1.2}{subsection.1.1.2}}
+\backcite {atkinson1998incrdecr}{{18}{2}{chapter.2}}
+\backcite {atkinson1997restricted}{{18}{2}{chapter.2}}
 \backcite {bevan2015thesis}{{18}{2}{chapter.2}}
-\backcite {aabrv2013}{{18}{2}{chapter.2}}
-\backcite {albert-brignall-2times2, atkinson1997restricted, waton, bevan2015thesis}{{18}{2}{chapter.2}}
-\backcite {brignall2012pwo, murphy2003pwo, vatter2011pwo}{{18}{2}{chapter.2}}
-\backcite {bevan15growth-rates}{{18}{2}{chapter.2}}
+\backcite {pantone2by4}{{18}{2}{chapter.2}}
+\backcite {albert2011enumeration}{{18}{2}{chapter.2}}
+\backcite {albert2012gridclasses}{{18}{2}{chapter.2}}
+\backcite {albert2012inflations}{{18}{2}{chapter.2}}
+\backcite {albert2014schubert}{{19}{2}{chapter.2}}
+\backcite {bevan-new}{{19}{2}{chapter.2}}
+\backcite {vatter11small}{{19}{2}{chapter.2}}
+\backcite {vattercountableuncountable}{{19}{2}{chapter.2}}
+\backcite {pantonevatter16categorize}{{19}{2}{chapter.2}}
+\backcite {albert2011enumeration}{{19}{2}{chapter.2}}
+\backcite {bevan-new}{{19}{2}{chapter.2}}
+\backcite {bevan2015thesis}{{19}{2}{chapter.2}}
 \backcite {aabrv2013}{{19}{2}{chapter.2}}
-\backcite {bevan15growth-rates}{{19}{2}{figure.caption.6}}
-\backcite {aabrv2013}{{19}{2}{figure.caption.7}}
-\backcite {bevan2015thesis}{{20}{2}{figure.caption.7}}
+\backcite {albert-brignall-2times2, atkinson1997restricted, waton, bevan2015thesis}{{19}{2}{chapter.2}}
+\backcite {brignall2012pwo, murphy2003pwo, vatter2011pwo}{{19}{2}{chapter.2}}
+\backcite {bevan15growth-rates}{{19}{2}{chapter.2}}
+\backcite {aabrv2013}{{19}{2}{chapter.2}}
+\backcite {bevan15growth-rates}{{20}{2}{figure.caption.6}}
 \backcite {aabrv2013}{{20}{2}{figure.caption.7}}
-\backcite {atkinson1997restricted}{{21}{2}{figure.caption.8}}
-\backcite {bevan-new}{{23}{3.1}{table.caption.9}}
-\backcite {miner16twobyfour}{{23}{3.1}{table.caption.9}}
-\backcite {bevan2015defs}{{23}{3.2}{section.3.2}}
+\backcite {bevan2015thesis}{{21}{2}{figure.caption.7}}
+\backcite {aabrv2013}{{21}{2}{figure.caption.7}}
+\backcite {atkinson1997restricted}{{22}{2}{figure.caption.8}}
+\backcite {bevan-new}{{24}{3.1}{table.caption.9}}
+\backcite {miner16twobyfour}{{24}{3.1}{table.caption.9}}
+\backcite {bevan2015defs}{{24}{3.2}{section.3.2}}
 \backcite {atkinson1997restricted}{{24}{3.2}{section.3.2}}
 \backcite {albertpermlab}{{24}{3.2}{section.3.2}}
-\backcite {albert2012inflations}{{24}{3.2}{section.3.2}}
-\backcite {albert-new}{{25}{3.2}{figure.caption.11}}
+\backcite {albert2012inflations}{{25}{3.2}{section.3.2}}
+\backcite {albert-new}{{26}{3.2}{figure.caption.11}}
 \backcite {hopcroft2001automata}{{27}{3.2}{figure.caption.12}}
-\backcite {bevan-new}{{28}{3.3.0.1}{subsubsection.3.3.0.1}}
-\backcite {bevan-new}{{30}{3.3.1}{theorem.3.3.1}}
-\backcite {oeis}{{30}{3.3.0.1}{theorem.3.3.1}}
-\backcite {bevan-new}{{30}{3.3.0.1}{theorem.3.3.1}}
-\backcite {miner16twobyfour}{{31}{3.3.0.1}{theorem.3.3.1}}
-\backcite {oeis}{{33}{3.3.0.2}{theorem.3.3.2}}
-\backcite {albert2012inflations}{{35}{3.3.0.3}{theorem.3.3.3}}
+\backcite {bevan-new}{{30}{3.3.1}{subsection.3.3.1}}
+\backcite {bevan-new}{{31}{3.3.1}{theorem.3.3.1}}
+\backcite {oeis}{{31}{3.3.1}{theorem.3.3.1}}
+\backcite {bevan-new}{{31}{3.3.1}{theorem.3.3.1}}
+\backcite {miner16twobyfour}{{31}{3.3.1}{theorem.3.3.1}}
+\backcite {oeis}{{34}{3.3.2}{theorem.3.3.2}}
+\backcite {albert2012inflations}{{36}{3.3.3}{theorem.3.3.3}}
 \backcite {albert2012inflations}{{41}{3.5}{section.3.5}}
 \backcite {albertatkinsonrestricted}{{43}{4}{chapter.4}}
 \backcite {brignall2008simple}{{43}{4}{chapter.4}}
@@ -75,21 +77,21 @@
 \backcite {analcomb}{{44}{4.1.3}{theorem.4.1.3}}
 \backcite {mathematica}{{79}{4.3.1}{equation.4.3.29}}
 \backcite {oeis}{{80}{4.3.1}{equation.4.3.29}}
-\backcite {bevan2015thesis}{{87}{4.3.2}{equation.4.3.50}}
-\backcite {oeis}{{87}{4.3.2}{equation.4.3.50}}
-\backcite {oeis}{{91}{4.3.3}{equation.4.3.58}}
-\backcite {mathematica}{{91}{4.3.3}{equation.4.3.58}}
+\backcite {bevan2015thesis}{{87}{4.3.2}{equation.4.3.48}}
+\backcite {oeis}{{87}{4.3.2}{equation.4.3.48}}
+\backcite {oeis}{{91}{4.3.3}{equation.4.3.56}}
+\backcite {mathematica}{{91}{4.3.3}{equation.4.3.56}}
 \backcite {bevan2015thesis}{{92}{4.4}{section.4.4}}
-\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3053}}{table.caption.31}}
-\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3053}}{table.caption.31}}
-\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3055}}{table.caption.31}}
-\backcite {albert2002packing}{{99}{\caption@xref {??}{ on input line 3057}}{table.caption.31}}
-\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3059}}{table.caption.31}}
-\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3059}}{table.caption.31}}
-\backcite {batkeyev}{{99}{\caption@xref {??}{ on input line 3061}}{table.caption.31}}
-\backcite {balogh2015minimum}{{99}{\caption@xref {??}{ on input line 3061}}{table.caption.31}}
-\backcite {presutti2010packing}{{99}{\caption@xref {??}{ on input line 3063}}{table.caption.31}}
-\backcite {balogh2015minimum}{{99}{\caption@xref {??}{ on input line 3063}}{table.caption.31}}
+\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3060}}{table.caption.31}}
+\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3060}}{table.caption.31}}
+\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3062}}{table.caption.31}}
+\backcite {albert2002packing}{{99}{\caption@xref {??}{ on input line 3064}}{table.caption.31}}
+\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3066}}{table.caption.31}}
+\backcite {price1997packing}{{99}{\caption@xref {??}{ on input line 3066}}{table.caption.31}}
+\backcite {batkeyev}{{99}{\caption@xref {??}{ on input line 3068}}{table.caption.31}}
+\backcite {balogh2015minimum}{{99}{\caption@xref {??}{ on input line 3068}}{table.caption.31}}
+\backcite {presutti2010packing}{{99}{\caption@xref {??}{ on input line 3070}}{table.caption.31}}
+\backcite {balogh2015minimum}{{99}{\caption@xref {??}{ on input line 3070}}{table.caption.31}}
 \backcite {katona1964exists}{{99}{5.1}{table.caption.31}}
 \backcite {price1997packing}{{99}{5.1}{table.caption.31}}
 \backcite {albert2002packing}{{99}{5.1}{table.caption.31}}
@@ -136,11 +138,11 @@
 \backcite {presutti2010packing}{{119}{5.3.3}{subsection.5.3.3}}
 \backcite {albert2002packing}{{119}{5.3.3}{subsection.5.3.3}}
 \backcite {balogh2015minimum}{{119}{5.3.3}{subsection.5.3.3}}
-\backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3654}}{table.caption.40}}
-\backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3654}}{table.caption.40}}
-\backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3656}}{table.caption.40}}
-\backcite {albert2002packing}{{123}{\caption@xref {??}{ on input line 3658}}{table.caption.40}}
-\backcite {presutti2010packing}{{123}{\caption@xref {??}{ on input line 3664}}{table.caption.40}}
+\backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3661}}{table.caption.40}}
+\backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3661}}{table.caption.40}}
+\backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3663}}{table.caption.40}}
+\backcite {albert2002packing}{{123}{\caption@xref {??}{ on input line 3665}}{table.caption.40}}
+\backcite {presutti2010packing}{{123}{\caption@xref {??}{ on input line 3671}}{table.caption.40}}
 \backcite {albert2002packing}{{123}{5.5}{table.caption.40}}
 \backcite {hasto2002packing}{{123}{5.5}{table.caption.40}}
 \backcite {albert2002packing}{{123}{5.5}{table.caption.40}}
@@ -149,5 +151,5 @@
 \backcite {sagemath}{{124}{6}{chapter.6}}
 \backcite {csdp}{{125}{6.1.1}{subsection.6.1.1}}
 \backcite {sdpa}{{125}{6.1.1}{subsection.6.1.1}}
-\backcite {flagmatic}{{135}{6.4}{section.6.4}}
-\backcite {olegmekostas}{{135}{6.4}{section.6.4}}
+\backcite {flagmatic}{{136}{6.4}{section.6.4}}
+\backcite {olegmekostas}{{136}{6.4}{section.6.4}}
