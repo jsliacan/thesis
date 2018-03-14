@@ -127,7 +127,7 @@
 \backcite {albert2002packing}{{110}{5.3}{section.5.3}}
 \backcite {barton2004packing}{{110}{5.3}{section.5.3}}
 \backcite {stromquist1993unpublished}{{110}{5.3.1}{theorem.5.3.1}}
-\backcite {price1997packing}{{112}{5.3.1}{subsection.5.3.1}}
+\backcite {price1997packing}{{113}{5.3.1}{subsection.5.3.1}}
 \backcite {albert2002packing}{{113}{5.3.1}{subsection.5.3.1}}
 \backcite {price1997packing}{{113}{5.3.1}{subsection.5.3.1}}
 \backcite {batkeyev}{{116}{5.3.2}{subsection.5.3.2}}
@@ -137,7 +137,7 @@
 \backcite {balogh2015minimum}{{119}{5.3.2}{equation.5.3.11}}
 \backcite {presutti2010packing}{{119}{5.3.3}{subsection.5.3.3}}
 \backcite {albert2002packing}{{119}{5.3.3}{subsection.5.3.3}}
-\backcite {balogh2015minimum}{{119}{5.3.3}{subsection.5.3.3}}
+\backcite {balogh2015minimum}{{120}{5.3.3}{subsection.5.3.3}}
 \backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3661}}{table.caption.40}}
 \backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3661}}{table.caption.40}}
 \backcite {price1997packing}{{123}{\caption@xref {??}{ on input line 3663}}{table.caption.40}}
@@ -145,11 +145,11 @@
 \backcite {presutti2010packing}{{123}{\caption@xref {??}{ on input line 3671}}{table.caption.40}}
 \backcite {albert2002packing}{{123}{5.5}{table.caption.40}}
 \backcite {hasto2002packing}{{123}{5.5}{table.caption.40}}
-\backcite {albert2002packing}{{123}{5.5}{table.caption.40}}
-\backcite {flagmatic}{{124}{6}{chapter.6}}
-\backcite {permpack}{{124}{6}{chapter.6}}
-\backcite {sagemath}{{124}{6}{chapter.6}}
-\backcite {csdp}{{125}{6.1.1}{subsection.6.1.1}}
-\backcite {sdpa}{{125}{6.1.1}{subsection.6.1.1}}
-\backcite {flagmatic}{{136}{6.4}{section.6.4}}
-\backcite {olegmekostas}{{136}{6.4}{section.6.4}}
+\backcite {albert2002packing}{{124}{5.5}{table.caption.40}}
+\backcite {flagmatic}{{125}{6}{chapter.6}}
+\backcite {permpack}{{125}{6}{chapter.6}}
+\backcite {sagemath}{{125}{6}{chapter.6}}
+\backcite {csdp}{{126}{6.1.1}{subsection.6.1.1}}
+\backcite {sdpa}{{126}{6.1.1}{subsection.6.1.1}}
+\backcite {flagmatic}{{137}{6.4}{section.6.4}}
+\backcite {olegmekostas}{{137}{6.4}{section.6.4}}
