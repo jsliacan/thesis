@@ -2897,7 +2897,19 @@ This defines the row five of Table~\ref{tab:sep_todefine}. It now remains to def
   \end{aligned}
 \end{align}
 
-The combinatorial specification describing $\S|\M$ involves all terms from Table~\ref{tab:sep_todefine} together with $\M, \Mstar, \S$ and $\Sstar$. One can check that there is no undefined term on the RHS of any of the items in Table~\ref{tab:sep_todefine} --- meaning that every term used on the RHS of any one of the equations is defined elsewhere in the combinatorial specification. Let $F(z)$ be the generating function of $\F$ (thus of $\S|\M$). Since $F(z)$ is not sufficiently compact to be given here in full, we only provide it as the output in our Mathematica notebook \texttt{exampleSeparable.nb}. Here, we resort to only listing the first twelve terms of the counting sequence of $\S|\M$. They are below.
+The combinatorial specification describing $\S|\M$ involves all terms from Table~\ref{tab:sep_todefine} together with $\M, \Mstar, \S$ and $\Sstar$. One can check that there is no undefined term on the RHS of any of the items in Table~\ref{tab:sep_todefine} --- meaning that every term used on the RHS of any one of the equations is defined elsewhere in the combinatorial specification. Let $F(z)$ be the generating function of $\F$ (thus of $\S|\M$). Since $F(z)$ is not sufficiently compact to be given here in full, we define a couple of variables.
+\begin{align*}
+  x &= \sqrt{z(z-6)+1}\\
+  y &= \sqrt{8z(z-1)+1}
+\end{align*}
+Then, the generating function for $\S|\M$ is given below.
+\begin{align}
+  \begin{aligned}
+  F(z) &= \frac{-z^4(y+9)+z^3(-xy+6y+7x+66)+z^2(5xy+y-15x-99)}{4(z(z(z-7)+7)-2)(z-1)^2}\\
+       &\quad+ \frac{z(-6xy-6y+10x+54)+2(xy+y-x-5)}{4(z(z(z-7)+7)-2)(z-1)^2}
+         \end{aligned}
+\end{align}
+The first twelve terms of the counting sequence of $\S|\M$ are below.
 $$1,1,2,6,24,115,609,3409, 19728, 116692, 701062, 4261581, 26146111.$$
 The sequence is not on the OEIS~\cite{oeis}. The accompanying Mathematica~\cite{mathematica} file can be found in the \texttt{scripts} folder as \texttt{exampleSeparable.nb} at:
 
