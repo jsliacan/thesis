@@ -82,8 +82,6 @@
 \backcite {oeis}{{92}{4.3.3}{equation.4.3.57}}
 \backcite {mathematica}{{92}{4.3.3}{equation.4.3.57}}
 \backcite {bevan2015thesis}{{93}{4.4}{section.4.4}}
-\backcite {brignallquery}{{93}{4.4}{section.4.4}}
-\backcite {bouvelalgocombspec}{{93}{4.4}{section.4.4}}
 \backcite {price1997packing}{{100}{\caption@xref {??}{ on input line 3063}}{table.caption.31}}
 \backcite {price1997packing}{{100}{\caption@xref {??}{ on input line 3063}}{table.caption.31}}
 \backcite {price1997packing}{{100}{\caption@xref {??}{ on input line 3065}}{table.caption.31}}
@@ -140,11 +138,11 @@
 \backcite {presutti2010packing}{{120}{5.3.3}{subsection.5.3.3}}
 \backcite {albert2002packing}{{120}{5.3.3}{subsection.5.3.3}}
 \backcite {balogh2015minimum}{{121}{5.3.3}{subsection.5.3.3}}
-\backcite {price1997packing}{{124}{\caption@xref {??}{ on input line 3665}}{table.caption.40}}
-\backcite {price1997packing}{{124}{\caption@xref {??}{ on input line 3665}}{table.caption.40}}
-\backcite {price1997packing}{{124}{\caption@xref {??}{ on input line 3667}}{table.caption.40}}
-\backcite {albert2002packing}{{124}{\caption@xref {??}{ on input line 3669}}{table.caption.40}}
-\backcite {presutti2010packing}{{124}{\caption@xref {??}{ on input line 3675}}{table.caption.40}}
+\backcite {price1997packing}{{124}{\caption@xref {??}{ on input line 3664}}{table.caption.40}}
+\backcite {price1997packing}{{124}{\caption@xref {??}{ on input line 3664}}{table.caption.40}}
+\backcite {price1997packing}{{124}{\caption@xref {??}{ on input line 3666}}{table.caption.40}}
+\backcite {albert2002packing}{{124}{\caption@xref {??}{ on input line 3668}}{table.caption.40}}
+\backcite {presutti2010packing}{{124}{\caption@xref {??}{ on input line 3674}}{table.caption.40}}
 \backcite {albert2002packing}{{124}{5.5}{table.caption.40}}
 \backcite {hasto2002packing}{{124}{5.5}{table.caption.40}}
 \backcite {albert2002packing}{{125}{5.5}{table.caption.40}}

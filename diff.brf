@@ -82,16 +82,18 @@
 \backcite {oeis}{{90}{4.3.3}{equation.4.3.57}}
 \backcite {mathematica}{{90}{4.3.3}{equation.4.3.57}}
 \backcite {bevan2015thesis}{{91}{4.4}{section.4.4}}
-\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3187}}{table.caption.31}}
-\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3187}}{table.caption.31}}
-\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3189}}{table.caption.31}}
-\backcite {albert2002packing}{{101}{\caption@xref {??}{ on input line 3191}}{table.caption.31}}
+\backcite {brignallquery}{{92}{4.4}{section.4.4}}
+\backcite {bouvelalgocombspec}{{92}{4.4}{section.4.4}}
+\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3191}}{table.caption.31}}
+\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3191}}{table.caption.31}}
 \backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3193}}{table.caption.31}}
-\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3193}}{table.caption.31}}
-\backcite {batkeyev}{{101}{\caption@xref {??}{ on input line 3195}}{table.caption.31}}
-\backcite {balogh2015minimum}{{101}{\caption@xref {??}{ on input line 3195}}{table.caption.31}}
-\backcite {presutti2010packing}{{101}{\caption@xref {??}{ on input line 3197}}{table.caption.31}}
-\backcite {balogh2015minimum}{{101}{\caption@xref {??}{ on input line 3197}}{table.caption.31}}
+\backcite {albert2002packing}{{101}{\caption@xref {??}{ on input line 3195}}{table.caption.31}}
+\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3197}}{table.caption.31}}
+\backcite {price1997packing}{{101}{\caption@xref {??}{ on input line 3197}}{table.caption.31}}
+\backcite {batkeyev}{{101}{\caption@xref {??}{ on input line 3199}}{table.caption.31}}
+\backcite {balogh2015minimum}{{101}{\caption@xref {??}{ on input line 3199}}{table.caption.31}}
+\backcite {presutti2010packing}{{101}{\caption@xref {??}{ on input line 3201}}{table.caption.31}}
+\backcite {balogh2015minimum}{{101}{\caption@xref {??}{ on input line 3201}}{table.caption.31}}
 \backcite {katona1964exists}{{101}{5.1}{table.caption.31}}
 \backcite {price1997packing}{{101}{5.1}{table.caption.31}}
 \backcite {albert2002packing}{{101}{5.1}{table.caption.31}}
@@ -138,11 +140,11 @@
 \backcite {presutti2010packing}{{121}{5.3.3}{subsection.5.3.3}}
 \backcite {albert2002packing}{{121}{5.3.3}{subsection.5.3.3}}
 \backcite {balogh2015minimum}{{122}{5.3.3}{subsection.5.3.3}}
-\backcite {price1997packing}{{125}{\caption@xref {??}{ on input line 3790}}{table.caption.40}}
-\backcite {price1997packing}{{125}{\caption@xref {??}{ on input line 3790}}{table.caption.40}}
-\backcite {price1997packing}{{125}{\caption@xref {??}{ on input line 3792}}{table.caption.40}}
-\backcite {albert2002packing}{{125}{\caption@xref {??}{ on input line 3794}}{table.caption.40}}
-\backcite {presutti2010packing}{{125}{\caption@xref {??}{ on input line 3800}}{table.caption.40}}
+\backcite {price1997packing}{{125}{\caption@xref {??}{ on input line 3794}}{table.caption.40}}
+\backcite {price1997packing}{{125}{\caption@xref {??}{ on input line 3794}}{table.caption.40}}
+\backcite {price1997packing}{{125}{\caption@xref {??}{ on input line 3796}}{table.caption.40}}
+\backcite {albert2002packing}{{125}{\caption@xref {??}{ on input line 3798}}{table.caption.40}}
+\backcite {presutti2010packing}{{125}{\caption@xref {??}{ on input line 3804}}{table.caption.40}}
 \backcite {albert2002packing}{{125}{5.5}{table.caption.40}}
 \backcite {hasto2002packing}{{125}{5.5}{table.caption.40}}
 \backcite {albert2002packing}{{126}{5.5}{table.caption.40}}
